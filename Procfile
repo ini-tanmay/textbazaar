@@ -1,2 +1,2 @@
 web: gunicorn TextBazaar.wsgi
-worker: python worker.py
+worker: python writer/worker.py
