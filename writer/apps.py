@@ -15,9 +15,9 @@ conn = redis.from_url(redis_url)
 class WriterConfig(AppConfig):
     name = 'writer'
     def ready(self):
-        with Connection(conn):
-            worker = Worker(map(Queue, listen))
-            worker.work()
+        # with Connection(conn):
+        #     worker = Worker(map(Queue, listen))
+        #     worker.work()
 
 
         pass # startup code here
