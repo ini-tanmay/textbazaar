@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .helpers import * 
 from rq import Queue
-from worker import conn
+from TextBazaar.worker import *
 
 q = Queue(connection=conn)
 
