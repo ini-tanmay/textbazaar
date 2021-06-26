@@ -8,7 +8,7 @@ q = Queue(connection=conn)
 
 def query_page(request,query):
     list_para = q.enqueue(get_document, query)
-    print(list_para)
-    article_string = '\n\n'.join(list_para)
-    print(article_string)
-    return render(request,'writer/results.html',{'final':article_string})
+    # print(list_para)
+    # article_string = '\n\n'.join(list_para)
+    # print(article_string)
+    return render(request,'writer/results.html',{'final':str(list_para)})
