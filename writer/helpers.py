@@ -1,0 +1,150 @@
+from googlesearch import search
+from newspaper import Article, Config
+from .summarize_nltk import summarize_para
+import json
+import re
+import spacy
+
+import en_core_web_md
+
+nlp = en_core_web_md.load()
+
+class Sentence:
+    
+    
+    def __init__(self, text, similarity):
+        self.text=text
+        self.similarity=similarity
+        pass
+    
+    def __repr__(self):
+        return self.text+' '+str(self.similarity)
+ 
+def sort_by_similarity(element):
+    return element.similarity
+
+NEWLINES_RE = re.compile(r"\n{2,}")  # two or more "\n" characters
+
+def get_paragraphs(input):
+    no_newlines = input.strip("\n")  # remove leading and trailing "\n"
+    split_text = NEWLINES_RE.split(no_newlines)  # regex splitting
+    paragraphs = [p + "\n" for p in split_text if p.strip()]
+    # p + "\n" ensures that all lines in the paragraph end with a newline
+    # p.strip() == True if paragraph has other characters than whitespace
+    return (paragraphs)
+
+def paragraphs_count(input):
+    no_newlines = input.strip("\n")  # remove leading and trailing "\n"
+    split_text = NEWLINES_RE.split(no_newlines)  # regex splitting
+    paragraphs = [p + "\n" for p in split_text if p.strip()]
+    # p + "\n" ensures that all lines in the paragraph end with a newline
+    # p.strip() == True if paragraph has other characters than whitespace
+    return len(paragraphs)
+
+user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+config = Config()
+config.browser_user_agent = user_agent
+
+
+def get_article_nlp(url):
+    data={}
+    try:
+        article = Article(url,config=config)
+        article.download()
+        article.parse()
+        data['title']=article.title
+        data['content']=article.text
+        data['videoURLs']=article.movies
+        data['authors']=article.authors
+        data['imageURL']=article.top_image
+        data['imageURLs']=list(article.images)
+        article.nlp()
+        data['summary']=article.summary
+        data['keywords']=article.keywords
+        return data
+    except Exception as e:
+        print(e)
+        return {}
+        pass
+
+
+
+def get_main_article(documents):
+    temp_article=''
+    for content in documents:
+        print(len(content))
+        print(paragraphs_count(content))
+        if paragraphs_count(content)>3 and (3800<len(content)<8000):
+            temp_article=content
+            documents.remove(content)
+        if temp_article=='':
+            documents.remove(documents[0])
+            return documents[0]
+        return temp_article
+             
+        
+
+def get_main_paragraphs(main_article):    
+    paragraphs=[]
+    sentence_list=main_article.replace('\n','').split('.')
+    for i in range(0,len(sentence_list)):
+        if len(sentence_list)>i+1:
+            sentence_doc=nlp(sentence_list[i])
+            paragraph_doc=nlp(sentence_list[i+1])
+            cleaned_doc1 = nlp(' '.join([str(t) for t in sentence_doc if not t.is_stop]))
+            cleaned_doc2 = nlp(' '.join([str(t) for t in paragraph_doc if not t.is_stop]))
+            similarity=cleaned_doc1.similarity(cleaned_doc2)
+            if similarity>0.55:
+                if len(paragraphs)==0:
+                    paragraphs.append(sentence_list[i])
+                else:    
+                    paragraphs[-1]+='.'+(sentence_list[i])
+            else:
+                paragraphs.append(sentence_list[i])
+
+    cleaned_paragraphs=[]
+
+    for paragraph in paragraphs:
+        if len(paragraph)>50 and '.' in paragraph:
+            cleaned_paragraphs.append(paragraph)
+
+    return cleaned_paragraphs        
+
+def parse_final_document(cleaned_paragraphs,documents):
+    notes=[]
+    for paragraph in cleaned_paragraphs:
+        notes.append(summarize_para(paragraph))
+    for content in documents:
+        content_lines=content.replace('\n','').split('.')
+        for main_line in content_lines:
+            if main_line!='':
+                points={}
+                points[main_line]=Sentence('hey',0)
+                for other_line in notes:
+                    if other_line!='':
+                        doc1=nlp(main_line)
+                        doc2=nlp(other_line)
+                        cleaned_doc1 = nlp(' '.join([str(t) for t in doc1 if not t.is_stop]))
+                        cleaned_doc2 = nlp(' '.join([str(t) for t in doc2 if not t.is_stop]))
+                        similarity=cleaned_doc1.similarity(cleaned_doc2)
+                        if similarity>points[main_line].similarity and similarity>0.885:
+                            points[main_line]=(Sentence(other_line,similarity))
+                try:       
+                    index=notes.index(points[main_line].text)
+                    notes[index]+='.'+(summarize_para(main_line))
+                except:
+                    pass
+    return notes
+
+def get_document(query):
+    links=search(query,num_results=8) 
+    articles=[]
+    for link in links:
+        articles.append(get_article_nlp(link))
+    contents=[]
+    for article in articles:
+        contents.append(article['content'])
+    contents.sort(key=paragraphs_count)
+    main_article=get_main_article(contents)
+    paragraphs=get_main_paragraphs(main_article)
+    return parse_final_document(paragraphs,contents)
