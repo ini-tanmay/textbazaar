@@ -147,7 +147,7 @@ def get_document(query,email):
     links=search(query,num_results=8) 
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        data=executor.map(get_article,links)
+        data=executor.map(get_article_nlp,links)
         articles=list(articles)
     contents=[]
     for article in articles:
