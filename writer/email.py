@@ -12,5 +12,5 @@ server = smtplib.SMTP_SSL('smtp.googlemail.com', port)
 server.login('b2bneedz@gmail.com', 'b2bneedz123')
 
 def send_email(article,email):    
-    article="Subject: Hi there\n\n"+article
+    article="Subject: Hey!, your new AI generated blog post -\n\n"+article
     server.sendmail('b2bneedz@gmail.com', email, article.encode('utf-8'))
