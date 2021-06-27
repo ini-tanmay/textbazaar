@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .helpers import * 
-# from rq import Queue
-# q = Queue(connection=conn)
+from .email import *
 
 def query_page(request,query,email):
     list_para = get_document(query,email)

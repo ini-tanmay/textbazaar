@@ -8,9 +8,9 @@ port = 465  # For SSL
 # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
 #     server.login("b2bneedz@gmail.com", 'b2bneedz123')
 #     # TODO: Send email here
-server = smtplib.SMTP_SSL('smtp.googlemail.com', port)
-server.login('b2bneedz@gmail.com', 'b2bneedz123')
+server = smtplib.SMTP_SSL('smtp.mailgun.org', port)
+server.login('postmaster@mail.sochial.media', '4f99da1a15d62b6ba6db756c117cc541-1f1bd6a9-c5600578')
 
 def send_email(article,email):    
     article="Subject: Hey!, your new AI generated blog post -\n\n"+article
-    server.sendmail('b2bneedz@gmail.com', email, article.encode('utf-8'))
+    server.sendmail('postmaster@mail.sochial.media', email, article.encode('utf-8'))
