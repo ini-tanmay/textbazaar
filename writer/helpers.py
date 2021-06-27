@@ -2,6 +2,8 @@ from googlesearch import search
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
+from background_task import background
+
 import json
 import re
 import spacy
@@ -135,7 +137,7 @@ def parse_final_document(cleaned_paragraphs,documents):
                 except:
                     pass
     return notes
-
+@background(schedule=0)
 def get_document(query):
     links=search(query,num_results=8) 
     articles=[]

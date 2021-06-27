@@ -1,2 +1,2 @@
 web: gunicorn TextBazaar.wsgi
-worker: python writer/worker.py
+worker: python manage.py process_tasks
