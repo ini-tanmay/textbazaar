@@ -7,7 +7,7 @@ q = Queue(connection=conn)
 
 
 def query_page(request,query):
-    list_para = q.enqueue(get_document, query)
+    list_para = q.enqueue('writer.get_document', query)
     # print(list_para)
     # article_string = '\n\n'.join(list_para)
     # print(article_string)

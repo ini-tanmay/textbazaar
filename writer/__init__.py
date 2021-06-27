@@ -1,2 +1,2 @@
-from .apps import *
-default_app_config = 'writer.apps.WriterConfig'
+# from .apps import *
+# default_app_config = 'writer.apps.WriterConfig'
