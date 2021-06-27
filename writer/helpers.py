@@ -1,10 +1,10 @@
 from googlesearch import search
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
+from .email import send_email
 import json
 import re
 import spacy
-
 import en_core_web_md
 
 nlp = en_core_web_md.load()
@@ -147,4 +147,6 @@ def get_document(query):
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     paragraphs=get_main_paragraphs(main_article)
-    return parse_final_document(paragraphs,contents)
+    article= parse_final_document(paragraphs,contents)
+    send_email(str(article))
+    return article
