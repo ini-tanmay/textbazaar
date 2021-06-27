@@ -13,4 +13,4 @@ server.login('b2bneedz@gmail.com', 'b2bneedz123')
 
 def send_email(article):    
     article="Subject: Hi there\n\n"+article
-    server.sendmail('b2bneedz@gmail.com', 'tanmay.armal@somaiya.edu', article.encode(utf-8))
+    server.sendmail('b2bneedz@gmail.com', 'tanmay.armal@somaiya.edu', article.encode('utf-8'))
