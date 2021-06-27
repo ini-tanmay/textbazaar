@@ -3,6 +3,7 @@ from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
 from background_task import background
+from .proxies import *
 
 import json
 import re
@@ -50,6 +51,8 @@ config.browser_user_agent = user_agent
 
 def get_article_nlp(url):
     data={}
+    config.request_timeout = 15
+    config.proxies = proxyDict
     try:
         article = Article(url,config=config)
         article.download()
@@ -137,6 +140,7 @@ def parse_final_document(cleaned_paragraphs,documents):
                 except:
                     pass
     return notes
+
 @background(schedule=0)
 def get_document(query,email):
     links=search(query,num_results=8) 
