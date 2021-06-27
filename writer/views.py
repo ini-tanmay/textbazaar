@@ -28,8 +28,6 @@ def logout_user(request):
     logout(request)
     return redirect("/")
 
-
-
 def query_page(request,query,email):
     list_para = get_document(query,email)
     return render(request,'writer/results.html',{'final':'Thanks! Your blog article will be emailed to you within 50 seconds'})
