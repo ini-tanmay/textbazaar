@@ -5,10 +5,4 @@ from .helpers import *
 
 def query_page(request,query):
     list_para = get_document(query)
-    # print(list_para)
-    # article_string = '\n\n'.join(list_para)
-    # print(article_string)
-    # if job.is_finished:
-    #     return render(request,'writer/results.html',{'final':'yayyy'})
-
-    return render(request,'writer/results.html',{'final':str(list_para)})
+    return render(request,'writer/results.html',{'final':'Thanks! Your blog article will be emailed to you within 50 seconds'})

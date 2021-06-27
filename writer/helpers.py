@@ -138,7 +138,7 @@ def parse_final_document(cleaned_paragraphs,documents):
                     pass
     return notes
 @background(schedule=0)
-def get_document(query):
+def get_document(query,email):
     links=search(query,num_results=8) 
     articles=[]
     for link in links:
@@ -150,5 +150,5 @@ def get_document(query):
     main_article=get_main_article(contents)
     paragraphs=get_main_paragraphs(main_article)
     article= parse_final_document(paragraphs,contents)
-    send_email(str(article))
+    send_email(str(article),email)
     return article
