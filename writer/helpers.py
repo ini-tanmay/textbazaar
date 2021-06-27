@@ -4,6 +4,7 @@ from .summarize_nltk import summarize_para
 from .email import send_email
 from background_task import background
 from .proxies import *
+import concurrent.futures
 
 import json
 import re
@@ -145,8 +146,9 @@ def parse_final_document(cleaned_paragraphs,documents):
 def get_document(query,email):
     links=search(query,num_results=8) 
     articles=[]
-    for link in links:
-        articles.append(get_article_nlp(link))
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        data=executor.map(get_article,links)
+        articles=list(articles)
     contents=[]
     for article in articles:
         contents.append(article['content'])
