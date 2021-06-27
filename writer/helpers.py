@@ -149,6 +149,7 @@ def get_document(query,email):
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     paragraphs=get_main_paragraphs(main_article)
-    article= parse_final_document(paragraphs,contents)
+    list_para= parse_final_document(paragraphs,contents)
+    article='\n\n'.join(list_para)
     send_email(str(article),email)
     return article
