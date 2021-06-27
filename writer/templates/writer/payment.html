@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/47101d2035.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>NewsLix - Payment</title>
+</head>
+
+
+<body style ="background: #f857a6;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #ff5858, #f857a6);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #ff5858, #f857a6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+background-repeat: no-repeat;
+background-attachment: fixed;
+">
+
+<div style="
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+">
+
+{% if response %}
+<form action="/success?data={{ plan }}" method="POST" class="card text-center p-5">
+        {% csrf_token %}
+
+        <p class="h3 mb-3"><i class="fas fa-wallet"></i> NewsLix API </p>
+        <p class="mb-3">You're currently logged in as {{ user.username }}</p>
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_test_svl7FsV5sWZ9Yc"
+        data-amount={{response.amount}}
+        data-currency={{response.currency}}
+        data-order_id={{response.id}}
+        data-buttontext="Pay with Razorpay"
+        data-name={{ plan|title }}
+        data-description="NewsLix API"
+    ></script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+    <hr>
+        <a href="/" class="btn btn-warning ">Back to home</a>
+
+    </form>
+{% endif %}
+</div>
+</body>
+</html>

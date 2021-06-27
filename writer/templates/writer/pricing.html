@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+	<head>
+    
+		<meta charset="utf-8" >
+		<title>Pricing</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href=" {% static 'i/favicon.png' %} " type="image/x-icon">
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+		<!-- Bootstrap 4.5.2 CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		<!-- Slick 1.8.1 jQuery plugin CSS (Sliders) -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+		<!-- Fancybox 3 jQuery plugin CSS (Open images and video in popup) -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+		<!-- AOS 2.3.4 jQuery plugin CSS (Animations) -->
+		<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+		<!-- FontAwesome CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+		<!-- Startup CSS (Styles for all blocks) - Remove ".min" if you would edit a css code -->
+		<link href=" {% static 'css/style.min.css' %} " rel="stylesheet" />
+		<!-- jQuery 3.5.1 -->
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	</head> 
+	<body>
+	<nav class="pt-30 pb-30 bg-light text-center navigation_1">
+		<div class="container px-xl-0">
+			<div class="row justify-content-center align-items-center f-16">
+				<div class="mb-20 mb-lg-0 col-lg-3 text-lg-left">
+					<a href="/" class="link img_link">
+						<img src=" {% static 'uploads/textbazaar.png' %} " alt="Logo" class="img-fluid mw-50 mh-50" data-aos="fade-down" data-aos-delay="250">
+					</a>
+				</div>
+				<div class="col-lg-6" data-aos="fade-down" data-aos-delay="0">
+					<a href="#" class="link mx-15 color-main">
+						View Docs
+					</a>
+				</div>
+				<div class="mt-20 mt-lg-0 col-lg-3 d-flex flex-wrap justify-content-center justify-content-lg-end align-items-center" data-aos="fade-down" data-aos-delay="250">
+					<a href="/signin" class="link mr-20 color-main">
+						Sign In
+					</a>
+					<a href="/signup" class="btn mr-20 sm action-2 f-16">
+						Sign Up
+					</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+<hr>
+
+<!-- Pricing table 2 -->
+	<section class="pt-80 pb-70 bg-light text-center pricing_table_2">
+		<div class="container px-xl-0">
+			<div class="f-14 semibold text-uppercase sp-20 color-heading" data-aos="fade-down" data-aos-delay="0">
+				Pricing Plan
+			</div>
+			 <center> 1 credit = 5000 articles or requests </center>
+
+			<h2 class="mt-15 mb-55 small" data-aos="fade-down" data-aos-delay="250">
+				Pricing that scales with your business &#128516
+			</h2>
+
+			<div class="row justify-content-center no-gutters">
+				<div class="col-xl-10">
+					<div class="row justify-content-center">
+
+						<div class="col-lg-3 col-md-5 col-sm-6 block" data-aos="fade-down" data-aos-delay="750">
+							<div class="f-22 title">
+								Enterprise
+							</div>
+							<div class="mt-10 color-heading subtitle">
+							First credit for &#8377;19999
+							</div>
+							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
+								<i class="fas fa-building">
+								</i>
+							</div>
+							<a href="/payment?plan=enterprise" class="btn mt-40 border-gray color-main">
+								Get Started
+							</a>
+							<div class="mt-45 text-adaptive">
+								<div>
+									Realtime Data
+								</div>
+                                <hr>
+								<div>
+									Fields included: Fields in Pro + articleSummary, mainKeywords, articleSentiment, relatedArticles_TitlesAndURLs 
+								</div>
+                                                                <hr>
+								<div>
+									5,000 articles
+								</div>
+                                                                <hr>
+
+								<div>
+									Extra credits available at &#8377;2.39 per article
+								</div>
+                                                                <hr>
+
+								<div class="color-heading text-adaptive">
+									Email Support
+								</div>
+							</div>
+						</div>
+
+                        						<div class="col-lg-3 col-md-5 col-sm-6 mb-70 mb-sm-0 block" data-aos="fade-down" data-aos-delay="500">
+							<div class="f-22 title">
+								Pro
+							</div>
+							<div class="mt-10 color-heading subtitle">
+								First credit for &#8377;9999
+							</div>
+							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
+								<i class="fas fa-heart">
+								</i>
+							</div>
+							<a href="/payment?plan=pro" class="btn mt-40 action-1">
+								Get Started
+							</a>
+							<div class="mt-45 text-adaptive">
+								<div>
+									Realtime Data
+								</div>
+                                                                <hr>
+
+								<div>
+									Fields included: Fields in Startup + listOfAuthors, videoURLs, imageURLs, articleContent
+								</div>
+                                                                <hr>
+
+								<div>
+									5,000 articles 
+								</div>
+                                                                <hr>
+
+								<div>
+									Extra credits available at &#8377;1.47 per article
+								</div>
+                                                                <hr>
+
+								<div class="color-heading text-adaptive">
+									Email Support
+								</div>
+
+							</div>
+						</div>
+
+
+
+						<div class="col-lg-3 col-md-5 col-sm-6 mb-70 mb-lg-0 block" data-aos="fade-down" data-aos-delay="250">
+							<div class="f-22 title">
+								Startup
+							</div>
+							<div class="mt-10 color-heading subtitle">First credit for &#8377;1599</div>
+							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
+								<i class="fas fa-bomb">
+								</i>
+							</div>
+							<a href="/payment?plan=startup" class="btn mt-40 border-gray color-main">
+								Get Started
+							</a>
+							<div class="mt-45 text-adaptive">
+								<div>
+									Realtime Data
+								</div>
+                                <hr>
+								<div>
+									Fields included: Fields in Student + mainImageURL, mainVideoURL
+								</div>
+                                <hr>
+								<div>
+									5,000 requests
+								</div>
+                                <hr>
+								<div>
+									Extra credits available at &#8377;0.29 per request
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-lg-3 col-md-5 col-sm-6 mb-70 mb-lg-0 block" data-aos="fade-down" data-aos-delay="0">
+							<div class="f-22 title">
+								Student
+							</div>
+							<div class="mt-10 color-heading subtitle">
+								Free
+							</div>
+							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
+								<i class="fas fa-bolt">
+								</i>
+							</div>
+							<a href="/docs" class="btn mt-40 border-gray color-main">
+								Get Started
+							</a>
+							<div class="mt-45 text-adaptive">
+								<div>
+									Realtime Data
+								</div> 
+                                <hr>
+								<div>
+									Fields included: articleTitle, articleURL, sourceName, sourceURL, publishedAt
+								</div>  
+                                <hr>               
+								<div>
+									Get articles up to only a month old 
+								</div>
+                                <hr>
+								<div>
+									100 requests per day
+								</div>
+                                <hr>
+								<div class="color-heading text-adaptive">
+									1 Shared Server
+								</div>
+                                <hr>
+                                <div class="color-heading text-adaptive">
+									0.5s avg. response time
+								</div>
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+	Note: Prices shown on this page increases every few months
+
+	</section>
+    <hr>
+	<!-- Content 2 -->
+		<section class="pt-105 pb-95 bg-light content_2">
+			<div class="container px-xl-0 text-center">
+				<div class="row justify-content-center">
+					<div class="col-xl-8 col-lg-10">
+						<h2 data-aos="fade-down" data-aos-delay="0">
+							Fortune Package
+						</h2>
+					</div>
+					<div class="col-xl-7 col-lg-9 col-md-10">
+						<div class="mt-35 f-18 medium color-heading op-7 text-adaptive" data-aos="fade-down" data-aos-delay="250">
+							Custom solutions+Dedicated CPU+Cache+Memory+Personal Account Managers+Phone/Email/Chat Support+99.99% uptime SLA
+						</div>
+						<div class="text-adaptive bold f-heading color-dribbble">
+							Starting from $400,000 per year. Coming soon!
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+
+		<!-- gReCaptcha popup (uncomment if you need a recaptcha integration) -->
+		<!--
+		<div class="bg-dark op-8 grecaptcha-overlay"></div>
+		<div class="bg-light radius10 w-350 h-120 px-20 pt-20 pb-20 grecaptcha-popup">
+			<div class="w-full h-full d-flex justify-content-center align-items-center">
+				<div id="g-recaptcha" data-sitekey="PUT_YOUR_SITE_KEY_HERE"></div>
+			</div>
+		</div>
+		<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+		-->
+		<!-- Bootstrap 4.5.2 JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+		<!-- Fancybox 3 jQuery plugin JS (Open images and video in popup) -->
+		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+		<!-- 
+			Google maps JS API 
+			Don't forget to replace the key "AIzaSyDP6Ex5S03nvKZJZSvGXsEAi3X_tFkua4U" to your own! 
+			Learn how to get a key: https://help.designmodo.com/article/startup-google-maps-api/ 
+		-->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDP6Ex5S03nvKZJZSvGXsEAi3X_tFkua4U"></script>
+		<!-- Slick 1.8.1 jQuery plugin JS (Sliders) -->
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+		<!-- AOS 2.3.4 jQuery plugin JS (Animations) -->
+		<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+		<!-- Maskedinput jQuery plugin JS (Masks for input fields) -->
+		<script src=" {% static 'js/jquery.maskedinput.min.js' %} "></script>
+		<!-- Startup JS (Custom js for all blocks) -->
+		<script src=" {% static 'js/script.js' %} "></script>
+	</body>
+</html>
