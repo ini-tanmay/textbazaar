@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .helpers import * 
@@ -12,6 +14,9 @@ def pricing(request):
 
 def panel(request):
     return render(request,'writer/dashboard.html')
+
+def create(request):
+    return render(request,'writer/create.html')
 
 def register(request):
     if request.method == "POST":
@@ -28,6 +33,11 @@ def logout_user(request):
     logout(request)
     return redirect("/")
 
-def query_page(request,query,email):
-    list_para = get_document(query,email)
-    return render(request,'writer/results.html',{'final':'Thanks! Your blog article will be emailed to you within 50 seconds'})
+def query(request):
+    if request.method == 'POST':
+        query = request.POST.get("query")     
+        list_para = get_document(query,'tanmay.armal@somaiya.edu')
+        messages.info(request, 'Article titled: {} is currently being generated. Check your email & dashboard after a few minutes 😃'.format(query))  
+        return render(request,'writer/dashboard.html')
+    else:
+        return HttpResponse('Invalid URL')    
