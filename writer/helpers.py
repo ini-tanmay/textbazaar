@@ -1,17 +1,18 @@
 from googlesearch import search
+from paraphrase_googletranslate import Paraphrase
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
 from background_task import background
 from .proxies import *
 import concurrent.futures
-
 import json
 import re
 import spacy
 import en_core_web_md
 
 nlp = en_core_web_md.load()
+phraser = Paraphraser()
 
 class Sentence:
     
@@ -26,6 +27,10 @@ class Sentence:
  
 def sort_by_similarity(element):
     return element.similarity
+
+def paraphrase(input):
+    rephrased = phraser.paraphrase(input, secondary_language='es')
+    return rephrased
 
 NEWLINES_RE = re.compile(r"\n{2,}")  # two or more "\n" characters
 
@@ -142,6 +147,12 @@ def parse_final_document(cleaned_paragraphs,documents):
                     pass
     return notes
 
+def remove_urls (vTEXT):
+    text = re.sub(r'(https|http)?:\/\/(\w|\.|\/|\?|\=|\&|\%|\-)*\b', '', vTEXT, flags=re.MULTILINE)
+    text = re.sub(r'\[\d+\]', '', text)
+    text = re.sub(r'/[\u006E\u00B0\u00B2\u00B3\u00B9\u02AF\u0670\u0711\u2121\u213B\u2207\u29B5\uFC5B-\uFC5D\uFC63\uFC90\uFCD9\u2070\u2071\u2074-\u208E\u2090-\u209C\u0345\u0656\u17D2\u1D62-\u1D6A\u2A27\u2C7C]+/g', '', text)
+    return text
+
 @background(schedule=0)
 def get_document(query,email):
     links=search(query,num_results=8) 
@@ -152,11 +163,12 @@ def get_document(query,email):
     contents=[]
     for article in articles:
         if article.get('content')!=None:
-            contents.append(article['content'])
+            contents.append(remove_urls(article['content']))
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     paragraphs=get_main_paragraphs(main_article)
     list_para= parse_final_document(paragraphs,contents)
     article='\n\n'.join(list_para)
-    send_email(str(article),email)
+    article_paraphrased=paraphrase(article)
+    send_email(str(article_paraphrased),email)
     return article

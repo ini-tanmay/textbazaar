@@ -107,6 +107,6 @@ def summarize_para(text):
     threshold = _find_average_score(sentence_scores)
     
     # 5 Important Algorithm: Generate the summary
-    summary = _generate_summary(sentences, sentence_scores, 0.8* threshold)
+    summary = _generate_summary(sentences, sentence_scores, 0.9* threshold)
 
     return summary
