@@ -1,5 +1,5 @@
 from googlesearch import search
-from paraphrase_googletranslate import Paraphrase
+from paraphrase_googletranslate import Paraphraser
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
