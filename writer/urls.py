@@ -11,5 +11,6 @@ urlpatterns = [
     # path('success',payment_success,name='success'),
     path('signup',register),
     path('logout',logout_user),
+    path('login',login_user),
     path('query',query),
 ]

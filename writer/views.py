@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .helpers import * 
 from .forms import *
 
@@ -12,11 +13,10 @@ def index(request):
 def pricing(request):
     return render(request,'writer/pricing.html')
 
+@login_required(login_url='login')
 def panel(request):
-    if request.user.is_authenticated:
-        user=User.objects.get(id=request.user.id)
-        return render(request,'writer/dashboard.html',{'user':user})
-    return redirect('/')    
+    user=User.objects.get(id=request.user.id)
+    return render(request,'writer/dashboard.html',{'user':user})
 
 def create(request):
     return render(request,'writer/create.html')
@@ -32,10 +32,25 @@ def register(request):
         form = NewUserForm()
     return render(request,'writer/register.html',{'form':form})
 
+def login_user(request):
+    if request.method== "POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('/dashboard')
+        else:
+            messages.info(request,'Invalid credentials. Please try again.')
+            return redirect('/login')     
+            
+    return render(request,"writer/login.html")
+
 def logout_user(request):
     logout(request)
     return redirect("/")
 
+@login_required
 def query(request):
     if request.method == 'POST':
         user=User.objects.get(id=request.user.id)
