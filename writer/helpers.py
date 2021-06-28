@@ -48,11 +48,11 @@ def paragraphs_count(input):
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
 config = Config()
 config.browser_user_agent = user_agent
+config.request_timeout = 25
 
 
 def get_article_nlp(url):
     data={}
-    config.request_timeout = 15
     config.proxies = proxyDict
     try:
         article = Article(url,config=config)
@@ -148,7 +148,8 @@ def get_document(query,email):
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
         data=executor.map(get_article_nlp,links)
-        articles=list(articles)
+        articles=list(data)
+    print(articles)    
     contents=[]
     for article in articles:
         contents.append(article['content'])
