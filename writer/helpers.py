@@ -149,10 +149,10 @@ def get_document(query,email):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         data=executor.map(get_article_nlp,links)
         articles=list(data)
-    print(articles)    
     contents=[]
     for article in articles:
-        contents.append(article['content'])
+        if article.get('content')!=None:
+            contents.append(article['content'])
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     paragraphs=get_main_paragraphs(main_article)
