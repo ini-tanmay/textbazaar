@@ -13,10 +13,10 @@ def index(request):
 def pricing(request):
     return render(request,'writer/pricing.html')
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def panel(request):
-    user=User.objects.get(id=request.user.id)
-    return render(request,'writer/dashboard.html',{'user':user})
+    # user=User.objects.get(id=request.user.id)
+    return render(request,'writer/dashboard.html',{'user':''})
 
 def create(request):
     return render(request,'writer/create.html')

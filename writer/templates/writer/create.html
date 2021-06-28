@@ -5,7 +5,22 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href=" {% static 'css/google.css' %}" type="text/css"/>
 <!-- Font Awesome -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<script>
+    $(document).ready(function(){
+        // Read value on page load
+        $("#result b").html($("#customRange").val());
+
+        // Read value on change
+        $("#customRange").change(function(){
+          // console.log(this.val)
+            $("#result b").html($(this).val());
+        });
+    });        
+</script> 
+
 </head>
 <body>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -36,7 +51,7 @@
   <div class="container">
     <div class="row">
       <div class="span4"></div>
-      <div class="span4"><img class="center-block" src="https://raw.githubusercontent.com/ALeeMN/images-for-codepens/master/logo.jpg" width="270" height="95" alt="Google" id="logo"></div>
+      <div class="span4"><img class="center-block" src="{% static 'uploads/text_logo.png' %}" alt="Google" id="logo"></div>
       <div class="span4"></div>
     </div>
 
@@ -52,6 +67,11 @@
         </div>
       </div>
     </div>
+<label for="customRange" class="form-label">Temperature i.e. AI model's creativity score</label>
+<input type="range" class="custom-range" min="5" max="15" step="0.5" value="8.0" id="customRange">
+    <div id="result">Current Value: <b></b> </div>
+
+<p>1. For articles having a large amount of relevant articles available online, choose a higher temperature & vice-versa.<br>2. A lower temperature results in a higher word count with lower accuracy/relevancy to your input title & vice-versa.<br>3. For most articles a temperature around 8.5 is recommended<br>4. In case of topics which usually have 2 completely opposing viewpoints with no correct answer. Eg: 'Does low fat increase weight loss?','Is there hyperinflation in the US in 2021?','Will AI take over most programming jobs in the future?', etc. It's better to stick with one viewpoint in the title itself like so: 'How a low fat diet actually makes you gain weight'</p>
     <div class="btn-group-wrap">
       <div class="btn-group">
         <button  class="btn btn-primary" id="google-search">Create Article</button>
