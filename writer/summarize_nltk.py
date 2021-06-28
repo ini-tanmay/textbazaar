@@ -88,7 +88,7 @@ def _generate_summary(sentences, sentenceValue, threshold):
     return summary
 
 
-def summarize_para(text):
+def summarize_para(text, temperature):
     # 1 Create the word frequency table
     freq_table = _create_frequency_table(text)
 
@@ -107,6 +107,6 @@ def summarize_para(text):
     threshold = _find_average_score(sentence_scores)
     
     # 5 Important Algorithm: Generate the summary
-    summary = _generate_summary(sentences, sentence_scores, 0.9* threshold)
+    summary = _generate_summary(sentences, sentence_scores, (temperature*threshold)/10)
 
     return summary

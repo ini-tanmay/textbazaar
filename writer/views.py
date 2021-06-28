@@ -13,10 +13,10 @@ def index(request):
 def pricing(request):
     return render(request,'writer/pricing.html')
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def panel(request):
-    # user=User.objects.get(id=request.user.id)
-    return render(request,'writer/dashboard.html',{'user':''})
+    user=User.objects.get(id=request.user.id)
+    return render(request,'writer/dashboard.html',{'user':user})
 
 def create(request):
     return render(request,'writer/create.html')
@@ -50,12 +50,13 @@ def logout_user(request):
     logout(request)
     return redirect("/")
 
-@login_required
+@login_required(login_url='login')
 def query(request):
     if request.method == 'POST':
         user=User.objects.get(id=request.user.id)
         query = request.POST.get("query")     
-        list_para = get_document(query,user.email)
+        temperature = request.POST.get("customRange")
+        list_para = get_document(query,user.email,temperature)
         messages.info(request, 'Article titled: {} is currently being generated. Check your email & dashboard after a few minutes 😃'.format(query))  
         return render(request,'writer/dashboard.html')
     else:

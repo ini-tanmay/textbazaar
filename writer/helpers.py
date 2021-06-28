@@ -120,10 +120,10 @@ def get_main_paragraphs(main_article):
 
     return cleaned_paragraphs        
 
-def parse_final_document(cleaned_paragraphs,documents):
+def parse_final_document(cleaned_paragraphs,documents,temperature):
     notes=[]
     for paragraph in cleaned_paragraphs:
-        notes.append(summarize_para(paragraph))
+        notes.append(summarize_para(paragraph,temperature))
     for content in documents:
         content_lines=content.replace('\n','').split('.')
         for main_line in content_lines:
@@ -153,7 +153,7 @@ def remove_urls (vTEXT):
     return text
 
 @background(schedule=0)
-def get_document(query,email):
+def get_document(query,email,temperature):
     links=search(query,num_results=8) 
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -166,7 +166,7 @@ def get_document(query,email):
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     paragraphs=get_main_paragraphs(main_article)
-    list_para= parse_final_document(paragraphs,contents)
+    list_para= parse_final_document(paragraphs,contents,temperature)
     article='\n\n'.join(list_para)
     article_paraphrased=paraphrase(article)
     send_email(str(article_paraphrased),email)
