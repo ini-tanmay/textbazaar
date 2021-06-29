@@ -16,6 +16,7 @@ def pricing(request):
 @login_required(login_url='login')
 def panel(request):
     user=User.objects.get(id=request.user.id)
+    print(user)
     return render(request,'writer/dashboard.html',{'user':user})
 
 def create(request):

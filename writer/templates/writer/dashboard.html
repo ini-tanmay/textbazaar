@@ -31,8 +31,8 @@
 	<div class="col-div-6">
 	<div class="profile">
 
-		<img src="images/user.png" class="pro-img" />
-		<p>{{ user.name }} <span>UI / UX DESIGNER</span></p>
+		<img src="{% static 'uploads/textbazaar.png' %}" class="pro-img" />
+		<p>{{ user.first_name }} <span>Current Plan: {{ user.plan|title }}</span></p>
 	</div>
 </div>
 	<div class="clearfix"></div>
@@ -118,7 +118,7 @@
 	<div class="col-div-4">
 		<div class="box-4">
 		<div class="content-box">
-			<p>Total Sale <span>Sell All</span></p>
+			<p>{{ user.credits_bought }} Compute Credits Left <span>Buy More</span></p>
 
 			<div class="circle-wrap">
     <div class="circle">
@@ -128,7 +128,7 @@
       <div class="mask half">
         <div class="fill"></div>
       </div>
-      <div class="inside-circle"> 70% </div>
+      <div class="inside-circle"> 40% </div>
     </div>
   </div>
 		</div>
