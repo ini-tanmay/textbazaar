@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .helpers import * 
 from .forms import *
-
+from .models import *
+from background_task.models import Task
 
 def index(request):
     return render(request,'writer/index.html')
@@ -16,7 +17,7 @@ def pricing(request):
 @login_required(login_url='login')
 def panel(request):
     user=User.objects.get(id=request.user.id)
-    print(user)
+    # posts = Article.objects.filter(user=user).order_by('-created_on')
     return render(request,'writer/dashboard.html',{'user':user})
 
 def create(request):
