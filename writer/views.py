@@ -57,9 +57,9 @@ def query(request):
     if request.method == 'POST':
         user=User.objects.get(id=request.user.id)
         query = request.POST.get("query")     
-        temperature = request.POST.get("customRange")
+        temperature = float(request.POST.get("customRange"))
         list_para = get_document(query,user.email,temperature)
-        messages.info(request, 'Article titled: {} is currently being generated. Check your email & dashboard after a few minutes 😃'.format(query))  
+        messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(query))  
         return render(request,'writer/dashboard.html')
     else:
         return HttpResponse('Invalid URL')    
