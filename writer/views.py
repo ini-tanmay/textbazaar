@@ -7,7 +7,8 @@ from .helpers import *
 from .forms import *
 from .models import *
 from background_task.models import Task
-from .email import *
+from .helpers import *
+
 def index(request):
     return render(request,'writer/index.html')
 

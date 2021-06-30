@@ -1,5 +1,5 @@
 from googlesearch import search
-from paraphrase_googletranslate import Paraphraser
+from .text_rewrite import *
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
@@ -12,7 +12,6 @@ import spacy
 import en_core_web_md
 
 nlp = en_core_web_md.load()
-phraser = Paraphraser()
 
 class Sentence:
     
@@ -28,7 +27,7 @@ def sort_by_similarity(element):
     return element.similarity
 
 def paraphrase(input):
-    rephrased = phraser.paraphrase(input, secondary_language='es')
+    rephrased = TextRewrite(input).work()
     return rephrased
 
 NEWLINES_RE = re.compile(r"\n{2,}")  # two or more "\n" characters
