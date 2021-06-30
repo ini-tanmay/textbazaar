@@ -9,9 +9,9 @@ import concurrent.futures
 import json
 import re
 import spacy
-import en_core_web_md
+import en_core_web_sm
 
-nlp = en_core_web_md.load()
+nlp = en_core_web_sm.load()
 
 class Sentence:
     
