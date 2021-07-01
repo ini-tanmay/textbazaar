@@ -59,7 +59,7 @@ def query(request):
         user=User.objects.get(id=request.user.id)
         query = request.POST.get("query")     
         temperature = float(request.POST.get("customRange"))
-        send_email('Temperature: '+str(temperature)+' - '+query,str(article),email)
+        send_email('Temperature: '+str(temperature),query,email)
         list_para = get_document(query,user.email,temperature)
         messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(query))  
         return render(request,'writer/dashboard.html')
