@@ -137,7 +137,7 @@ def parse_final_document(cleaned_paragraphs,documents,temperature):
                         cleaned_doc1 = nlp(' '.join([str(t) for t in doc1 if not t.is_stop]))
                         cleaned_doc2 = nlp(' '.join([str(t) for t in doc2 if not t.is_stop]))
                         similarity=cleaned_doc1.similarity(cleaned_doc2)
-                        if similarity>points[main_line].similarity and similarity>0.85 and main_line not in other_line:
+                        if similarity>points[main_line].similarity and similarity>0.835 and main_line not in other_line:
                             points[main_line]=(Sentence(other_line,similarity))
                 try:       
                     index=notes.index(points[main_line].text)
