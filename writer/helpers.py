@@ -11,7 +11,6 @@ import re
 import spacy
 import en_core_web_md
 
-nlp = en_core_web_md.load()
 
 class Sentence:
     
@@ -93,7 +92,8 @@ def get_main_article(documents):
              
         
 
-def get_main_paragraphs(main_article):    
+def get_main_paragraphs(main_article):  
+    nlp = en_core_web_md.load()
     paragraphs=[]
     sentence_list=main_article.replace('\n','').split('.')
     for i in range(0,len(sentence_list)):
@@ -120,6 +120,7 @@ def get_main_paragraphs(main_article):
     return cleaned_paragraphs        
 
 def parse_final_document(cleaned_paragraphs,documents,temperature):
+    nlp = en_core_web_md.load()
     notes=[]
     for paragraph in cleaned_paragraphs:
         notes.append(summarize_para(paragraph,temperature))

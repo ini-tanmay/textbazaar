@@ -4,7 +4,6 @@ import urllib.request
 import json
 import en_core_web_md
 
-nlp = en_core_web_md.load()
 
 
 class BestSyn:
@@ -26,6 +25,8 @@ class BestSyn:
 
 
     def pull(self):
+        nlp = en_core_web_md.load()
+
         words_list = self.get_datamuse_syn_list()
         for syn_word in words_list:
             use_nltk = True
