@@ -9,9 +9,9 @@ import concurrent.futures
 import json
 import re
 import spacy
-import en_core_web_sm
+import en_core_web_md
 
-nlp = en_core_web_sm.load()
+nlp = en_core_web_md.load()
 
 class Sentence:
     
@@ -58,7 +58,7 @@ def get_article_nlp(url):
     data={}
     config.proxies = proxyDict
     try:
-        article = Article(url,config=config)
+        article = Article(url,config=config,memorize_articles=False)
         article.download()
         article.parse()
         data['title']=article.title
@@ -72,7 +72,7 @@ def get_article_nlp(url):
         data['keywords']=article.keywords
         return data
     except Exception as e:
-        # print(e)
+        print(e)
         return {}
         pass
 
@@ -160,13 +160,18 @@ def get_document(query,email,temperature):
         articles=list(data)
     contents=[]
     for article in articles:
+        print(article.get('keywords'))
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
+    print(main_article)
     paragraphs=get_main_paragraphs(main_article)
+    print(type(paragraphs))
+    print(paragraphs)
     list_para= parse_final_document(paragraphs,contents,temperature)
+    print(list_para)
     article='\n\n'.join(list_para)
-    article_paraphrased=paraphrase(article)
-    send_email(str(article_paraphrased),email)
+    # article_paraphrased=paraphrase(article)
+    send_email(str(article),email)
     return article

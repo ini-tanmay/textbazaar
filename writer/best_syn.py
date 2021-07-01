@@ -2,9 +2,9 @@ from nltk.corpus import wordnet
 import spacy
 import urllib.request
 import json
-import en_core_web_sm
+import en_core_web_md
 
-nlp = en_core_web_sm.load()
+nlp = en_core_web_md.load()
 
 
 class BestSyn:

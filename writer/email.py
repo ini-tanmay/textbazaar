@@ -8,6 +8,8 @@ from django.core.mail import send_mail
 
 def send_email(article,email):    
     # article="Subject: Hey! your new AI generated blog post -\n\n"+article
+    print(article)
+    print(type(article))
     send_mail('Hey! your new AI generated blog post -', article, 'postmaster@mail.sochial.media', [email])
     # server.sendmail('postmaster@mail.sochial.media', email, article.encode('utf-8'))
     # server.close()
