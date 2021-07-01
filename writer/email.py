@@ -6,11 +6,11 @@ from django.core.mail import send_mail
 # server.starttls()
 # server.login('postmaster@mail.sochial.media', '4f99da1a15d62b6ba6db756c117cc541-1f1bd6a9-c5600578')
 
-def send_email(article,email):    
+def send_email(subject,article,email):    
     # article="Subject: Hey! your new AI generated blog post -\n\n"+article
     print(article)
     print(type(article))
-    send_mail('Hey! your new AI generated blog post -', article, 'postmaster@mail.sochial.media', [email])
+    send_mail(subject, article, 'postmaster@mail.sochial.media', [email])
     # server.sendmail('postmaster@mail.sochial.media', email, article.encode('utf-8'))
     # server.close()
 

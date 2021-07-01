@@ -154,7 +154,7 @@ def remove_urls (vTEXT):
 
 @background(schedule=0)
 def get_document(query,email,temperature):
-    links=search(query,num_results=9) 
+    links=search(query,num_results=8) 
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
         data=executor.map(get_article_nlp,links)
@@ -174,5 +174,5 @@ def get_document(query,email,temperature):
     print(list_para)
     article='\n\n'.join(list_para)
     # article_paraphrased=paraphrase(article)
-    send_email(str(article),email)
+    send_email('Temperature: '+str(temperature)+' - '+query,str(article),email)
     return article
