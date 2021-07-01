@@ -79,7 +79,7 @@ def get_article_nlp(url):
 def get_main_article(documents):
     temp_article=''
     for content in documents:
-        if paragraphs_count(content)>3 and (3800<len(content)<8000):
+        if paragraphs_count(content)>3 and (3200<len(content)<10000):
             temp_article=content
             documents.remove(content)
         if temp_article=='':
@@ -100,7 +100,7 @@ def get_main_paragraphs(main_article):
             cleaned_doc1 = nlp(' '.join([str(t) for t in sentence_doc if not t.is_stop]))
             cleaned_doc2 = nlp(' '.join([str(t) for t in paragraph_doc if not t.is_stop]))
             similarity=cleaned_doc1.similarity(cleaned_doc2)
-            if similarity>0.55:
+            if similarity>0.6:
                 if len(paragraphs)==0:
                     paragraphs.append(sentence_list[i])
                 else:    
