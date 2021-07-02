@@ -13,7 +13,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def extract_word_vectors():
     word_embeddings = {}
-    f= open(os.path.join(settings.BASE_DIR, 'glove.6B.50d.1.txt'),encoding='utf-8')
+    f= open(os.path.join(settings.BASE_DIR, 'glove.6B.50d.txt'),encoding='utf-8')
     for line in f:
         values = line.split()
         word = values[0]
