@@ -57,7 +57,7 @@ def get_article_nlp(url):
     data={}
     config.proxies = proxyDict
     try:
-        article = Article(url,config=config,memorize_articles=False)
+        article = Article(url,config=config,memoize_articles=False)
         article.download()
         article.parse()
         data['title']=article.title
@@ -83,8 +83,8 @@ def get_main_article(documents):
             temp_article=content
             documents.remove(content)
         if temp_article=='':
+            temp_article=documents[0]
             documents.remove(documents[0])
-            return documents[0]
         return temp_article
              
         
@@ -100,7 +100,7 @@ def get_main_paragraphs(main_article):
             cleaned_doc1 = nlp(' '.join([str(t) for t in sentence_doc if not t.is_stop]))
             cleaned_doc2 = nlp(' '.join([str(t) for t in paragraph_doc if not t.is_stop]))
             similarity=cleaned_doc1.similarity(cleaned_doc2)
-            if similarity>0.6:
+            if similarity>0.5:
                 if len(paragraphs)==0:
                     paragraphs.append(sentence_list[i])
                 else:    
@@ -111,7 +111,7 @@ def get_main_paragraphs(main_article):
     cleaned_paragraphs=[]
 
     for paragraph in paragraphs:
-        if len(paragraph)>50 and '.' in paragraph:
+        if len(paragraph)>25 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
 
     return cleaned_paragraphs        
