@@ -8,6 +8,7 @@ from .forms import *
 from .models import *
 from background_task.models import Task
 from .email import *
+from .keypoints import *
 
 def index(request):
     return render(request,'writer/index.html')
@@ -65,3 +66,18 @@ def query(request):
         return render(request,'writer/dashboard.html')
     else:
         return HttpResponse('Invalid URL')    
+
+def get_keypoints(request,query):
+    contents=get_contents(query)
+    value=summarize(contents)
+
+    # if request.method == 'POST':
+    #     user=User.objects.get(id=request.user.id)
+    #     query = request.POST.get("query")     
+    #     temperature = float(request.POST.get("customRange"))
+    #     send_email('Temperature: '+str(temperature),query,user.email)
+    #     list_para = get_document(query,user.email,temperature)
+    #     messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(query))  
+    #     return render(request,'writer/dashboard.html')
+    # else:
+    return HttpResponse(str(value))    

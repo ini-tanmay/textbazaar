@@ -13,4 +13,5 @@ urlpatterns = [
     path('logout',logout_user),
     path('login',login_user),
     path('query',query),
+    path('keypoints/<str:query>',get_keypoints),
 ]

@@ -57,7 +57,7 @@ def get_article_nlp(url):
     data={}
     config.proxies = proxyDict
     try:
-        article = Article(url,config=config,memorize_articles=False)
+        article = Article(url,config=config,memoize_articles=False)
         article.download()
         article.parse()
         data['title']=article.title
@@ -79,12 +79,12 @@ def get_article_nlp(url):
 def get_main_article(documents):
     temp_article=''
     for content in documents:
-        if paragraphs_count(content)>3 and (3800<len(content)<8000):
+        if paragraphs_count(content)>3 and (3200<len(content)<10000):
             temp_article=content
             documents.remove(content)
         if temp_article=='':
+            temp_article=documents[0]
             documents.remove(documents[0])
-            return documents[0]
         return temp_article
              
         
@@ -100,7 +100,7 @@ def get_main_paragraphs(main_article):
             cleaned_doc1 = nlp(' '.join([str(t) for t in sentence_doc if not t.is_stop]))
             cleaned_doc2 = nlp(' '.join([str(t) for t in paragraph_doc if not t.is_stop]))
             similarity=cleaned_doc1.similarity(cleaned_doc2)
-            if similarity>0.55:
+            if similarity>0.5:
                 if len(paragraphs)==0:
                     paragraphs.append(sentence_list[i])
                 else:    
@@ -111,7 +111,7 @@ def get_main_paragraphs(main_article):
     cleaned_paragraphs=[]
 
     for paragraph in paragraphs:
-        if len(paragraph)>50 and '.' in paragraph:
+        if len(paragraph)>25 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
 
     return cleaned_paragraphs        
@@ -149,8 +149,7 @@ def remove_urls (vTEXT):
     text = re.sub(r'/[\u006E\u00B0\u00B2\u00B3\u00B9\u02AF\u0670\u0711\u2121\u213B\u2207\u29B5\uFC5B-\uFC5D\uFC63\uFC90\uFCD9\u2070\u2071\u2074-\u208E\u2090-\u209C\u0345\u0656\u17D2\u1D62-\u1D6A\u2A27\u2C7C]+/g', '', text)
     return text
 
-@background(schedule=0)
-def get_document(query,email,temperature):
+def get_contents(query):
     links=search(query,num_results=10) 
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -160,6 +159,11 @@ def get_document(query,email,temperature):
     for article in articles:
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
+    return contents        
+
+@background(schedule=0)
+def get_document(query,email,temperature):
+    contents=get_contents()
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     print(main_article)
@@ -169,4 +173,4 @@ def get_document(query,email,temperature):
     article='\n\n'.join(list_para)
     # article_paraphrased=paraphrase(article)
     send_email('Temperature: '+str(temperature)+' - '+query,str(article),email)
-    return article
+    return 'done'

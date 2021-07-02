@@ -39,10 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'background_task',
+    'google_analytics',
     'crispy_forms',
     'blog',
     'writer'
 ]
+
+GOOGLE_ANALYTICS = {
+    'google_analytics_id': 'UA-201161327-1',
+}
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -141,6 +147,6 @@ EMAIL_HOST_PASSWORD = '4f99da1a15d62b6ba6db756c117cc541-1f1bd6a9-c5600578'
 EMAIL_USE_TLS = True
 BACKGROUND_TASK_ASYNC_THREADS = 300
 BACKGROUND_TASK_RUN_ASYNC = False
-MAX_RUN_TIME = 240
+MAX_RUN_TIME = 320
 # BACKGROUND_TASK_ASYNC_THREADS = 4
 
