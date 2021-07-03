@@ -94,6 +94,7 @@ def get_main_article(documents):
 
 def get_main_paragraphs(main_article,scaler=0.1):  
     nlp = en_core_web_md.load()
+    print("scaler"+str(scaler))
     paragraphs=[]
     sentence_list=main_article.replace('\n','').split('.')
     for i in range(0,len(sentence_list)):
@@ -116,7 +117,7 @@ def get_main_paragraphs(main_article,scaler=0.1):
     for paragraph in paragraphs:
         if len(paragraph)>16 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
-    if len(cleaned_paragraphs)<4:
+    if len(cleaned_paragraphs)<3:
         get_main_paragraphs(main_article,scaler+0.1)
 
     return cleaned_paragraphs        
