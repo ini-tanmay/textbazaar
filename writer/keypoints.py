@@ -6,20 +6,26 @@ from nltk.corpus import stopwords
 import os
 from django.conf import settings
 import nltk
-nltk.download('stopwords')
 from background_task import background
 from .email import *
 from sklearn.metrics.pairwise import cosine_similarity
 
 def extract_word_vectors():
     word_embeddings = {}
-    f= open(os.path.join(settings.BASE_DIR, 'glove.6B.50d.txt'),encoding='utf-8')
-    for line in f:
+    f1= open(os.path.join(settings.BASE_DIR, 'glove.6B.50d.1.txt'),encoding='utf-8')
+    for line in f1:
         values = line.split()
         word = values[0]
         coefs = np.asarray(values[1:], dtype='float32')
         word_embeddings[word] = coefs
-    f.close()
+    f1.close()
+    f2= open(os.path.join(settings.BASE_DIR, 'glove.6B.50d.2.txt'),encoding='utf-8')
+    for line in f2:
+        values = line.split()
+        word = values[0]
+        coefs = np.asarray(values[1:], dtype='float32')
+        word_embeddings[word] = coefs
+    f2.close()        
     return word_embeddings
 
 # function to remove stopwords
