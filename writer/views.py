@@ -86,13 +86,16 @@ def logout_user(request):
 
 @login_required(login_url='login')
 def query(request):
-    if request.method == 'POST':
+    title=request.POST.get("query")
+    if request.method == 'POST' and title!= None and len(title)>2:
         user=User.objects.get(id=request.user.id)
-        query = request.POST.get("query")     
+        if request.POST.get('keypoints')!=None:
+            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
+            return get_keypoints(request,title)
         temperature = float(request.POST.get("customRange"))
-        send_email('Temperature: '+str(temperature),query,user.email)
-        list_para = get_document(query,user.email,temperature)
-        messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(query))  
+        send_email('Temperature: '+str(temperature),title,user.email)
+        list_para = get_document(title,user.email,temperature)
+        messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
         return render(request,'writer/dashboard.html')
     else:
         return HttpResponse('Invalid URL')    
@@ -100,14 +103,4 @@ def query(request):
 def get_keypoints(request,query):
     contents=get_contents(query)
     value=summarize(contents)
-
-    # if request.method == 'POST':
-    #     user=User.objects.get(id=request.user.id)
-    #     query = request.POST.get("query")     
-    #     temperature = float(request.POST.get("customRange"))
-    #     send_email('Temperature: '+str(temperature),query,user.email)
-    #     list_para = get_document(query,user.email,temperature)
-    #     messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(query))  
-    #     return render(request,'writer/dashboard.html')
-    # else:
-    return HttpResponse(str(value))    
+    return render(request,'writer/dashboard.html')   
