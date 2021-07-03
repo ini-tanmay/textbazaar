@@ -78,6 +78,6 @@ def summarize(text):
         no_of_lines=len(ranked_sentences)
     summary=''
     for i in range(no_of_lines):
-      summary+=ranked_sentences[i][1]+'%0A'
+      summary+=ranked_sentences[i][1]+' %0A '
     send_email('This is a summary', summary, 'tanmay.armal@somaiya.edu')    
     return 'done'  
