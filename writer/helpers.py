@@ -170,7 +170,7 @@ def get_document(query,email,temperature):
     print('main article: '+main_article)
     paragraphs=get_main_paragraphs(main_article)
     list_para= parse_final_document(paragraphs,contents,temperature)
-    print('list para '+len(list_para))
+    print('list para '+str(len(list_para)))
     article='\n\n'.join(list_para)
     # article_paraphrased=paraphrase(article)
     send_email('Temperature: '+str(temperature)+' - '+query,str(article),email)
