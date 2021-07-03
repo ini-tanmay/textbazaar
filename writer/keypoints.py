@@ -47,13 +47,13 @@ def clean_all_sentences(contents):
     clean_sentences = [s.lower() for s in clean_sentences]
     # remove stopwords from the sentences
     clean_sentences = [remove_stopwords(r.split()) for r in clean_sentences]
-    return clean_sentences
-
+    return clean_sentences,sentences
+    
 @background(schedule=0)
 def summarize(text):
-    clean_sentences=clean_all_sentences(text)
+    no_of_lines=30
+    clean_sentences,sentences=clean_all_sentences(text)
     sentence_vectors = []
-    word_embeddings=extract_word_vectors()
     for i in clean_sentences:
         if len(i) != 0:
             v = sum([word_embeddings.get(w, np.zeros((50,))) for w in i.split()])/(len(i.split())+0.001)
@@ -61,21 +61,20 @@ def summarize(text):
             v = np.zeros((50,))
         sentence_vectors.append(v)
     # similarity matrix
-    sim_mat = np.zeros([len(clean_sentences), len(clean_sentences)])
-    for i in range(len(clean_sentences)):
-        for j in range(len(clean_sentences)):
+    sim_mat = np.zeros([len(sentences), len(sentences)])
+    for i in range(len(sentences)):
+        for j in range(len(sentences)):
             if i != j:
                 sim_mat[i][j] = cosine_similarity(sentence_vectors[i].reshape(1,50), sentence_vectors[j].reshape(1,50))[0,0]
        #textrank 
     nx_graph = nx.from_numpy_array(sim_mat)
     scores = nx.pagerank(nx_graph)
-    ranked_sentences = sorted(((scores[i],s) for i,s in enumerate(clean_sentences)), reverse=True)
+    ranked_sentences = sorted(((scores[i],s) for i,s in enumerate(sentences)), reverse=True)
     # Extract top n sentences as the summary
-    # if no_of_lines==0:
-    no_of_lines=len(ranked_sentences)
+    if len(ranked_sentences)<30:
+        no_of_lines=len(ranked_sentences)
     summary=''
     for i in range(no_of_lines):
-      print(ranked_sentences[i][1])
-      summary+='\n'+ranked_sentences[i][1]  
+      summary+=ranked_sentences[i][1]+'/n'
     send_email('This is a summary', summary, 'tanmay.armal@somaiya.edu')    
     return 'done'  
