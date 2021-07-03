@@ -51,10 +51,10 @@ def clean_all_sentences(contents):
     return clean_sentences,sentences
     
 @background(schedule=0)
-def summarize(text):
+def summarize(query):
     contents=get_contents(query)
     no_of_lines=30
-    clean_sentences,sentences=clean_all_sentences(text)
+    clean_sentences,sentences=clean_all_sentences(contents)
     word_embeddings=extract_word_vectors()
     sentence_vectors = []
     for i in clean_sentences:
