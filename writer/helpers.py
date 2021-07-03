@@ -84,7 +84,7 @@ def get_main_article(documents):
             temp_article=content
             print('temp_a'+temp_article)
             documents.remove(content)
-        if temp_article=='':
+        if not temp_article:
             print('first occurence is false')
             temp_article=documents[0]
             print('temp_a'+temp_article)
