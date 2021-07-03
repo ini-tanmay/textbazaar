@@ -9,6 +9,7 @@ import nltk
 from background_task import background
 from .email import *
 from sklearn.metrics.pairwise import cosine_similarity
+from .helpers import * 
 
 def extract_word_vectors():
     word_embeddings = {}
@@ -51,6 +52,7 @@ def clean_all_sentences(contents):
     
 @background(schedule=0)
 def summarize(text):
+    contents=get_contents(query)
     no_of_lines=30
     clean_sentences,sentences=clean_all_sentences(text)
     word_embeddings=extract_word_vectors()

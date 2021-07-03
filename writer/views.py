@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .helpers import * 
 from .forms import *
 from .models import *
 from background_task.models import Task
@@ -101,6 +100,5 @@ def query(request):
         return HttpResponse('Invalid URL')    
 
 def get_keypoints(request,query):
-    contents=get_contents(query)
     value=summarize(contents)
     return render(request,'writer/dashboard.html')   
