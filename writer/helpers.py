@@ -80,10 +80,14 @@ def get_main_article(documents):
     temp_article=''
     for content in documents:
         if paragraphs_count(content)>3 and (3200<len(content)<10000):
+            print('first occurence is true')
             temp_article=content
+            print('temp_a'+temp_article)
             documents.remove(content)
         if temp_article=='':
+            print('first occurence is false')
             temp_article=documents[0]
+            print('temp_a'+temp_article)
             documents.remove(documents[0])
         return temp_article
              
