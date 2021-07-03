@@ -73,7 +73,14 @@
 			<h2 class="mt-15 mb-55 small" data-aos="fade-down" data-aos-delay="250">
 				Pricing that scales with your business &#128516
 			</h2>
-
+			{% if user.is_authenticated %}
+		<a name="razorpay">
+<form><script src="https://cdn.razorpay.com/static/widget/subscription-button.js" data-subscription_button_id="pl_HUcf2WZ9BxUdoY" data-button_theme="brand-color" async> </script> </form>
+			</a>
+			<hr>
+			Note: Although text generation is extremely expensive due to the requirement of having hosted Nvidia GPUs, point to be noted: You buy access for a given time period, not CUs. CUs are used to track upper usage boundaries for different subscription tiers. They do not carry over from month to month or between different plans. In the case that you require more Computing Units, you can buy more seperately in your dashboard.
+			<hr>
+			{% endif %}
 			<div class="row justify-content-center no-gutters">
 				<div class="col-xl-10">
 					<div class="row justify-content-center">
@@ -83,112 +90,106 @@
 								Enterprise
 							</div>
 							<div class="mt-10 color-heading subtitle">
-							First credit for &#8377;199999
+							&#8377;39999 per week
 							</div>
 							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
 								<i class="fas fa-building">
 								</i>
 							</div>
-							<a href="/payment?plan=enterprise" class="btn mt-40 border-gray color-main">
-								Contact Sales
+					        <a href="/payment?plan=startup" class="btn mt-40 border-gray color-main">
+								Get Started
 							</a>
 							<div class="mt-45 text-adaptive">
 								<div>
-									SEO focused, relevant, and unique content in your brand's voice
+                                Recommended for businesses that want to increase their brand visibility or create research-extensive articles. Companies operating in the tech/finance/banking/health sector usually take this plan.
 								</div>
                                 <hr>
 								<div>
-									Article of 98+% accuracy delivered within minutes for banking/finance/tech/health related articles which can have many unique viewpoints or requires extensive research
+								Human Editors at no extra cost for articles on request
 								</div>
-                                                                <hr>
+                                <hr>
 								<div>
-								 guaranteed
+								90%+ relevancy & accuracy guaranteed
 								</div>
-                                                                <hr>
-
+                                <hr>
 								<div>
-									Extra credits available at &#8377;2.39 per article
+								Maximum of 15 computing credits per week: Full Articles & Article chief key points (Top 10 + Top 30 + Top 50)
 								</div>
-                                                                <hr>
-
+                                <hr>
 								<div class="color-heading text-adaptive">
-									Email Support
+								24/7 Email Support
 								</div>
 							</div>
-						</div>
-
-                        						<div class="col-lg-3 col-md-5 col-sm-6 mb-70 mb-sm-0 block" data-aos="fade-down" data-aos-delay="500">
+						    </div>
+                        	<div class="col-lg-3 col-md-5 col-sm-6 mb-70 mb-sm-0 block" data-aos="fade-down" data-aos-delay="500">
 							<div class="f-22 title">
 								Pro
 							</div>
 							<div class="mt-10 color-heading subtitle">
-								First credit for &#8377;9999
+								&#8377;39999 per month
 							</div>
 							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
 								<i class="fas fa-heart">
 								</i>
 							</div>
-							<a href="/payment?plan=pro" class="btn mt-40 action-1">
+					        <a href="/payment?plan=enterprise" class="btn mt-40 action-1">
 								Get Started
 							</a>
 							<div class="mt-45 text-adaptive">
 								<div>
-									SEO focused, relevant, and unique content
-								</div>
-                                                                <hr>
-
+                                Recommended for customer obsessed businesses that want to improve their SEO ASAP as well as provide helpful, relevant, and informative content to their valued customers							</div>
+                                <hr>
 								<div>
-									Fields included: Fields in Startup + listOfAuthors, videoURLs, imageURLs, articleContent
+								90%+ relevancy & accuracy guaranteed
 								</div>
-                                                                <hr>
-
+                                <hr>
 								<div>
-									Delivered within 2 minutes 
+								Delivered within 2 minutes 
 								</div>
-                                                                <hr>
-
+                                <hr>
 								<div>
-									Extra credits available at &#8377;1.47 per article
+								Maximum of 30 computing credits per month: Full Articles & Article key points (Top 30 chief points)
 								</div>
-                                                                <hr>
-
+                                <hr>
 								<div class="color-heading text-adaptive">
-									Email Support
+								20/7 Email Support
 								</div>
 
 							</div>
 						</div>
-
-
-
 						<div class="col-lg-3 col-md-5 col-sm-6 mb-70 mb-lg-0 block" data-aos="fade-down" data-aos-delay="250">
 							<div class="f-22 title">
 								Startup
 							</div>
-							<div class="mt-10 color-heading subtitle">First article for &#8377;6799</div>
+							<div class="mt-10 color-heading subtitle">&#8377;18999 per month</div>
 							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
 								<i class="fas fa-bomb">
 								</i>
 							</div>
-							<a href="/payment?plan=startup" class="btn mt-40 border-gray color-main">
+					        <a href="/payment?plan=startup" class="btn mt-40 border-gray color-main">
 								Get Started
 							</a>
 							<div class="mt-45 text-adaptive">
 								<div>
-									SEO focused, relevant, and unique content
+								Recommended for businesses that want to boost &#x1F680; their present content creators' creativity &#x1F3A8; & productivity &#x270D;
 								</div>
                                 <hr>
 								<div>
-									Delivered within 2 minutes
+								Delivered within 2 minutes
 								</div>
                                 <hr>
 								<div>
-								    Minimum 80% accuracy guaranteed
+								80%+ relevancy & accuracy guaranteed
 								</div>
                                 <hr>
 								<div>
-									Extra articles billed at &#8377;4199 per article
+								Maximum of 15 computing credits per month: Full Articles & Article key points (Top 10 chief points)
 								</div>
+								<hr>
+								<div class="color-heading text-adaptive">
+								16/7 Email Support
+								</div>
+
 							</div>
 						</div>
 						</div>
@@ -197,7 +198,7 @@
 			</div>
 		</div>
 		<br>
-	Note: Prices shown on this page increases every few months
+	Note: Prices shown on this page may increase every few months
 
 	</section>
     <hr>

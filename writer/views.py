@@ -28,27 +28,33 @@ def panel(request):
 @login_required(login_url='login')
 def plan_payment(request):
     if request.user.is_authenticated:
-        plan=request.GET.get('plan','startup')
-        user=User.objects.get(id=request.user.id)
-        if user.plan==plan:
-           return redirect('/dashboard')
-        amount=159900
-        if plan == 'pro':
-            amount =999900
-        elif plan == 'enterprise':
-            amount = 1999900
-        client = razorpay.Client(auth=('rzp_test_svl7FsV5sWZ9Yc','rX3FSooP6Q7ghiHC0OIv8gWk'))
-        response = client.order.create(dict(amount=amount,currency='INR',notes={
-        "username": request.user.username ,
-        "email": request.user.email ,
-        "id": request.user.id,
-        'purchase':plan 
-        },
-        receipt= str(request.user.id)+'_'+plan+'_'+str(int(datetime.now().timestamp()*1000))+'_'+str(int(amount/100))))
-        print(response)
-        context = {'response':response,'plan':plan}                                                                             
-        return render(request,"writer/payment.html",context)
-    return redirect('/')    
+        return redirect('/pricing#razorpay')
+    return redirect('/') 
+
+# @login_required(login_url='login')
+# def plan_payment(request):
+#     if request.user.is_authenticated:
+#         plan=request.GET.get('plan','startup')
+#         user=User.objects.get(id=request.user.id)
+#         if user.plan==plan:
+#            return redirect('/dashboard')
+#         amount=159900
+#         if plan == 'pro':
+#             amount =999900
+#         elif plan == 'enterprise':
+#             amount = 1999900
+#         client = razorpay.Client(auth=('rzp_test_svl7FsV5sWZ9Yc','rX3FSooP6Q7ghiHC0OIv8gWk'))
+#         response = client.order.create(dict(amount=amount,currency='INR',notes={
+#         "username": request.user.username ,
+#         "email": request.user.email ,
+#         "id": request.user.id,
+#         'purchase':plan 
+#         },
+#         receipt= str(request.user.id)+'_'+plan+'_'+str(int(datetime.now().timestamp()*1000))+'_'+str(int(amount/100))))
+#         print(response)
+#         context = {'response':response,'plan':plan}                                                                             
+#         return render(request,"writer/payment.html",context)
+#     return redirect('/')    
 
 
 def create(request):
