@@ -6,7 +6,7 @@ urlpatterns = [
     path('pricing',pricing),
     path('dashboard',panel),
     path('create',create),
-    # path('payment',plan_payment),
+    path('payment',plan_payment),
     # path('credits_payment',credits_payment),
     # path('success',payment_success,name='success'),
     path('signup',register),
