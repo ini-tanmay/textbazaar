@@ -53,6 +53,7 @@ def clean_all_sentences(contents):
 def summarize(text):
     no_of_lines=30
     clean_sentences,sentences=clean_all_sentences(text)
+    word_embeddings=extract_word_vectors()
     sentence_vectors = []
     for i in clean_sentences:
         if len(i) != 0:
