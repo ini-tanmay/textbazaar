@@ -82,19 +82,17 @@ def get_main_article(documents):
         if paragraphs_count(content)>3 and (3200<len(content)<10000):
             print('first occurence is true')
             temp_article=content
-            print('temp_a'+temp_article)
             documents.remove(content)
             return temp_article
     if not temp_article:
         print('first occurence is false')
         temp_article=documents[0]
-        print('temp_a'+temp_article)
         documents.remove(documents[0])
     return temp_article
              
         
 
-def get_main_paragraphs(main_article):  
+def get_main_paragraphs(main_article,scaler=0.1):  
     nlp = en_core_web_md.load()
     paragraphs=[]
     sentence_list=main_article.replace('\n','').split('.')
@@ -105,7 +103,7 @@ def get_main_paragraphs(main_article):
             cleaned_doc1 = nlp(' '.join([str(t) for t in sentence_doc if not t.is_stop]))
             cleaned_doc2 = nlp(' '.join([str(t) for t in paragraph_doc if not t.is_stop]))
             similarity=cleaned_doc1.similarity(cleaned_doc2)
-            if similarity>0.5:
+            if similarity>0.45+scaler:
                 if len(paragraphs)==0:
                     paragraphs.append(sentence_list[i])
                 else:    
@@ -116,8 +114,10 @@ def get_main_paragraphs(main_article):
     cleaned_paragraphs=[]
 
     for paragraph in paragraphs:
-        if len(paragraph)>25 and '.' in paragraph:
+        if len(paragraph)>16 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
+    if len(cleaned_paragraphs)<4:
+        get_main_paragraphs(main_article,scaler+0.1)
 
     return cleaned_paragraphs        
 
