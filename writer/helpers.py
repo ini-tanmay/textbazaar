@@ -163,7 +163,7 @@ def get_contents(query):
 
 @background(schedule=0)
 def get_document(query,email,temperature):
-    contents=get_contents()
+    contents=get_contents(query)
     contents.sort(key=paragraphs_count)
     main_article=get_main_article(contents)
     print(main_article)
