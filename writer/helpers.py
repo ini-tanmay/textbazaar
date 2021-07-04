@@ -115,7 +115,7 @@ def get_main_paragraphs(main_article,scaler=0.1):
     cleaned_paragraphs=[]
 
     for paragraph in paragraphs:
-        if len(paragraph)>16 and '.' in paragraph:
+        if len(paragraph)>12 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
     if len(cleaned_paragraphs)<3 and scaler!=0.9:
         return get_main_paragraphs(main_article,scaler+0.1)
