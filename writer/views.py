@@ -14,7 +14,10 @@ import razorpay
 
 @csrf_exempt
 def index(request):
-    return render(request,'writer/index.html')
+    user_agent = request.META['HTTP_USER_AGENT']
+    if 'Mobile' in user_agent:
+        return render(request,'writer/index.html')
+    return render(request,'writer/index_desktop.html')
 
 def pricing(request):
     return render(request,'writer/pricing.html')

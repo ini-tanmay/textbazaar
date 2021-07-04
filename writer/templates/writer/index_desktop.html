@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+	<meta charset="utf-8"/>
+	<title>bootstrap 4 landing page with slider</title>
+	<!-- bootstrap cdn -->
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+	<!-- font awesome cdn -->
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<!-- style.css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/index2.css' %}"/>
+	<!-- jquery cdn -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link href=" {% static 'css/style.min.css' %} " rel="stylesheet" />
+
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 navbar">
+				<a href="/" class="logo navbar-brand text-white offset-md-2">TextBazaar</a>
+					<ul class="nav">
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="/pricing" class="nav-link">Pricing</a></li>
+					<li class="nav-item"><a href="/" class="nav-link">Blog (Coming soon)</a></li>
+					<li class="nav-item"><a href="mailto:letstalk@textbazaar.me" class="nav-link">Contact Us</a></li>
+					{% if user.is_authenticated %}
+				   <a href="/dashboard" class="btn mr-20 sm action-2 f-16">
+				   View Dashboard
+				   </a>
+					{% else %}
+					<a href="/login" class="link mr-20 color-main">
+						Sign In
+					</a>
+					<a href="/signup" class="btn mr-20 sm action-2 f-16">
+						Sign Up
+					</a>
+					{% endif %}
+				</ul> 
+			</div>
+
+			<!-- slider banner	 -->
+
+			<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			  <ol class="carousel-indicators">
+			    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+			    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			  </ol>
+
+			  <div class="carousel-inner">
+			    <div class="carousel-item active">
+			    	<div class="info">
+			<header class="pt-195 pb-110 header_1" data-bg-src="{% static 'uploads/textbazaar_bg.jpg' %}" data-bg-src-2x="{% static 'uploads/textbazaar_bg.jpg' %}" >
+				<div class="container"  style=" width: 100%; height: auto;">
+					<div class="mb-3 text-center d-block d-xl-none">
+						<a href="#" class="link img_link">
+							<img src=" {% static 'uploads/textbazaar.png' %} " alt="Logo" class="img-fluid" data-aos="fade-down" data-aos-delay="0">
+						</a>
+					</div>
+					<h1 class="big text-center color-bg-light" data-aos="fade-down" data-aos-delay="0">
+						TextBazaar (beta)
+					</h1>
+					<div class="mx-auto mt-30 f-36 text-center text-adaptive color-bg-dark bold text-capitalize mw-900" data-aos="fade-down" data-aos-delay="250">
+						The only way to create SEO focused articles within minutes. Powered with <a href='https://openai.com' class="text-warning">OpenAI's GPT</a> autoregressive language model.
+					</div>
+					<br>
+					<br>
+					<br>
+			<center>
+				<div data-aos="fade-down" data-aos-delay="250">
+					<a href="/signup" class="btn lg action-twitter">
+						Get Started
+					</a>
+				</div>
+			</center>
+
+					<div class="mt-80 text-center buttons" data-aos="fade-down" data-aos-delay="500">
+						<div data-bg-src=" {% static 'uploads/newsapp.png' %} " data-bg-src-2x="uploads/newsapp.png">
+						</div>
+						<div>
+						</div>
+					</div>
+				</div>
+			</header>
+			      	</div>
+			    </div>
+            <!-- first page ^  -->
+			    <div class="carousel-item">
+                    <div class="info">
+           <section class="pt-105 pb-95  content_2" >
+		<div class="container px-xl-0 text-center" >
+			<div class="row justify-content-center">
+				<div class="col-xl-8 col-lg-10">
+					<h2 data-aos="fade-down" data-aos-delay="0" style=" color: white;" >
+						Rank high on Google Search - even in the age of AdBlock
+					</h2>
+				</div>
+				<div class="col-xl-7 col-lg-9 col-md-10">
+					<div class="mt-35 f-26 bold color-heading op-10 italic text-adaptive" data-aos="fade-down" data-aos-delay="250" style=" color: white; background-color: red; font-family: Playfair Display;">
+						Whether you are a freelancer, small startup, or a global enterprise, our content creation solution makes the gears go faster for any business that needs a larger presence on the WWW.
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</div>
+            <!-- page 2 ^ -->
+			    <div class="carousel-item">
+			    	<div class="info">
+                    <section class="pt-80 pb-80  application_2 text-warning">
+						<div class="row justify-content-center justify-content-md-between align-items-center">
+							<div class="mb-15 mb-md-0 col-12 col-md-6 col-xl-6 d-flex justify-content-center">
+								<img src=" {% static 'uploads/obi-onyeador-qXfD_nG4j-U-unsplash-removebg-preview.png' %} " srcset="uploads/obi-onyeador-qXfD_nG4j-U-unsplash-removebg-preview.png 2x" alt="" class="img-fluid application_2_center_img vw-100" data-aos="fade-down" data-aos-delay="500">
+							</div>
+							<div class="col-md-7 col-xl-6">
+								<h2 class="col-lg-11 color-main" data-aos="fade-down" data-aos-delay="0">
+                                    <br>
+									Extraaa Benefits
+								</h2>
+								<div class="mt-25 col-lg-9 color-heading f-18 text-adaptive" data-aos="fade-down" data-aos-delay="0">
+								Multiple use cases ranging from Data Science to improvements in your SEO.
+								</div>
+								<div class="mt-95 row">
+									<div class="col-6 col-lg-4 pb-25 with_borders" data-aos="fade-down" data-aos-delay="250">
+										<img src=" {% static 'i/application_2_img_2.png' %} " srcset="i/application_2_img_2@2x.png 2x" alt="" class="pl-15">
+										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
+											Suggested videos & images for each article
+										</div>
+									</div>
+									<div class="col-6 col-lg-4 pb-25 with_borders" data-aos="fade-down" data-aos-delay="250">
+										<img src=" {% static 'i/application_2_img_3.png' %} " srcset="i/application_2_img_3@2x.png 2x" alt="" class="pl-15">
+										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
+											Suggested images input right where you'd want it. You'd think TextBazaar can read your mind!
+										</div>
+									</div>
+									<div class="col-6 col-lg-4 pb-25 with_borders" data-aos="fade-down" data-aos-delay="500">
+										<img src=" {% static 'i/application_2_img_4.png' %} " srcset="i/application_2_img_4@2x.png 2x" alt="" class="pl-15">
+										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
+											Unique & Plagiarism Free Content. Always.
+										</div>
+									</div>
+									<div class="col-6 col-lg-4 pb-25 pt-35 with_borders" data-aos="fade-down" data-aos-delay="500">
+										<img src=" {% static 'i/application_2_img_5.png' %} " srcset="i/application_2_img_5@2x.png 2x" alt="" class="pl-15">
+										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
+											Use great SEO to fight against AdBlock ruining your SEM campaigns.
+										</div>
+									</div>
+									<div class="col-6 col-lg-4 pb-25 pt-35 with_borders" data-aos="fade-down" data-aos-delay="750">
+										<img src=" {% static 'i/application_2_img_6.png' %} " srcset="i/application_2_img_6@2x.png 2x" alt="" class="pl-15">
+										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
+											Versatile API for Enterprise
+										</div>
+									</div>
+									<div class="col-6 col-lg-4 pb-25 pt-35 with_borders" data-aos="fade-down" data-aos-delay="750">
+										<img src=" {% static 'i/application_2_img_7.png' %} " srcset="i/application_2_img_7@2x.png 2x" alt="" class="pl-15">
+										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
+											Make great content within minutes!
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</section>
+			      	</div>
+			    </div>
+			  </div>
+			  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="sr-only">Previous</span>
+			  </a>
+			  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="sr-only">Next</span>
+			  </a>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- scripts -->
+	<!-- bootstrap javascript cdn -->
+	<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
