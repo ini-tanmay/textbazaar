@@ -117,7 +117,7 @@ def get_main_paragraphs(main_article,scaler=0.1):
     for paragraph in paragraphs:
         if len(paragraph)>12 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
-    if len(cleaned_paragraphs)<3 and scaler!=0.9:
+    if len(cleaned_paragraphs)<3 and scaler!=0.5:
         return get_main_paragraphs(main_article,scaler+0.1)
 
     return cleaned_paragraphs        
@@ -178,6 +178,6 @@ def get_document(query,email,temperature):
     list_para= parse_final_document(paragraphs,contents,temperature)
     print('list para '+str(len(list_para)))
     article='\n\n'.join(list_para)
-    # article_paraphrased=paraphrase(article)
-    send_email('Temperature: '+str(temperature)+' - '+query,str(article),email)
+    article_paraphrased=paraphrase(article)
+    send_email('Temperature: '+str(temperature)+' - '+query,str(article_paraphrased),email)
     return 'done'

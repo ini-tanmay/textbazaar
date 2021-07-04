@@ -11,8 +11,8 @@ class User(auth.models.User):
     ('enterprise','Enterprise'),
     )
     plan = models.CharField(max_length = 12,choices=PLAN_CHOICES,default='startup')
-    credits_bought=models.IntegerField(default=0)
-    # credits_used=models.IntegerField(default=0)
+    credits_bought=models.IntegerField(default=3)
+    credits_used=models.IntegerField(default=0)
     plan_order_id=models.CharField(max_length=50)    
     credit_order_id=models.CharField(max_length=50)    
     last_plan_bought=models.DateTimeField(auto_now_add=True)

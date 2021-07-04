@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'background_task',
     'google_analytics',
     'crispy_forms',
@@ -49,6 +50,7 @@ GOOGLE_ANALYTICS = {
     'google_analytics_id': 'UA-201161327-1',
 }
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

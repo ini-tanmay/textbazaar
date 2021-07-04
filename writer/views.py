@@ -12,6 +12,7 @@ from .keypoints import *
 from django.views.decorators.csrf import csrf_exempt
 import razorpay 
 
+
 @csrf_exempt
 def index(request):
     user_agent = request.META['HTTP_USER_AGENT']

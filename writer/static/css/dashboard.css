@@ -187,7 +187,6 @@ td, th {
 .circle-wrap .circle .mask.full,
 .circle-wrap .circle .fill {
   animation: fill ease-in-out 3s;
-  transform: rotate(126deg);
 }
 
 @keyframes fill {
