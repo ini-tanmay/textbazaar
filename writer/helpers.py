@@ -10,7 +10,7 @@ import json
 import re
 import spacy
 import en_core_web_md
-
+from .models import User, Article
 
 class Sentence:
     
@@ -179,5 +179,8 @@ def get_document(query,email,temperature):
     print('list para '+str(len(list_para)))
     article='\n\n'.join(list_para)
     article_paraphrased=paraphrase(article)
+    user=User.objects.filter(email=email)
+    article=Article(user=user,title=query,content=article)
+    article.save()
     send_email('Temperature: '+str(temperature)+' - '+query,str(article_paraphrased),email)
     return 'done'

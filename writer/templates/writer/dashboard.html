@@ -17,7 +17,9 @@
 	<div id="mySidenav" class="sidenav">
 	<p class="logo">TextBazaar</p>
   <!-- <a href="#" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a> -->
+  {% if user.credits_bought|sub:user.credits_used != 0 %}
   <a href="/create"class="icon-a"><i class="fa fa-users icons"></i> &nbsp;&nbsp;Create article</a>
+  {% endif %}
   <a href="#"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;All Articles</a>
   <!--  <a href="#"class="icon-a"><i class="fa fa-shopping-bag icons"></i> &nbsp;&nbsp;Orders</a>
   <a href="#"class="icon-a"><i class="fa fa-tasks icons"></i> &nbsp;&nbsp;Inventory</a>
@@ -77,18 +79,18 @@
 	<div class="col-div-4">
 		<div class="box-4">
 		<div class="content-box">
-			<p>{{ user.credits_bought|subtract:user.credits_used }} Compute Credits Left <br><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUtk8XfXd4nUwq" async> </script> </form></p>
-			<div class="circle-wrap">
-    <div class="circle">
-      <div class="mask full"  style="transform: rotate(23deg);">
+			<p>{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p><br><br><hr><br> <center><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUtk8XfXd4nUwq" async> </script> </form></center>
+			 <!-- <div class="circle-wrap">
+   <div class="circle">
+      <div class="mask full"  style="transform: rotate(180deg);">
         <div class="fill"></div>
       </div>
       <div class="mask half">
         <div class="fill"></div>
       </div>
       <div class="inside-circle"> 40% </div>
-    </div>
-  </div>
+    </div> 
+  </div>-->
 		</div>
 	</div>
 	</div>
