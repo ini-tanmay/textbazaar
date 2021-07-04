@@ -9,6 +9,7 @@
 {% load static %}
   <head>
     <meta charset="UTF-8">
+		<link rel="icon" href=" {% static 'uploads/favicon.ico' %} " type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,10 +22,8 @@
     <title>Sign Up to TextBazaar</title>
   </head>
   <body>
-    <a href="/" class="link img_link">
-        <img src=" {% static 'uploads/textbazaar.png' %} " height="100" width="100" alt="Logo" data-aos="fade-down" data-aos-delay="250">
-    </a>
-        <div class="container">
+  <a href="/" class="logo navbar-brand text-black"><- TextBazaar</a>
+      <div class="container">
       <div class="row justify-content-center">
         <div class="col-8">
           <h1 class="mt-2">Sign up for TextBazaar</h1>
@@ -35,7 +34,7 @@
       {{ form|crispy }}
 
     <center>
-      By clicking Sign up you are agreeing to the <a href="/terms" class="link">Terms of Use</a><br>
+      <!-- By clicking Sign up you are agreeing to the <a href="/terms" class="link">Terms of Use</a><br> -->
       <hr>
       <button type="submit" class="btn btn-success">Sign up
       </button>
