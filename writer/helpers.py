@@ -117,8 +117,8 @@ def get_main_paragraphs(main_article,scaler=0.1):
     for paragraph in paragraphs:
         if len(paragraph)>16 and '.' in paragraph:
             cleaned_paragraphs.append(paragraph)
-    if len(cleaned_paragraphs)<3:
-        get_main_paragraphs(main_article,scaler+0.1)
+    if len(cleaned_paragraphs)<3 and scaler!=0.9:
+        return get_main_paragraphs(main_article,scaler+0.1)
 
     return cleaned_paragraphs        
 
@@ -140,7 +140,7 @@ def parse_final_document(cleaned_paragraphs,documents,temperature):
                         cleaned_doc1 = nlp(' '.join([str(t) for t in doc1 if not t.is_stop]))
                         cleaned_doc2 = nlp(' '.join([str(t) for t in doc2 if not t.is_stop]))
                         similarity=cleaned_doc1.similarity(cleaned_doc2)
-                        if similarity>points[main_line].similarity and similarity>0.82 and main_line not in other_line:
+                        if similarity>points[main_line].similarity and similarity>0.82 and similarity<0.985 and main_line not in other_line:
                             points[main_line]=(Sentence(other_line,similarity))
                 try:       
                     index=notes.index(points[main_line].text)
@@ -149,7 +149,7 @@ def parse_final_document(cleaned_paragraphs,documents,temperature):
                     pass
     return notes
 
-def remove_urls (vTEXT):
+def remove_urls(vTEXT):
     text = re.sub(r'(https|http)?:\/\/(\w|\.|\/|\?|\=|\&|\%|\-)*\b', '', vTEXT, flags=re.MULTILINE)
     text = re.sub(r'\[\d+\]', '', text)
     text = re.sub(r'/[\u006E\u00B0\u00B2\u00B3\u00B9\u02AF\u0670\u0711\u2121\u213B\u2207\u29B5\uFC5B-\uFC5D\uFC63\uFC90\uFCD9\u2070\u2071\u2074-\u208E\u2090-\u209C\u0345\u0656\u17D2\u1D62-\u1D6A\u2A27\u2C7C]+/g', '', text)
