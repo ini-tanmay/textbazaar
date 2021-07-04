@@ -18,9 +18,9 @@
 	font-weight: 750;
 	letter-spacing: 2px;
 }
-.navbar ul.nav{
+/* .navbar ul.nav{
 	margin-right: 15%;
-}
+} */
 .navbar ul.nav li.active,
 .navbar ul.nav li:hover{
 	background:rgba(255, 255, 255, 0.5);

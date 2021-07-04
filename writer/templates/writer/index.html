@@ -32,7 +32,7 @@
 	</head> 
 	<body>
 <!-- Navigation 1 -->
-	<nav class="pt-30 pb-30 bg-light text-center navigation_1">
+	<nav class="pt-30 pb-30 bg-dark text-center navigation_1">
 		<div class="container px-xl-0">
 			<div class="row justify-content-center align-items-center f-16">
 				<div class="mb-20 mb-lg-0 col-lg-3 text-lg-left">
@@ -41,10 +41,10 @@
 					</a>
 				</div>
 				<div class="col-lg-6" data-aos="fade-down" data-aos-delay="0">
-					<a href="/" class="link mx-15 color-main">
+					<a href="/" class="link mx-15 color-bg-light">
 						Blog (Coming soon)
 					</a>
-					<a href="/pricing" class="link mx-15 color-main">
+					<a href="/pricing" class="link mx-15 color-bg-light">
 						Pricing
 					</a>
 				</div>
@@ -54,7 +54,7 @@
 				   View Dashboard
 				   </a>
 					{% else %}
-					<a href="/login" class="link mr-20 color-main">
+					<a href="/login" class="btn mr-20 sm action-3 f-16 color-bg-light">
 						Sign In
 					</a>
 					<a href="/signup" class="btn mr-20 sm action-2 f-16">
@@ -66,18 +66,13 @@
 			</div>
 		</div>
 	</nav>
-			<header class="pt-195 pb-110 bg-light header_1" data-bg-src="{% static 'uploads/newsapp.png' %}" data-bg-src-2x="{% static 'uploads/newsapp.png' %}" >
+			<header class="pt-195 pb-110 bg-light header_1" data-bg-src="{% static 'uploads/textbazaar_bg.jpg' %}" data-bg-src-2x="{% static 'uploads/textbazaar_bg.jpg' %}" >
 				<div class="container"  style=" width: 100%; height: auto;">
-					<div class="mb-3 text-center d-block d-xl-none">
-						<a href="#" class="link img_link">
-							<img src=" {% static 'uploads/textbazaar.png' %} " alt="Logo" class="img-fluid" data-aos="fade-down" data-aos-delay="0">
-						</a>
-					</div>
 					<h1 class="big text-center" data-aos="fade-down" data-aos-delay="0">
 						TextBazaar (beta)
 					</h1>
 					<div class="mx-auto mt-30 f-36 text-center text-adaptive color-bg-dark bold text-capitalize mw-900" data-aos="fade-down" data-aos-delay="250">
-						The only way to create SEO focused articles within minutes. Powered with <a href='https://openai.com'>OpenAI's GPT</a> autoregressive language model.
+						The only way to create SEO focused articles within minutes. Powered with <a href='https://openai.com' class="text-warning">OpenAI's GPT</a> autoregressive language model.
 					</div>
 								<br>
 								<br>
@@ -118,7 +113,6 @@
                 </ul> 
 				</div>
 				</center> -->
-				<hr>
 					<section class="pt-105 pb-95 bg-light content_2" style="background-image: url('https://source.unsplash.com/HeNrEdA4Zp4');">
 		<div class="container px-xl-0 text-center" >
 			<div class="row justify-content-center">
@@ -136,20 +130,20 @@
 		</div>
 	</section>
 			<!--  Application 2 -->
-				<section class="pt-80 pb-80 bg-light application_2">
+				<section class="pt-80 pb-80  application_2" style="background: url('../static/uploads/newsapp.png');" >
 					<div class="container px-xl-0" >
 						<div class="row justify-content-center justify-content-md-between align-items-center">
 							<div class="mb-15 mb-md-0 col-12 col-md-6 col-xl-6 d-flex justify-content-center">
 								<img src=" {% static 'uploads/obi-onyeador-qXfD_nG4j-U-unsplash-removebg-preview.png' %} " srcset="uploads/obi-onyeador-qXfD_nG4j-U-unsplash-removebg-preview.png 2x" alt="" class="img-fluid application_2_center_img vw-100" data-aos="fade-down" data-aos-delay="500">
 							</div>
-							<div class="col-md-7 col-xl-6">
+							<div class="col-md-7 col-xl-6 bg-light">
 								<h2 class="col-lg-11 color-main" data-aos="fade-down" data-aos-delay="0">
 									Extraaa Benefits
 								</h2>
 								<div class="mt-25 col-lg-9 color-heading f-18 text-adaptive" data-aos="fade-down" data-aos-delay="0">
 								Multiple use cases ranging from Data Science to improvements in your SEO.
 								</div>
-								<div class="mt-95 row">
+								<div class="mt-95 row" >
 									<div class="col-6 col-lg-4 pb-25 with_borders" data-aos="fade-down" data-aos-delay="250">
 										<img src=" {% static 'i/application_2_img_2.png' %} " srcset="i/application_2_img_2@2x.png 2x" alt="" class="pl-15">
 										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
@@ -159,7 +153,7 @@
 									<div class="col-6 col-lg-4 pb-25 with_borders" data-aos="fade-down" data-aos-delay="250">
 										<img src=" {% static 'i/application_2_img_3.png' %} " srcset="i/application_2_img_3@2x.png 2x" alt="" class="pl-15">
 										<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">
-											Suggested images input right where you'd want it.
+											Suggested images input right where you'd want it.</div>
 									</div>
 									<div class="col-6 col-lg-4 pb-25 with_borders" data-aos="fade-down" data-aos-delay="500">
 										<img src=" {% static 'i/application_2_img_4.png' %} " srcset="i/application_2_img_4@2x.png 2x" alt="" class="pl-15">
@@ -190,17 +184,16 @@
 						</div>
 					</div>
 				</section>
-				<hr>
 
 				<!-- Footer 1 -->
-					<footer class="pt-75 pb-65 bg-light text-center footer_1">
+					<footer class="pt-75 pb-65 bg-dark  text-center footer_1">
 						<div class="container px-xl-0">
 							<div class="row justify-content-between align-items-center lh-40 links">
 								<div class="col-lg-4 col-sm-6 text-sm-right text-lg-left order-1 order-lg-0" data-aos="fade-down" data-aos-delay="250">
-									<a href="#" class="link mx-20 color-main">
+									<a href="#" class="link mx-20 color-bg-light">
 										Policy
 									</a>
-									<a href="#" class="link mx-20 color-main">
+									<a href="#" class="link mx-20 color-bg-light">
 										Terms
 									</a>
 								</div>
@@ -210,7 +203,7 @@
 									</a>
 								</div>
 								<div class="col-lg-4 col-sm-6 text-sm-left text-lg-right order-2 order-lg-0" data-aos="fade-down" data-aos-delay="250">
-									<a href="mailto:letstalk@textbazaar.me" class="link mr-15 color-main">
+									<a href="mailto:letstalk@textbazaar.me" class="link mr-15 color-bg-light">
 										Contact us
 									</a>
 								</div>
@@ -218,7 +211,7 @@
 							<div class="row justify-content-center">
 								<div class="mt-10 col-xl-4 col-lg-5 col-md-6 col-sm-8" data-aos="fade-down" data-aos-delay="0">
 									<div class="color-heading text-adaptive">
-										Be sure to try our Free Trial! (while stocks last &#128517;) 
+										TextBazaar
 									</div>
 								</div>
 							</div>
