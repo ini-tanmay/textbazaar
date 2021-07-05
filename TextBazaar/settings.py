@@ -146,7 +146,7 @@ django_heroku.settings(locals())
 EMAIL_HOST = 'smtp.eu.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'postmaster@mail.textbazaar.me'
-EMAIL_HOST_PASSWORD = '4f99da1a15d62b6ba6db756c117cc541-1f1bd6a9-c5600578'
+EMAIL_HOST_PASSWORD = '775bd454192d7a83dfcd2210ecae6dc8-c4d287b4-7e0df0c9'
 EMAIL_USE_TLS = True
 BACKGROUND_TASK_ASYNC_THREADS = 300
 BACKGROUND_TASK_RUN_ASYNC = False

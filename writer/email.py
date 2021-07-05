@@ -10,7 +10,7 @@ def send_email(subject,article,email):
     # article="Subject: Hey! your new AI generated blog post -\n\n"+article
     print(article)
     print(type(article))
-    send_mail(subject, article, 'postmaster@mail.sochial.media', [email])
+    send_mail(subject, article, 'postmaster@mail.textbazaar.me', [email])
     # server.sendmail('postmaster@mail.sochial.media', email, article.encode('utf-8'))
     # server.close()
 
