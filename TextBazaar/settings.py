@@ -143,9 +143,9 @@ STATIC_URL = '/static/'
 django_heroku.settings(locals())
 
 
-EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST = 'smtp.eu.mailgun.org'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'postmaster@mail.sochial.media'
+EMAIL_HOST_USER = 'postmaster@mail.textbazaar.me'
 EMAIL_HOST_PASSWORD = '4f99da1a15d62b6ba6db756c117cc541-1f1bd6a9-c5600578'
 EMAIL_USE_TLS = True
 BACKGROUND_TASK_ASYNC_THREADS = 300

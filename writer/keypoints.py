@@ -51,7 +51,7 @@ def clean_all_sentences(contents):
     return clean_sentences,sentences
     
 @background(schedule=0)
-def summarize(query):
+def summarize(query,email):
     contents=get_contents(query)
     no_of_lines=30
     clean_sentences,sentences=clean_all_sentences(contents)
@@ -79,5 +79,9 @@ def summarize(query):
     summary=''
     for i in range(no_of_lines):
       summary+=ranked_sentences[i][1]+' %0A '
-    send_email('This is a summary', summary, 'tanmay.armal@somaiya.edu')    
+    user=User.objects.filter(email=email)
+    article=Article(user=user,title='KeyPoints: %0A'+query,content=summary)
+    article.save()
+    user.update(credits_used=F('credits_used') + 1)  
+    send_email('This is a summary', summary, email)    
     return 'done'  

@@ -3,6 +3,7 @@ from .text_rewrite import *
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
+from django.db.models import F
 from background_task import background
 from .proxies import *
 import concurrent.futures
@@ -182,6 +183,6 @@ def get_document(query,email,temperature):
     user=User.objects.filter(email=email)
     article=Article(user=user,title=query,content=article)
     article.save()
-    # user.
+    user.update(credits_used=F('credits_used') + 1)
     send_email('Temperature: '+str(temperature)+' - '+query,str(article_paraphrased),email)
     return 'done'
