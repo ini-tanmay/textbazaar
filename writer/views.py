@@ -105,7 +105,7 @@ def query(request):
         send_email('Temperature: '+str(temperature),title,user.email)
         list_para = get_document(title,user.email,temperature)
         messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
-        return render(request,'writer/dashboard.html')
+        return redirect('/dashboard')
     else:
         return HttpResponse('Invalid URL')    
 
