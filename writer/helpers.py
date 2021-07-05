@@ -168,7 +168,7 @@ def get_contents(query):
             contents.append(remove_urls(article['content']))
     return contents        
 
-@background(schedule=0)
+@background(schedule=5)
 def get_document(query,email,temperature):
     contents=get_contents(query)
     # if(len(contents))
