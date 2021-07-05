@@ -110,5 +110,5 @@ def query(request):
         return HttpResponse('Invalid URL')    
 
 def get_keypoints(request,query):
-    value=summarize(query,request.user.email)
+    summarize(query,request.user.email)
     return render(request,'writer/dashboard.html')   
