@@ -75,11 +75,18 @@
 		</div>
 	</div>
 	</div>
-
 	<div class="col-div-4">
 		<div class="box-4">
 		<div class="content-box">
-			<p>{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p><br><br><hr><br> <center><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUtk8XfXd4nUwq" async> </script> </form></center>
+			<p>{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p><br><br><hr><br> <center>
+       {% if user.plan == 'startup' %}
+       <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUzbAB87b5KuAW" async> </script> </form>
+       {% elif user.plan == 'pro' %}
+       <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUzgyUpTn33Ryz" async> </script> </form>
+       {% else %}
+       <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUzn4ikLapRrr2" async> </script> </form>
+       {% endif %}
+      </center>
 			 <!-- <div class="circle-wrap">
    <div class="circle">
       <div class="mask full"  style="transform: rotate(180deg);">
