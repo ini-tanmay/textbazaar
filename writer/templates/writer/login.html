@@ -17,21 +17,22 @@
     <title>Sign In</title>
   </head>
   <body class="bg-dark" style="color: white;">
-				<a href="/" class="logo navbar-brand text-black"><- TextBazaar</a>
+				<a href="/" class="logo navbar-brand text-black"><- Back to Home </a>
     <hr>
-    	{% if messages %}
-<ul class="messages" style="color: red;">
+
+        <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <h1 class="mt-2">Sign in to your TextBazaar Account</h1>
+          <hr class="mt-0 mb-4 " style="background-color: yellow; ">
+              	{% if messages %}
+<ul class="messages" style="color: red; background-color: black;">
     {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
 
-        <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-8">
-          <h1 class="mt-2">Sign in to your TextBazaar Account</h1>
-          <hr class="mt-0 mb-4">
   <form action='/login' method="post">
     {% csrf_token %}
     <div class="form-row">

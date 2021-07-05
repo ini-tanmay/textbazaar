@@ -182,5 +182,6 @@ def get_document(query,email,temperature):
     user=User.objects.filter(email=email)
     article=Article(user=user,title=query,content=article)
     article.save()
+    # user.
     send_email('Temperature: '+str(temperature)+' - '+query,str(article_paraphrased),email)
     return 'done'

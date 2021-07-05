@@ -11,7 +11,8 @@ class User(auth.models.User):
     ('enterprise','Enterprise'),
     )
     plan = models.CharField(max_length = 12,choices=PLAN_CHOICES,default='startup')
-    credits_bought=models.IntegerField(default=3)
+    # is_paid=models.BooleanField(default=False)
+    credits_bought=models.IntegerField(default=5)
     credits_used=models.IntegerField(default=0)
     plan_order_id=models.CharField(max_length=50)    
     credit_order_id=models.CharField(max_length=50)    

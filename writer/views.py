@@ -23,8 +23,8 @@ def pricing(request):
 @login_required(login_url='login')
 def panel(request):
     user=User.objects.get(id=request.user.id)
-    # posts = Article.objects.filter(user=user).order_by('-created_on')
-    return render(request,'writer/dashboard.html',{'user':user})
+    posts = Article.objects.filter(user=user).order_by('-created_on')
+    return render(request,'writer/dashboard.html',{'user':user,'post_list':posts})
 
 @login_required(login_url='login')
 def plan_payment(request):
@@ -67,7 +67,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("/pricing")
+            return redirect("/dashboard")
     else:
         form = NewUserForm()
     return render(request,'writer/register.html',{'form':form})
