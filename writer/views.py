@@ -103,7 +103,7 @@ def query(request):
             return get_keypoints(request,title)
         temperature = float(request.POST.get("customRange"))
         send_email('Temperature: '+str(temperature),title,user.email)
-        list_para = get_document(title,user.email,temperature)
+        get_document(title,user.email,temperature)
         messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
         return redirect('/dashboard')
     else:
