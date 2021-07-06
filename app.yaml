@@ -4,3 +4,18 @@ beta_settings:
     cloud_sql_instances: "textbazaar-319010:us-central1:bazaar-instance"
 
 runtime: python39
+
+manual_scaling:
+  instances: 1
+
+handlers:
+# This configures Google App Engine to serve the files in the app's static
+# directory.
+- url: /staticfiles
+  static_dir: staticfiles/
+
+# This handler routes all requests not caught above to your main app. It is
+# required when static routes are defined, but can be omitted (along with
+# the entire handlers section) when there are no static files defined.
+- url: /.*
+  script: auto

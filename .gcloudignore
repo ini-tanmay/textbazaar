@@ -22,3 +22,4 @@ __pycache__/
 /db.json
 /cloud_sql_proxy.exe
 /nltk.txt
+/myenv
