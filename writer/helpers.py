@@ -4,7 +4,7 @@ from newspaper import Article, Config
 from .summarize_nltk import summarize_para
 from .email import send_email
 from django.db.models import F
-from background_task import background
+# from background_task import background
 from .proxies import *
 import concurrent.futures
 import json
@@ -168,7 +168,7 @@ def get_contents(query):
             contents.append(remove_urls(article['content']))
     return contents        
 
-@background(schedule=5)
+# @background(schedule=5)
 def get_document(query,email,temperature):
     contents=get_contents(query)
     # if(len(contents))

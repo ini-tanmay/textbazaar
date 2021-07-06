@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
-from background_task.models import Task
+# from background_task.models import Task
 from datetime import datetime,timedelta
 from .email import *
 from .keypoints import *

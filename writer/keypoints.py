@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 import os
 from django.conf import settings
 import nltk
-from background_task import background
+# from background_task import background
 from .email import *
 from sklearn.metrics.pairwise import cosine_similarity
 from .helpers import * 
@@ -50,7 +50,7 @@ def clean_all_sentences(contents):
     clean_sentences = [remove_stopwords(r.split()) for r in clean_sentences]
     return clean_sentences,sentences
     
-@background(schedule=0)
+# @background(schedule=0)
 def summarize(query,email):
     contents=get_contents(query)
     no_of_lines=30
