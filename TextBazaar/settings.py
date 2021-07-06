@@ -45,11 +45,24 @@ INSTALLED_APPS = [
     # 'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'mathfilters',
     # 'background_task',
+    'django_cloud_tasks',
     'google_analytics',
     'crispy_forms',
     'blog',
     'writer'
 ]
+
+
+PROJECT_NAME = 'textbazaar-319010'
+QUEUE_REGION = 'us-central1'
+QUEUE_ID = 'tasks-queue'
+
+
+DJANGO_CLOUD_TASKS={
+    'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
+    'task_handler_root_url': '/_tasks/',
+},
+
 
 GOOGLE_ANALYTICS = {
     'google_analytics_id': 'UA-201161327-1',

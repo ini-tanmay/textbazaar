@@ -1,5 +1,4 @@
-entrypoint: gunicorn -b :$PORT TextBazaar.wsgi
-
+entrypoint: gunicorn -b :$PORT main:app
 beta_settings:
     cloud_sql_instances: "textbazaar-319010:us-central1:bazaar-instance"
 

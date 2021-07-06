@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include,re_path
+from django_cloud_tasks import urls as dct_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('writer.urls')),
     path('blog/', include('blog.urls')),
     re_path('djga/', include('google_analytics.urls')),
+    path('_tasks/', include(dct_urls)),
 ]

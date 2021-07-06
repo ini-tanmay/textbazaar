@@ -167,23 +167,3 @@ def get_contents(query):
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
     return contents        
-
-# @background(schedule=5)
-def get_document(query,email,temperature):
-    contents=get_contents(query)
-    # if(len(contents))
-    # print(len(contents))
-    # contents.sort(key=paragraphs_count)
-    # main_article=get_main_article(contents)
-    # print('main article: '+main_article)
-    # paragraphs=get_main_paragraphs(main_article)
-    # list_para= parse_final_document(paragraphs,contents,temperature)
-    # print('list para '+str(len(list_para)))
-    # article='\n\n'.join(list_para)
-    # # article_paraphrased=paraphrase(article)
-    # user=User.objects.filter(email=email)
-    # article=Article(user=user,title=query,content=article)
-    # article.save()
-    # user.update(credits_used=F('credits_used') + 1)
-    send_email('Temperature: '+str(temperature)+' - '+query,str(contents),email)
-    return 'done'
