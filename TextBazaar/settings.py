@@ -30,7 +30,7 @@ SECRET_KEY = 'ky#gv2^g+9_kxe34xa0)6mlccd$ky)^y+q$t8dj(_lc!ku)w!r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.20210706t212633.textbazaar-319010.uc.r.appspot.com','textbazaar-319010.uc.r.appspot.com','textbazaar-319010.appspot.com','appspot.com','127.0.0.1']
 
 
 # Application definition
