@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-# import django_heroku
+import django_heroku
 # import pymysql
 
 # pymysql.install_as_MySQLdb()
@@ -181,7 +181,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 
 EMAIL_HOST = 'smtp.eu.mailgun.org'
