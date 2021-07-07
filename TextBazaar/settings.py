@@ -107,27 +107,27 @@ WSGI_APPLICATION = 'TextBazaar.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.getenv('GAE_APPLICATION',None):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST':'/cloudsql/textbazaar-319010:us-central1:bazaar-instance',
-            'USER':'admin',
-            'NAME':'main',
-            'PASSWORD':'Text4Bazaar#'
-        }
+# if os.getenv('GAE_APPLICATION',None):
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST':'/cloudsql/textbazaar-319010:us-central1:bazaar-instance',
+        'USER':'admin',
+        'NAME':'main',
+        'PASSWORD':'Text4Bazaar#'
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST':'127.0.0.1',
-            'PORT':'3306',
-            'USER':'admin',
-            'NAME':'main',
-            'PASSWORD':'Text4Bazaar#'
-        }
-    }
+}
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'HOST':'127.0.0.1',
+#             'PORT':'3306',
+#             'USER':'admin',
+#             'NAME':'main',
+#             'PASSWORD':'Text4Bazaar#'
+#         }
+#     }
 
 
 # import dj_database_url
