@@ -11,7 +11,8 @@ from .email import *
 from .keypoints import *
 from django.views.decorators.csrf import csrf_exempt
 import razorpay 
-from .cloud_tasks import get_document
+from .helpers import *
+# from .cloud_tasks import get_document
 
 @csrf_exempt
 def index(request):
@@ -98,9 +99,9 @@ def query(request):
         if user.credits_bought-user.credits_used==0:
             messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to get more. Contact us at letstalk@textbazaar.me for support")  
             return redirect('/dashboard')
-        # if request.POST.get('keypoints')!=None:
-        #     messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
-        #     return get_keypoints(request,title)
+        if request.POST.get('keypoints')!=None:
+            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
+            return get_keypoints(request,title)
         temperature = float(request.POST.get("customRange"))
         send_email('Temperature: '+str(temperature),title,user.email)
         get_document(title,user.email,temperature).execute()
@@ -111,5 +112,5 @@ def query(request):
 
 def get_keypoints(request,query):
     print(request.user.email)
-    # summarize(query,request.user.email)
+    summarize(query,request.user.email)
     return render(request,'writer/dashboard.html')   

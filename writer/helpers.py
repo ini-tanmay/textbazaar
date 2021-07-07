@@ -12,6 +12,9 @@ import re
 import spacy
 import en_core_web_md
 from .models import User, Article
+from duckpy import Client
+
+client = Client()
 
 class Sentence:
     
@@ -149,6 +152,13 @@ def parse_final_document(cleaned_paragraphs,documents,temperature):
                 except:
                     pass
     return notes
+def search(query):
+    data=[]
+    links = client.search(query)
+    for link in links[:10]:
+        link_href = link.url
+        data.append(link_href)
+    return data    
 
 def remove_urls(vTEXT):
     text = re.sub(r'(https|http)?:\/\/(\w|\.|\/|\?|\=|\&|\%|\-)*\b', '', vTEXT, flags=re.MULTILINE)
@@ -157,7 +167,7 @@ def remove_urls(vTEXT):
     return text
 
 def get_contents(query):
-    links=search(query,num_results=10) 
+    links=search(query) 
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
         data=executor.map(get_article_nlp,links)
