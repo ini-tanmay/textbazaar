@@ -96,9 +96,9 @@ def query(request):
     title=request.POST.get("query")
     if request.method == 'POST' and title!= None and len(title)>2:
         user=request.user
-        if user.credits_bought-user.credits_used==0:
-            messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to get more. Contact us at letstalk@textbazaar.me for support")  
-            return redirect('/dashboard')
+        # if user.credits_bought-user.credits_used==0:
+        #     messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to get more. Contact us at letstalk@textbazaar.me for support")  
+        #     return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return get_keypoints(request,title)
@@ -111,6 +111,5 @@ def query(request):
         return HttpResponse('Invalid Query')    
 
 def get_keypoints(request,query):
-    print(request.user.email)
     summarize(query,request.user.email)
     return render(request,'writer/dashboard.html')   

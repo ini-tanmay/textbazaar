@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 # import django_heroku
-import pymysql
+# import pymysql
 
-pymysql.install_as_MySQLdb()
+# pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -30,7 +30,7 @@ SECRET_KEY = 'ky#gv2^g+9_kxe34xa0)6mlccd$ky)^y+q$t8dj(_lc!ku)w!r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['textbazaar.herokuapp.com']
 
 
 # Application definition
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     # 'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'mathfilters',
     # 'background_task',
-    'django_cloud_tasks',
+    # 'django_cloud_tasks',
     'google_analytics',
     'crispy_forms',
     'blog',
@@ -53,15 +53,15 @@ INSTALLED_APPS = [
 ]
 
 
-PROJECT_NAME = 'textbazaar-319010'
-QUEUE_REGION = 'us-central1'
-QUEUE_ID = 'tasks-queue'
+# PROJECT_NAME = 'textbazaar-319010'
+# QUEUE_REGION = 'us-central1'
+# QUEUE_ID = 'tasks-queue'
 
 
-DJANGO_CLOUD_TASKS={
-    'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
-    'task_handler_root_url': '/_tasks/',
-},
+# DJANGO_CLOUD_TASKS={
+#     'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
+#     'task_handler_root_url': '/_tasks/',
+# },
 
 
 GOOGLE_ANALYTICS = {
@@ -108,15 +108,15 @@ WSGI_APPLICATION = 'TextBazaar.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # if os.getenv('GAE_APPLICATION',None):
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST':'/cloudsql/textbazaar-319010:us-central1:bazaar-instance',
-        'USER':'admin',
-        'NAME':'main',
-        'PASSWORD':'Text4Bazaar#'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST':'/cloudsql/textbazaar-319010:us-central1:bazaar-instance',
+#         'USER':'admin',
+#         'NAME':'main',
+#         'PASSWORD':'Text4Bazaar#'
+#     }
+# }
 # else:
 #     DATABASES = {
 #         'default': {
@@ -130,11 +130,17 @@ DATABASES = {
 #     }
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
-# import dj_database_url
+import dj_database_url
 
-# db_from_env=dj_database_url.config()
-# DATABASES['default'].update(db_from_env)
+db_from_env=dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation

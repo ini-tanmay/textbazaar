@@ -1,3 +1,4 @@
+import nltk
 from nltk.tokenize import sent_tokenize
 import pandas as pd
 import networkx as nx
@@ -5,7 +6,6 @@ import numpy as np
 from nltk.corpus import stopwords
 import os
 from django.conf import settings
-import nltk
 # from background_task import background
 from .email import *
 from sklearn.metrics.pairwise import cosine_similarity
@@ -78,9 +78,9 @@ def summarize(query,email):
     summary=''
     for i in range(no_of_lines):
       summary+=ranked_sentences[i][1]+' %0A '
-    user=User.objects.filter(email=email)
-    article=Article(user=user,title='KeyPoints: %0A'+query,content=summary)
-    article.save()
-    user.update(credits_used=F('credits_used') + 1)  
+    # user=User.objects.filter(email=email)
+    # article=Article(user=user,title='KeyPoints: %0A'+query,content=summary)
+    # article.save()
+    # user.update(credits_used=F('credits_used') + 1)  
     send_email('This is a summary', summary, email)    
     return 'done'  

@@ -1,4 +1,3 @@
-from googlesearch import search
 from .text_rewrite import *
 from newspaper import Article, Config
 from .summarize_nltk import summarize_para
@@ -54,7 +53,7 @@ def paragraphs_count(input):
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
 config = Config()
 config.browser_user_agent = user_agent
-config.request_timeout = 25
+config.request_timeout = 15
 
 
 def get_article_nlp(url):
@@ -70,9 +69,9 @@ def get_article_nlp(url):
         data['authors']=article.authors
         data['imageURL']=article.top_image
         data['imageURLs']=list(article.images)
-        article.nlp()
-        data['summary']=article.summary
-        data['keywords']=article.keywords
+        # article.nlp()
+        # data['summary']=article.summary
+        # data['keywords']=article.keywords
         return data
     except Exception as e:
         return {}
@@ -155,7 +154,7 @@ def parse_final_document(cleaned_paragraphs,documents,temperature):
 def search(query):
     data=[]
     links = client.search(query)
-    for link in links[:10]:
+    for link in links[:2]:
         link_href = link.url
         data.append(link_href)
     return data    
@@ -176,6 +175,8 @@ def get_contents(query):
     for article in articles:
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
+    print(links)
+    print(len(contents))        
     return contents        
 
 
@@ -191,10 +192,10 @@ def get_document(query,email,temperature):
         print('list para '+str(len(list_para)))
         article='\n\n'.join(list_para)
         # article_paraphrased=paraphrase(article)
-        user=User.objects.filter(email=email)
-        article=Article(user=user,title=query,content=article)
-        article.save()
-        user.update(credits_used=F('credits_used') + 1)
+        # user=User.objects.filter(email=email)
+        # article=Article(user=user,title=query,content=article)
+        # article.save()
+        # user.update(credits_used=F('credits_used') + 1)
         send_email('Temperature: '+str(temperature)+' - '+query,str(contents),email)
     except:
         send_email('An error occured while generating '+query,'Please try again or contact support when you need it',email)
