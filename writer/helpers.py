@@ -1,5 +1,5 @@
 from .text_rewrite import *
-from newspaper import Article, Config
+from newspaper import Article as A, Config as C
 from .summarize_nltk import summarize_para
 from .email import send_email
 from django.db.models import F
@@ -51,7 +51,7 @@ def paragraphs_count(input):
     return len(paragraphs)
 
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-config = Config()
+config = C()
 config.browser_user_agent = user_agent
 config.request_timeout = 15
 
@@ -60,7 +60,7 @@ def get_article_nlp(url):
     data={}
     config.proxies = proxyDict
     try:
-        article = Article(url,config=config,memoize_articles=False)
+        article = A(url,memoize_articles=False)
         article.download()
         article.parse()
         data['title']=article.title
@@ -74,6 +74,7 @@ def get_article_nlp(url):
         # data['keywords']=article.keywords
         return data
     except Exception as e:
+        print(e)
         return {}
         pass
 
@@ -154,7 +155,7 @@ def parse_final_document(cleaned_paragraphs,documents,temperature):
 def search(query):
     data=[]
     links = client.search(query)
-    for link in links[:2]:
+    for link in links[:10]:
         link_href = link.url
         data.append(link_href)
     return data    
@@ -167,16 +168,19 @@ def remove_urls(vTEXT):
 
 def get_contents(query):
     links=search(query) 
+    print(links)
+    contents=[]
     articles=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
         data=executor.map(get_article_nlp,links)
         articles=list(data)
     contents=[]
+
     for article in articles:
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
-    print(links)
-    print(len(contents))        
+    print(len(contents))      
+      
     return contents        
 
 

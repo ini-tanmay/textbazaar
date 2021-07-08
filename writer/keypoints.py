@@ -10,6 +10,7 @@ from django.conf import settings
 from .email import *
 from sklearn.metrics.pairwise import cosine_similarity
 from .helpers import * 
+from datetime import datetime
 
 def extract_word_vectors():
     word_embeddings = {}
@@ -42,10 +43,14 @@ def clean_all_sentences(contents):
 
     sentences = [y for x in sentences for y in x] # flatten list
     # remove punctuations, numbers and special characters
-    clean_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ")
+    cleaned_sentences=[]
 
+    for sentence in sentences:
+        cleaned_sentences.append(re.sub(r"[^a-zA-Z]", " ", sentence))
+
+    # clean_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ")
     # make alphabets lowercase
-    clean_sentences = [s.lower() for s in clean_sentences]
+    clean_sentences = [s.lower() for s in cleaned_sentences]
     # remove stopwords from the sentences
     clean_sentences = [remove_stopwords(r.split()) for r in clean_sentences]
     return clean_sentences,sentences
@@ -77,7 +82,9 @@ def summarize(query,email):
         no_of_lines=len(ranked_sentences)
     summary=''
     for i in range(no_of_lines):
-      summary+=ranked_sentences[i][1]+' %0A '
+        if len((ranked_sentences[i][1]).strip())>70:
+            summary+=ranked_sentences[i][1]+'\n'
+    print(type(summary))        
     # user=User.objects.filter(email=email)
     # article=Article(user=user,title='KeyPoints: %0A'+query,content=summary)
     # article.save()
