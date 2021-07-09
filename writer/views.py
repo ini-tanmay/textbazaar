@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 import razorpay 
 from .helpers import *
 # from .cloud_tasks import get_document
+import requests 
 
 @csrf_exempt
 def index(request):
@@ -95,21 +96,33 @@ def logout_user(request):
 def query(request):
     title=request.POST.get("query")
     if request.method == 'POST' and title!= None and len(title)>2:
-        user=request.user
-        # if user.credits_bought-user.credits_used==0:
-        #     messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to get more. Contact us at letstalk@textbazaar.me for support")  
-        #     return redirect('/dashboard')
+        user=User.objects.get(id=request.user.id)
+        if user.credits_bought-user.credits_used==0:
+            messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to get more. Contact us at letstalk@textbazaar.me for support")  
+            return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
-            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
-            return get_keypoints(request,title)
+            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
+            return get_keypoints(user,title)
         temperature = float(request.POST.get("customRange"))
         send_email('Temperature: '+str(temperature),title,user.email)
-        get_document(title,user.email,temperature).execute()
+        get_document(title,user.email,temperature)
         messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
         return redirect('/dashboard')
     else:
         return HttpResponse('Invalid Query')    
 
-def get_keypoints(request,query):
-    summarize(query,request.user.email)
-    return render(request,'writer/dashboard.html')   
+def get_keypoints(user,query):
+    summarize(query,user.email)
+    # contents=get_contents(query)
+    # contents.sort(key=paragraphs_count)
+    # url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/summarize2'
+    # myobj = json.dumps(contents)
+    # response= requests.post(url, data = myobj)
+    # try:
+    #     article=Article(user=user,title='KeyPoints: '+query,content=response.text)
+    #     article.save()
+    # except:
+    #     pass
+    # User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
+    # send_email('This is a summary', response.text, user.email)    
+    return redirect('/dashboard')

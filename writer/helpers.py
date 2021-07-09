@@ -12,6 +12,7 @@ import spacy
 import en_core_web_md
 from .models import User, Article
 from duckpy import Client
+import requests
 
 client = Client()
 
@@ -183,24 +184,27 @@ def get_contents(query):
       
     return contents        
 
-
+#change dashboard ui for create article
 def get_document(query,email,temperature):
     contents=get_contents(query)
-    print(len(contents))
     contents.sort(key=paragraphs_count)
     try:
-        main_article=get_main_article(contents)
-        print('main article: '+main_article)
-        paragraphs=get_main_paragraphs(main_article)
-        list_para= parse_final_document(paragraphs,contents,temperature)
-        print('list para '+str(len(list_para)))
-        article='\n\n'.join(list_para)
+        url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
+        myobj = json.loads(contents)
+        x = requests.post(url, data = myobj)
+        # main_article=get_main_article(contents)
+        # print('main article: '+main_article)
+        # paragraphs=get_main_paragraphs(main_article)
+        # list_para= parse_final_document(paragraphs,contents,temperature)
+        # print('list para '+str(len(list_para)))
+        # article='\n\n'.join(list_para)
         # article_paraphrased=paraphrase(article)
-        # user=User.objects.filter(email=email)
+        user=User.objects.filter(email=email)
         # article=Article(user=user,title=query,content=article)
         # article.save()
-        # user.update(credits_used=F('credits_used') + 1)
-        send_email('Temperature: '+str(temperature)+' - '+query,str(contents),email)
+        user.update(credits_used=F('credits_used') + 1)
+        print(x)
+        send_email('Temperature: '+str(temperature)+' - '+query,query,email)
     except:
         send_email('An error occured while generating '+query,'Please try again or contact support when you need it',email)
     return 'done'

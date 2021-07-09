@@ -43,12 +43,12 @@ def clean_all_sentences(contents):
 
     sentences = [y for x in sentences for y in x] # flatten list
     # remove punctuations, numbers and special characters
-    cleaned_sentences=[]
+    # cleaned_sentences=[]
 
-    for sentence in sentences:
-        cleaned_sentences.append(re.sub(r"[^a-zA-Z]", " ", sentence))
+    # for sentence in sentences:
+    #     cleaned_sentences.append(re.sub(r"[^a-zA-Z]", " ", sentence))
 
-    # clean_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ")
+    cleaned_sentences = pd.Series(sentences).str.replace("[^a-zA-Z]", " ")
     # make alphabets lowercase
     clean_sentences = [s.lower() for s in cleaned_sentences]
     # remove stopwords from the sentences
