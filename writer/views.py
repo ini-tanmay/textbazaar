@@ -98,31 +98,53 @@ def query(request):
     if request.method == 'POST' and title!= None and len(title)>2:
         user=User.objects.get(id=request.user.id)
         if user.credits_bought-user.credits_used==0:
-            messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to get more. Contact us at letstalk@textbazaar.me for support")  
+            messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to create more articles. Contact us at letstalk@textbazaar.me for support")  
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
-            return get_keypoints(user,title)
+            return get_keypoints(request,user,title)
         temperature = float(request.POST.get("customRange"))
         send_email('Temperature: '+str(temperature),title,user.email)
-        get_document(title,user.email,temperature)
-        messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
+        get_document(request,user,title,temperature)
+        messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
         return redirect('/dashboard')
     else:
         return HttpResponse('Invalid Query')    
 
-def get_keypoints(user,query):
-    summarize(query,user.email)
-    # contents=get_contents(query)
-    # contents.sort(key=paragraphs_count)
-    # url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/summarize2'
-    # myobj = json.dumps(contents)
-    # response= requests.post(url, data = myobj)
-    # try:
-    #     article=Article(user=user,title='KeyPoints: '+query,content=response.text)
-    #     article.save()
-    # except:
-    #     pass
-    # User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
-    # send_email('This is a summary', response.text, user.email)    
+def get_document(request,user,query,temperature):
+    contents=get_contents(query)
+    contents.sort(key=paragraphs_count)
+    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
+    myobj = json.dumps(contents)
+    response= requests.post(url, data = myobj)
+    if response.ok:
+        try:
+            User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
+            article=Article(user=user,title='KeyPoints: '+query,content=response.text)
+            article.save()
+        except:
+            pass
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text, user.email)    
+    else: 
+        messages.info(request,"Whoops! An error occured while generating the article titled {query}. You haven't been charged a Compute Credit but please Contact us at letstalk@textbazaar.me for support".format(query))  
+    return redirect('/dashboard')
+
+
+
+def get_keypoints(request,user,query):
+    contents=get_contents(query)
+    contents.sort(key=paragraphs_count)
+    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/summarize2'
+    myobj = json.dumps(contents)
+    response= requests.post(url, data = myobj)
+    if response.ok:
+        User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
+        try:
+            article=Article(user=user,title='KeyPoints: '+query,content=response.text)
+            article.save()
+        except:
+            pass
+        send_email('New Keypoints List created: '+query, response.text, user.email)    
+    else:     
+        messages.info(request,"Whoops! Something wrong on our end. You haven't been charged a Compute Credit but please Contact us at letstalk@textbazaar.me for support")  
     return redirect('/dashboard')

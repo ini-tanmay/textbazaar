@@ -30,8 +30,8 @@
 <body>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/dashboard">Go back to dashboard &nbsp; </a></li>
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="/dashboard">< Back to dashboard &nbsp; </a></li>
         </ul>
       </div>
 
@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-<label for="customRange" class="form-label">Temperature i.e. AI model's creativity score</label>
+<label for="customRange" class="form-label">Temperature i.e. Non-Creativity Score</label>
 <input type="range" class="custom-range" min="1" max="14" step="1" value="8.0" id="customRange" name="customRange">
     <div id="result">Current Value: <b></b> </div>
     <div class="btn-group-wrap">
@@ -70,9 +70,9 @@
     </div>
 <hr>
 <br>
+<b>Important:</b>
 <p>1. For articles having a large amount of relevant articles available online, choose a higher temperature & vice-versa.<br>2. A lower temperature results in a higher word count with lower accuracy/relevancy to your input title & vice-versa.<br>3. For most articles a temperature around 8 is recommended<br>4. In case of topics which usually have 2 completely opposing viewpoints with no correct answer. Eg: 'Does low fat increase weight loss?','Is there hyperinflation in the US in 2021?','Will AI take over most programming jobs in the future?', etc. It's better to stick with one viewpoint in the title itself like so: 'How a low fat diet actually makes you gain weight'</p>
     </form>
-
     <div id="footer">
       <div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
         <div class="container">
@@ -80,7 +80,5 @@
         </div>
       </div>
     </div>
-
-
 </body>
 </html>

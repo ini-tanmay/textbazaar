@@ -61,15 +61,15 @@
 			<br/>
 			<table>
   <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Created on</th>
   </tr>
   {% for post in post_list %}
   <tr>
     <td>{{ post.title }}</td>
     <td>{{ post.content|slice:":100" }}</td>
-    <td>{{ post.created_on }}</td>
+    <td>{{ post.created_on|date:'d-m-Y h:i A' }}</td>
   </tr>
   {% endfor %}
   
