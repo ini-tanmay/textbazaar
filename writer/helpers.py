@@ -65,9 +65,9 @@ def get_article_nlp(url):
         data['authors']=article.authors
         data['imageURL']=article.top_image
         data['imageURLs']=list(article.images)
-        # article.nlp()
+        article.nlp()
         # data['summary']=article.summary
-        # data['keywords']=article.keywords
+        data['keywords']=article.keywords
         return data
     except Exception as e:
         print(e)
@@ -165,22 +165,23 @@ def remove_urls(vTEXT):
 
 def get_contents(query):
     links=search(query) 
-    print(links)
     contents=[]
     articles=[]
+    videos=[]
+    keywords=[]
     with concurrent.futures.ThreadPoolExecutor() as executor:
         data=executor.map(get_article_nlp,links)
         articles=list(data)
     contents=[]
-
     for article in articles:
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
-    print(len(contents))      
-      
+    # keywords=articles[0].get('keywords')
+    # videos=articles[0].get('videoURLs')
     return contents        
 
-# def get_suggested_image():
+# def get_suggested_images():
+
 
 
 # def get_document(query,email,temperature):

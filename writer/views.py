@@ -120,19 +120,20 @@ def get_document(request,user,query,temperature):
     if response.ok:
         try:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
-            article=Article(user=user,title='KeyPoints: '+query,content=response.text)
+            article=Article(user=user,title=query,content=response.text)
             article.save()
         except:
             pass
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text, user.email)    
+        # videos_text='URL: \n\n'.join(videos)
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+'videos_text', user.email)    
     else: 
-        messages.info(request,"Whoops! An error occured while generating the article titled {query}. You haven't been charged a Compute Credit but please Contact us at letstalk@textbazaar.me for support".format(query))  
+        messages.info(request,"Whoops! An error occured while generating the article titled {query}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return redirect('/dashboard')
 
 
 
 def get_keypoints(request,user,query):
-    contents=get_contents(query)
+    contents,keywords,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/summarize2'
     myobj = json.dumps(contents)
@@ -146,5 +147,5 @@ def get_keypoints(request,user,query):
             pass
         send_email('New Keypoints List created: '+query, response.text, user.email)    
     else:     
-        messages.info(request,"Whoops! Something wrong on our end. You haven't been charged a Compute Credit but please Contact us at letstalk@textbazaar.me for support")  
+        messages.info(request,"Whoops! Something went wrong on our end. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support")  
     return redirect('/dashboard')
