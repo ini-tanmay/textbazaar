@@ -112,22 +112,24 @@ def query(request):
         return HttpResponse('Invalid Query')    
 
 def get_document(request,user,query,temperature):
-    contents=get_contents(query)
+    contents,keywords,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
     if response.ok:
+        User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
             article=Article(user=user,title=query,content=response.text)
             article.save()
-        except:
+        except Exception as e:
+            print(e)
             pass
-        # videos_text='URL: \n\n'.join(videos)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+'videos_text', user.email)    
+        videos_text='URL: \n\n'.join(videos)
+        images=get_suggested_images(keywords)
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+videos_text+'/n'+str(images), user.email)    
     else: 
-        messages.info(request,"Whoops! An error occured while generating the article titled {query}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
+        messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return redirect('/dashboard')
 
 
@@ -135,7 +137,7 @@ def get_document(request,user,query,temperature):
 def get_keypoints(request,user,query):
     contents,keywords,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
-    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/summarize2'
+    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
     if response.ok:
@@ -143,7 +145,8 @@ def get_keypoints(request,user,query):
         try:
             article=Article(user=user,title='KeyPoints: '+query,content=response.text)
             article.save()
-        except:
+        except Exception as e:
+            print(e)
             pass
         send_email('New Keypoints List created: '+query, response.text, user.email)    
     else:     

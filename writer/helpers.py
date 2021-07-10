@@ -8,6 +8,10 @@ import concurrent.futures
 import re
 from .models import User, Article
 from duckpy import Client
+import pyunsplash
+unsplash = pyunsplash.PyUnsplash(api_key='4LCnSgMuGZ5hfItvmVvXNOR_Y_M4wHb78smO3ZuAl-s')
+
+
 
 client = Client()
 
@@ -176,11 +180,19 @@ def get_contents(query):
     for article in articles:
         if article.get('content')!=None:
             contents.append(remove_urls(article['content']))
-    # keywords=articles[0].get('keywords')
-    # videos=articles[0].get('videoURLs')
-    return contents        
+    keywords=articles[0].get('keywords')
+    videos=articles[0].get('videoURLs')
+    return contents, keywords, videos        
 
-# def get_suggested_images():
+def get_suggested_images(keywords):
+    images=[]
+    search = unsplash.search(type_='photos',per_page=1, query=','.join(keywords))
+    for photo in search.entries:
+        images.append(photo.link_download)
+    return images
+
+
+
 
 
 
@@ -205,6 +217,7 @@ def get_contents(query):
 #         print(x)
 #         send_email('Temperature: '+str(temperature)+' - '+query,query,email)
 #     except:
+
 #         send_email('An error occured while generating '+query,'Please try again or contact support when you need it',email)
 #     return 'done'
 
