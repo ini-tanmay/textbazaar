@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include,re_path
-# from django_cloud_tasks import urls as dct_urls
+from django_cloud_tasks import urls as dct_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),

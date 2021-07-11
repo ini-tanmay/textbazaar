@@ -15,4 +15,5 @@ urlpatterns = [
     path('login',login_user,name='login'),
     path('query',query),
     path('keypoints/<str:query>',get_keypoints),
+    path('article/<str:query>',get_document),
 ]

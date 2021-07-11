@@ -53,22 +53,22 @@ INSTALLED_APPS = [
 ]
 
 
-# PROJECT_NAME = 'textbazaar-319010'
-# QUEUE_REGION = 'us-central1'
-# QUEUE_ID = 'tasks-queue'
+PROJECT_NAME = 'textbazaar-319010'
+QUEUE_REGION = 'us-central1'
+QUEUE_ID = 'tasks-queue'
 
 
-# DJANGO_CLOUD_TASKS={
-#     'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
-#     'task_handler_root_url': '/_tasks/',
-# },
+DJANGO_CLOUD_TASKS={
+    'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
+    'task_handler_root_url': '/_tasks/',
+},
 
 
 GOOGLE_ANALYTICS = {
     'google_analytics_id': 'UA-201161327-1',
 }
 
-# X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
