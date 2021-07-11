@@ -14,6 +14,7 @@ import razorpay
 from .helpers import *
 # from .cloud_tasks import get_document
 import requests 
+import json
 
 @csrf_exempt
 def index(request):
@@ -125,7 +126,8 @@ def get_document(request,user,query,temperature):
         except Exception as e:
             print(e)
             pass
-        videos_text='URL: \n\n'.join(videos)
+        if videos is not None:
+            videos_text='URL: \n\n'.join(videos)
         images=get_suggested_images(keywords)
         send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+videos_text+'/n'+str(images), user.email)    
     else: 

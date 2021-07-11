@@ -1,9 +1,9 @@
 from .text_rewrite import *
 from newspaper import Article as A, Config as C
-from .summarize_nltk import summarize_para
+# from .summarize_nltk import summarize_para
 from .email import send_email
 from django.db.models import F
-from .proxies import *
+# from .proxies import *
 import concurrent.futures
 import re
 from .models import User, Article
@@ -55,6 +55,13 @@ config = C()
 config.browser_user_agent = user_agent
 config.request_timeout = 15
 
+proxyDict={
+"http":"http://191.96.42.80:8080",
+"http":"http://198.199.86.11:3128",
+"http":"http://161.35.4.201:80",
+"http":"http://138.68.60.8:8080",
+"http":"http://209.97.150.167:8080",
+}
 
 def get_article_nlp(url):
     data={}

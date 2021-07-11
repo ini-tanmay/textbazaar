@@ -7,6 +7,8 @@
 </div>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 	<title>Dashboard (beta)</title>
 	<link rel="icon" href=" {% static 'uploads/favicon.ico' %} " type="image/x-icon">
 	<link rel="stylesheet" href=" {% static 'css/dashboard.css' %}" type="text/css"/>
@@ -54,7 +56,49 @@
     {% endfor %}
 </ul>
 {% endif %}
-	<div class="col-div-8">
+	<div class="col-div-5">
+		<div class="box-4">
+		<div class="content-box">
+			<p>{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p>
+       <ul style="color: white;">
+       <br>
+      <li>1 Compute Credit = 1 article or 1 list of chief points in an article</li>
+      <br>
+      <li>Add-on Compute Credits are added to the current billing cycle and can't be carried over to the next billing cycle</li>
+      </ul>
+      <hr> <center>
+       {% if user.plan == 'startup' %}
+       <form action="https://buy.stripe.com/cN23dQ2MtdqGa0828b">
+        <button type="submit" class="btn btn-outline-success">Get Credits</button>
+        </form>
+       {% elif user.plan == 'pro' %}
+       <form action="https://buy.stripe.com/cN24hU3QxdqG6NWcMQ">
+        <button type="submit" class="btn btn-outline-success">Get Credits</button>
+        </form>
+       {% else %}
+       <form action="https://buy.stripe.com/cN2cOq72J86mfks5kp">
+        <button type="submit" class="btn btn-outline-success">Get Credits</button>
+        </form>
+       {% endif %}
+      </center>
+			 <!-- <div class="circle-wrap">
+   <div class="circle">
+      <div class="mask full"  style="transform: rotate(180deg);">
+        <div class="fill"></div>
+      </div>
+      <div class="mask half">
+        <div class="fill"></div>
+      </div>
+      <div class="inside-circle"> 40% </div>
+    </div> 
+  </div>-->
+		</div>
+	</div>
+	</div>
+
+
+
+	<div class="col-div-9">
 		<div class="box-10">
 		<div class="content-box">
 			<p>Recent Articles</p>
@@ -76,41 +120,7 @@
 </table>
 		</div>
 	</div>
-	</div>
-	<div class="col-div-4">
-		<div class="box-4">
-		<div class="content-box">
-			<p>{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p>
-      <h4 style="color: violet;">Available Offers:</h4>
-       <ul style="color: white;">
-      <li>Flat 2.5% off on all orders above INR 33,000 upto Rs.695 on payments via UPI on PayTM and BHIM Apps</li>
-      <br>
-      <li>Avail Flat 3.41% off with No Cost EMI on Cards from Kotak Mahindra Bank for orders above INR 20,000. For Indian Customers Only.</li>
-      </ul>
-      <hr> <center>
-       {% if user.plan == 'startup' %}
-       <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUzbAB87b5KuAW" async> </script> </form>
-       {% elif user.plan == 'pro' %}
-       <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUzgyUpTn33Ryz" async> </script> </form>
-       {% else %}
-       <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_HUzn4ikLapRrr2" async> </script> </form>
-       {% endif %}
-      </center>
-			 <!-- <div class="circle-wrap">
-   <div class="circle">
-      <div class="mask full"  style="transform: rotate(180deg);">
-        <div class="fill"></div>
-      </div>
-      <div class="mask half">
-        <div class="fill"></div>
-      </div>
-      <div class="inside-circle"> 40% </div>
-    </div> 
-  </div>-->
-		</div>
-	</div>
-	</div>
-		
+	</div>		
 	<div class="clearfix"></div>
 </div>
 
