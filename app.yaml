@@ -1,4 +1,4 @@
-entrypoint: gunicorn -b :$PORT main:app
+entrypoint: gunicorn -b :$PORT main:app --timeout 300
 beta_settings:
     cloud_sql_instances: "textbazaar-319010:us-central1:bazaar-instance"
 
@@ -11,7 +11,7 @@ automatic_scaling:
   max_idle_instances: 0
   min_pending_latency: automatic
   max_pending_latency: automatic
-  max_instances: 3
+  max_instances: 5
 
 # basic_scaling:
 #   max_instances: 0

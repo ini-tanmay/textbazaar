@@ -112,8 +112,15 @@ def query(request):
     else:
         return HttpResponse('Invalid Query')    
 
+def get_contents(query):
+    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_contents?query={}'.format(query)
+    response= requests.post(url)
+    data=response.text
+    data=json.loads(data)
+    return data['contents'],data['videos']
+
 def get_document(request,user,query,temperature):
-    contents,keywords,videos=get_contents(query)
+    contents,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
@@ -121,15 +128,15 @@ def get_document(request,user,query,temperature):
     if response.ok:
         User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query,content=response.text)
+            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=response.text)
             article.save()
         except Exception as e:
             print(e)
             pass
         if videos is not None:
             videos_text='URL: \n\n'.join(videos)
-        images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+videos_text+'/n'+str(images), user.email)    
+        # images=get_suggested_images(keywords)
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+videos_text+'/n', user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return redirect('/dashboard')
@@ -137,7 +144,7 @@ def get_document(request,user,query,temperature):
 
 
 def get_keypoints(request,user,query):
-    contents,keywords,videos=get_contents(query)
+    contents,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'
     myobj = json.dumps(contents)

@@ -76,9 +76,9 @@ def get_article_nlp(url):
         data['authors']=article.authors
         data['imageURL']=article.top_image
         data['imageURLs']=list(article.images)
-        article.nlp()
+        # article.nlp()
         # data['summary']=article.summary
-        data['keywords']=article.keywords
+        # data['keywords']=article.keywords
         return data
     except Exception as e:
         print(e)
@@ -174,22 +174,22 @@ def remove_urls(vTEXT):
     text = re.sub(r'/[\u006E\u00B0\u00B2\u00B3\u00B9\u02AF\u0670\u0711\u2121\u213B\u2207\u29B5\uFC5B-\uFC5D\uFC63\uFC90\uFCD9\u2070\u2071\u2074-\u208E\u2090-\u209C\u0345\u0656\u17D2\u1D62-\u1D6A\u2A27\u2C7C]+/g', '', text)
     return text
 
-def get_contents(query):
-    links=search(query) 
-    contents=[]
-    articles=[]
-    videos=[]
-    keywords=[]
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        data=executor.map(get_article_nlp,links)
-        articles=list(data)
-    contents=[]
-    for article in articles:
-        if article.get('content')!=None:
-            contents.append(remove_urls(article['content']))
-    keywords=articles[0].get('keywords')
-    videos=articles[0].get('videoURLs')
-    return contents, keywords, videos        
+# def get_contents(query):
+#     links=search(query) 
+#     contents=[]
+#     articles=[]
+#     videos=[]
+#     keywords=[]
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#         data=executor.map(get_article_nlp,links)
+#         articles=list(data)
+#     contents=[]
+#     for article in articles:
+#         if article.get('content')!=None:
+#             contents.append(remove_urls(article['content']))
+#     keywords=articles[0].get('keywords')
+#     videos=articles[0].get('videoURLs')
+#     return contents, keywords, videos        
 
 def get_suggested_images(keywords):
     images=[]
