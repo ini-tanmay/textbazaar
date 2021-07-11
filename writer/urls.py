@@ -14,6 +14,6 @@ urlpatterns = [
     path('logout',logout_user),
     path('login',login_user,name='login'),
     path('query',query),
-    path('/keypoints/',get_keypoints),
-    path('/article/',get_document),
+    path('keypoints/',get_keypoints),
+    path('article/',get_document),
 ]

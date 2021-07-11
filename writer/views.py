@@ -121,7 +121,7 @@ def get_contents(query):
     data=response.text
     data=json.loads(data)
     return data['contents'],data['videos']
-
+@csrf_exempt
 def get_document(request):
     payload = request.json()
     print(payload)
@@ -150,6 +150,7 @@ def get_document(request):
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return redirect('/dashboard')
 
+@csrf_exempt
 def get_keypoints(request):
     payload = request.json()
     print(payload)
