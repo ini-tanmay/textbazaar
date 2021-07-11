@@ -58,10 +58,10 @@ QUEUE_REGION = 'us-central1'
 QUEUE_ID = 'tasks-queue'
 
 
-DJANGO_CLOUD_TASKS={
-    'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
-    'task_handler_root_url': '/_tasks/',
-},
+# DJANGO_CLOUD_TASKS={
+#     'project_location_name': 'projects/{PROJECT_NAME}/locations/{QUEUE_REGION}',
+#     'task_handler_root_url': '/_tasks/',
+# },
 
 
 GOOGLE_ANALYTICS = {

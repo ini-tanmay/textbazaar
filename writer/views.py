@@ -4,13 +4,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from .models import *
-# from background_task.models import Task
+from .models import User,Article
 from datetime import datetime,timedelta
 from .email import *
 from .keypoints import *
 from django.views.decorators.csrf import csrf_exempt
-import razorpay 
 from .helpers import *
 from .cloud_tasks import send_task
 import requests 
@@ -93,11 +91,6 @@ def logout_user(request):
     logout(request)
     return redirect("/")
 
-def create_task(request):
-    """ A simple view that triggers the task """
-    task = "Example Task"
-    send_task(url="/task/", payload=task)
-    return HttpResponse('task created')
 
 @login_required(login_url='login')
 def query(request):
@@ -109,13 +102,15 @@ def query(request):
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
-            send_task(url='keypoints/'+query,payload=json.dumps({'userid':user.id}))
+            send_task(url='keypoints/'+title,payload=json.dumps({'userid':user.id}))
+            return redirect('/dashboard')
             # return get_keypoints(request=request,user=user,title=title).execute()
-        temperature = float(request.POST.get("customRange"))
-        send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title),user.email)
-        # get_document(request=request,user=user,title=title,temperature=temperature).execute()
-        send_task(url='article/'+query,payload=json.dumps({'temperature':temperature}))
-        messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
+        else:
+            temperature = float(request.POST.get("customRange"))
+            send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title),user.email)
+            # get_document(request=request,user=user,title=title,temperature=temperature).execute()
+            send_task(url='article/'+title,payload=json.dumps({'temperature':temperature}))
+            messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
         return redirect('/dashboard')
     else:
         return HttpResponse('Invalid Query')    
@@ -154,7 +149,11 @@ def get_document(request,query):
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return redirect('/dashboard')
 
-def get_keypoints(request,user,query):
+def get_keypoints(request,query):
+    payload = request.json()
+    print(payload)
+    userid=payload.get('userid')
+    user=User.objects.get(id=userid)
     contents,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'

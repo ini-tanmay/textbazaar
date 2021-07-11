@@ -4,8 +4,6 @@ from google.cloud import tasks_v2beta3
 client = tasks_v2beta3.CloudTasksClient()
 
 def send_task(url, http_method='POST', payload=None):
-    """ Send task to be executed """
-
     # construct the queue
     parent = client.queue_path(settings.PROJECT_NAME, 
              settings.QUEUE_REGION, queue=settings.QUEUE_ID)
@@ -14,7 +12,8 @@ def send_task(url, http_method='POST', payload=None):
     task = {
         'app_engine_http_request': {
             'http_method': http_method,
-            'relative_uri': url
+              'url': "https://textbazaar-319010.uc.r.appspot.com/" + url              
+
         }
     }
 
