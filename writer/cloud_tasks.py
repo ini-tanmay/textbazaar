@@ -12,8 +12,7 @@ def send_task(url, http_method='POST', payload=None):
     task = {
         'app_engine_http_request': {
             'http_method': http_method,
-              'url': "https://textbazaar-319010.uc.r.appspot.com/" + url              
-
+            'relative_uri':url
         }
     }
 

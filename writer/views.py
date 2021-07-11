@@ -102,14 +102,14 @@ def query(request):
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
-            send_task(url='keypoints/'+title,payload=json.dumps({'userid':user.id}))
+            send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title}))
             return redirect('/dashboard')
             # return get_keypoints(request=request,user=user,title=title).execute()
         else:
             temperature = float(request.POST.get("customRange"))
             send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title),user.email)
             # get_document(request=request,user=user,title=title,temperature=temperature).execute()
-            send_task(url='article/'+title,payload=json.dumps({'temperature':temperature}))
+            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':temperature,'query':title}))
             messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
         return redirect('/dashboard')
     else:
@@ -122,10 +122,11 @@ def get_contents(query):
     data=json.loads(data)
     return data['contents'],data['videos']
 
-def get_document(request,query):
+def get_document(request):
     payload = request.json()
     print(payload)
     userid=payload.get('userid')
+    query=payload.get('query')
     temperature=payload.get('temperature')
     user=User.objects.get(id=userid)
     contents,videos=get_contents(query)
@@ -149,10 +150,11 @@ def get_document(request,query):
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return redirect('/dashboard')
 
-def get_keypoints(request,query):
+def get_keypoints(request):
     payload = request.json()
     print(payload)
     userid=payload.get('userid')
+    query=payload.get('query')
     user=User.objects.get(id=userid)
     contents,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
