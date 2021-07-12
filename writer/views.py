@@ -97,12 +97,12 @@ def query(request):
     title=request.POST.get("query")
     if request.method == 'POST' and title!= None and len(title)>2:
         user=User.objects.get(id=request.user.id)
-        if user.credits_bought-user.credits_used==0:
+        if user.credits_bought-user.credits_used<=0:
             messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to create more articles. Contact us at letstalk@textbazaar.me for support")  
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
-            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
             send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title}))
+            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
             return redirect('/dashboard')
             # return get_keypoints(request=request,user=user,title=title).execute()
         else:
@@ -121,10 +121,12 @@ def get_contents(query):
     data=response.text
     data=json.loads(data)
     return data['contents'],data['videos']
+    
 @csrf_exempt
 def get_document(request):
-    payload = request.json()
+    payload = json.loads(request.body.decode('utf-8'))
     print(payload)
+    print(type(payload))
     userid=payload.get('userid')
     query=payload.get('query')
     temperature=payload.get('temperature')
@@ -148,12 +150,11 @@ def get_document(request):
         send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+videos_text+'/n', user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
-    return redirect('/dashboard')
+    return HttpResponse('done')
 
 @csrf_exempt
 def get_keypoints(request):
-    payload = request.json()
-    print(payload)
+    payload = json.loads(request.body.decode('utf-8'))
     userid=payload.get('userid')
     query=payload.get('query')
     user=User.objects.get(id=userid)
@@ -173,4 +174,4 @@ def get_keypoints(request):
         send_email('New Keypoints List created: '+query, response.text, user.email)    
     else:     
         messages.info(request,"Whoops! Something went wrong on our end. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support")  
-    return redirect('/dashboard')
+    return HttpResponse('done')
