@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+# import django_heroku
 import pymysql
 
 pymysql.install_as_MySQLdb()
@@ -30,7 +30,7 @@ SECRET_KEY = 'ky#gv2^g+9_kxe34xa0)6mlccd$ky)^y+q$t8dj(_lc!ku)w!r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['textbazaar.me','127.0.0.1','textbazaar.herokuapp.com','textbazaar-319010.uc.r.appspot.com']
+ALLOWED_HOSTS = ['textbazaar.me','127.0.0.1','textbazaar.herokuapp.com','textbazaar-319010.uc.r.appspot.com','backend-dot-textbazaar-319010.uc.r.appspot.com','production-dot-textbazaar-319010.uc.r.appspot.com','backend.default.textbazaar-319010.uc.r.appspot.com']
 
 
 # Application definition
@@ -181,7 +181,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-django_heroku.settings(locals())
+# django_heroku.settings(lo11cals())
 
 
 EMAIL_HOST = 'smtp.eu.mailgun.org'

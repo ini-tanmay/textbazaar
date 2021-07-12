@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 	<title>Dashboard (beta)</title>
-	<link rel="icon" href=" {% static 'uploads/favicon.ico' %} " type="image/x-icon">
+	<link rel="icon" href="https://textbazaar.herokuapp.com/static/uploads/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href=" {% static 'css/dashboard.css' %}" type="text/css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -19,9 +19,7 @@
 	<div id="mySidenav" class="sidenav">
 	<p class="logo">TextBazaar</p>
   <!-- <a href="#" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a> -->
-  {% if user.credits_bought|sub:user.credits_used != 0 %}
   <a href="/create"class="icon-a"><i class="fa fa-file-text-o"></i> &nbsp;&nbsp;Create article</a>
-  {% endif %}
   <!-- <a href="#"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;All Articles</a> -->
   <a href="/pricing"class="icon-a"><i class="fa fa-rocket"></i> &nbsp;&nbsp;Upgrade Plan</a>
   <a href="mailto:letstalk@textbazaar.me"class="icon-a"><i class="fa fa-envelope-o"></i> &nbsp;&nbsp;Contact Us</a>
@@ -64,8 +62,8 @@
        <ul style="color: white;">
        <br>
       <li>1 Compute Credit = 1 article or 1 list of chief points in an article</li>
-      <br>
       <li>Add-on Compute Credits are added to the current billing cycle and can't be carried over to the next billing cycle</li>
+      <li>Your purchased credits should appear in your account within 8 hours.</li>
       </ul>
       <hr> <center>
        {% if user.plan == 'startup' %}

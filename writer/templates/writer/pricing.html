@@ -10,7 +10,7 @@
 		<title>Pricing</title>
 		<link rel="icon" href=" {% static 'uploads/favicon.ico' %} " type="image/x-icon">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="icon" href=" {% static 'i/favicon.png' %} " type="image/x-icon">
+		<link rel="icon" href="https://textbazaar.herokuapp.com/static/uploads/favicon.ico" type="image/x-icon">
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 		<!-- Bootstrap 4.5.2 CSS -->
@@ -102,7 +102,7 @@
 							{% endif %}
 							<div class="mt-45 text-adaptive">
 								<div>
-                                Recommended for businesses that want to increase their brand visibility or create research-extensive articles. Companies operating in the tech/finance/banking/health sector usually take this plan.
+                                Recommended for businesses that want to increase their brand visibility or create research-extensive articles. Especially recommended for companies operating in the tech/finance/banking/health sector.
 								</div>
                                 <hr>
 								<div>
@@ -110,15 +110,11 @@
 								</div>
                                 <hr>
 								<div>
-								Delivered within 5 minutes
+								Maximum of 20 computing credits per week: Full Articles & Article's (Top 10 + Top 30 + Top 50) chief points
 								</div>
-                                <hr>
+								<hr>
 								<div>
 								Human Editors at no extra cost for articles on request
-								</div>
-                                <hr>
-								<div>
-								Maximum of 20 computing credits per week: Full Articles & Article's (Top 10 + Top 30 + Top 50) chief points
 								</div>
                                 <hr>
 								<div class="color-heading text-adaptive">
@@ -131,14 +127,14 @@
 								Pro
 							</div>
 							<div class="mt-10 color-heading subtitle">
-								&#8377;39999 per month
+								&#8377;54999 per month
 							</div>
 							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
 								<i class="fas fa-heart">
 								</i>
 							</div>
 			                {% if user.is_authenticated %}
-					        <a href="https://buy.stripe.com/bIY4hU5YFaeu0py3cd" class="btn mt-40 action-1">
+					        <a href="https://buy.stripe.com/aEU4hUdr73Q68W4eV5" class="btn mt-40 action-1">
 								Get Started
 							</a>
 						    {% else %}
@@ -155,11 +151,7 @@
 								</div>
                                 <hr>
 								<div>
-								Delivered within 10 minutes 
-								</div>
-                                <hr>
-								<div>
-								Maximum of 30 computing credits per month: Full Articles & Article key points (Top 30 chief points)
+								Maximum of 30 computing credits per month (Capped to 7 credits during trial): Full Articles & Article key points (Top 30 chief points)
 								</div>
                                 <hr>
 								<div class="color-heading text-adaptive">
@@ -171,17 +163,17 @@
 							<div class="f-22 title">
 								Startup
 							</div>
-							<div class="mt-10 color-heading subtitle">&#8377;28999 per month</div>
+							<div class="mt-10 color-heading subtitle">&#8377;39999 per month</div>
 							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
 								<i class="fas fa-bomb">
 								</i>
 							</div>
 			                {% if user.is_authenticated %}
-					        <a href="https://buy.stripe.com/aEU8ya0El9aqfks7ss" class="btn mt-40 border-gray color-main">
+					        <a href="https://buy.stripe.com/cN25lYbiZ9aqb4c4gs" class="btn mt-40 border-gray color-main">
 								Get Started
 							</a>
 						    {% else %}
-					        <a href="/payment?plan=enterprise" class="btn mt-40 border-gray color-main">
+					        <a href="/payment?plan=startup" class="btn mt-40 border-gray color-main">
 								Get Started
 							</a>
 							{% endif %}
@@ -195,15 +187,7 @@
 								</div>
                                 <hr>
 								<div>
-								Shared Server
-								</div>
-                                <hr>
-								<div>
-								Delivered within 30 minutes
-								</div>
-                                <hr>
-								<div>
-								Maximum of 15 computing credits per month: Full Articles & Article key points (Top 10 chief points)
+								Maximum of 15 computing credits per month (Capped to 7 credits during trial): Full Articles & Article key points (Top 10 chief points)
 								</div>
 								<hr>
 								<div class="color-heading text-adaptive">

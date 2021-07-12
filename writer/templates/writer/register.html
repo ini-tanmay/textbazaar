@@ -21,7 +21,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <title>Sign Up to TextBazaar</title>
   </head>
-  <body class="bg-dark" style="background-image: url('https://image.freepik.com/free-vector/podium-wallpaper-with-geometrical-3d-shapes_52683-61177.jpg'); background-size: cover;">
+  <body class="bg-dark" style="background-image: url('static/uploads/blue_shapes.jpg'); background-size: cover;">
   <a href="/" class="logo navbar-brand text-black"><- Back to Home</a>
       <div class="container">
       <div class="row justify-content-center">
@@ -30,12 +30,10 @@
           <hr class="mt-0 mb-4 " style="background-color: yellow; ">
   <form method="post">
     {% csrf_token %}
-
       {{ form|crispy }}
-
     <center>
-      First 5 Compute Credits are on us!
-      <!-- By clicking Sign up you are agreeing to the <a href="/terms" class="link">Terms of Use</a><br> -->
+      Please wait upto 4 hours for us to add 7 credits to your account for the free trial, the remaining of which will be added once the trial is over. You can also buy additional credits from the dashboard.
+      <hr>Already have an account? <a href="/login" class="link">Sign in</a><br>
       <hr>
       <button type="submit" class="btn btn-success">Sign up
       </button>

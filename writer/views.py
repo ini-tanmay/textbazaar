@@ -10,7 +10,6 @@ from .email import *
 from .keypoints import *
 from django.views.decorators.csrf import csrf_exempt
 from .helpers import *
-from .cloud_tasks import send_task
 import requests 
 import json
 
@@ -101,15 +100,13 @@ def query(request):
             messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to create more articles. Contact us at letstalk@textbazaar.me for support")  
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
-            send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title}))
+            get_keypoints(request,user,title)
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
             return redirect('/dashboard')
-            # return get_keypoints(request=request,user=user,title=title).execute()
         else:
             temperature = float(request.POST.get("customRange"))
-            send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title),user.email)
-            # get_document(request=request,user=user,title=title,temperature=temperature).execute()
-            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':temperature,'query':title}))
+            # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title),user.email)
+            get_document(request,user,title,temperature)
             messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
         return redirect('/dashboard')
     else:
@@ -122,17 +119,10 @@ def get_contents(query):
     data=json.loads(data)
     return data['contents'],data['videos']
     
-@csrf_exempt
-def get_document(request):
-    payload = json.loads(request.body.decode('utf-8'))
-    print(payload)
-    print(type(payload))
-    userid=payload.get('userid')
-    query=payload.get('query')
-    temperature=payload.get('temperature')
-    user=User.objects.get(id=userid)
+
+def get_document(request,user,query,temperature):
     contents,videos=get_contents(query)
-    contents.sort(key=paragraphs_count)
+    # contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
@@ -147,19 +137,14 @@ def get_document(request):
         if videos is not None:
             videos_text='URL: \n\n'.join(videos)
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'/n'+videos_text+'/n', user.email)    
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'<br>'+videos_text, user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
 
-@csrf_exempt
-def get_keypoints(request):
-    payload = json.loads(request.body.decode('utf-8'))
-    userid=payload.get('userid')
-    query=payload.get('query')
-    user=User.objects.get(id=userid)
+def get_keypoints(request,user,query):
     contents,videos=get_contents(query)
-    contents.sort(key=paragraphs_count)
+    # contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
