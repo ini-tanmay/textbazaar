@@ -21,6 +21,9 @@ def index(request):
 def pricing(request):
     return render(request,'writer/pricing.html')
 
+def affiliate(request):
+    return render(request,'writer/affiliate.html')
+
 @login_required(login_url='login')
 def panel(request):
     user=User.objects.get(id=request.user.id)
