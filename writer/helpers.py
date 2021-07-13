@@ -1,4 +1,4 @@
-from .text_rewrite import *
+# from .text_rewrite import *
 from newspaper import Article as A, Config as C
 # from .summarize_nltk import summarize_para
 from .email import send_email
@@ -10,8 +10,10 @@ from .models import User, Article
 from duckpy import Client
 import pyunsplash
 unsplash = pyunsplash.PyUnsplash(api_key='4LCnSgMuGZ5hfItvmVvXNOR_Y_M4wHb78smO3ZuAl-s')
+from google.cloud import translate_v2 as translate
 
 
+translate_client = translate.Client()
 
 client = Client()
 
@@ -28,9 +30,9 @@ client = Client()
 # def sort_by_similarity(element):
 #     return element.similarity
 
-def paraphrase(input):
-    rephrased = TextRewrite(input).work()
-    return rephrased
+# def paraphrase(input):
+#     rephrased = TextRewrite(input).work()
+#     return rephrased
 
 NEWLINES_RE = re.compile(r"\n{2,}")  # two or more "\n" characters
 
@@ -198,8 +200,18 @@ def get_suggested_images(keywords):
         images.append(photo.link_download)
     return images
 
+def get_cloud_languages():
+    results = translate_client.get_languages()
+    return results
 
-
+def paraphrase(text,target):
+    if target=='en':
+        result_spanish = translate_client.translate(text,source_language='en', target_language='es')
+        result_english = translate_client.translate(result_spanish,source_language='es', target_language='en')
+        return result_english
+    else:
+        result=translate_client.translate(text,source_language='en',target_language=target)
+        return result
 
 
 

@@ -61,7 +61,7 @@
 			<p>{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p>
        <ul style="color: white;">
        <br>
-      <li>1 Compute Credit = 1 article or 1 list of chief points in an article</li>
+      <li>1 Compute Credit = 1 article, 1 translation, or 1 list of chief points in an article</li>
       <li>Add-on Compute Credits are added to the current billing cycle and can't be carried over to the next billing cycle</li>
       <li>Your purchased credits should appear in your account within 8 hours.</li>
       </ul>
@@ -109,7 +109,7 @@
   {% for post in post_list %}
   <tr>
     <td>{{ post.title }}</td>
-    <td>{{ post.content|slice:":100" }}</td>
+    <td>{{ post.content|slice:":2000" }}...</td>
     <td>{{ post.created_on|date:'d-m-Y h:i A' }}</td>
   </tr>
   {% endfor %}

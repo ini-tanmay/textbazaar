@@ -17,4 +17,5 @@ urlpatterns = [
     path('keypoints/',get_keypoints),
     path('article/',get_document),
     path('affiliate',affiliate),
+    path('para/<str:query>',para),
 ]

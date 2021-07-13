@@ -60,10 +60,14 @@ def plan_payment(request):
 #         context = {'response':response,'plan':plan}                                                                             
 #         return render(request,"writer/payment.html",context)
 #     return redirect('/')    
-
+def para(request,query):
+    get_cloud_languages()
+    result=paraphrase(query)
+    return HttpResponse(result)
 
 def create(request):
-    return render(request,'writer/create.html')
+    results=get_cloud_languages()
+    return render(request,'writer/create.html',context={'languages':results})
 
 def register(request):
     if request.method == "POST":
@@ -105,14 +109,18 @@ def query(request):
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
             # get_keypoints(request,user,title)
-            send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title}))
+            if "Don't translate" in request.POST.get('translate'):
+                translate='en'
+            send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title,'translate':translate}))
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return redirect('/dashboard')
         else:
             temperature = float(request.POST.get("customRange"))
             send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
             # get_document(request,user,title,temperature)
-            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':temperature,'query':title}))
+            if "Don't translate" in request.POST.get('translate'):
+                translate='en'
+            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':temperature,'query':title,'translate':translate}))
             messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
         return redirect('/dashboard')
     else:
