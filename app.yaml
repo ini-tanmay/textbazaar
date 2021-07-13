@@ -4,14 +4,14 @@ beta_settings:
 
 runtime: python39
 
-instance_class: F1
+instance_class: F2
 
 automatic_scaling:
   min_idle_instances: automatic
-  max_idle_instances: 1
+  max_idle_instances: 0
   min_pending_latency: automatic
   max_pending_latency: automatic
-  max_instances: 1
+  max_instances: 2
  
 
 # basic_scaling:

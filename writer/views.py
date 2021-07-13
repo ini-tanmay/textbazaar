@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .cloud_tasks import send_task
 from .forms import *
 from .models import User,Article
 from datetime import datetime,timedelta
@@ -100,14 +101,16 @@ def query(request):
             messages.info(request,"Oops! You're out of credits. Buy a credit pack or upgrade your plan to create more articles. Contact us at letstalk@textbazaar.me for support")  
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
-            get_keypoints(request,user,title)
-            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
+            # get_keypoints(request,user,title)
+            send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title}))
+            messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return redirect('/dashboard')
         else:
             temperature = float(request.POST.get("customRange"))
-            # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title),user.email)
-            get_document(request,user,title,temperature)
-            messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few seconds 😃".format(title))  
+            send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
+            # get_document(request,user,title,temperature)
+            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':temperature,'query':title}))
+            messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
         return redirect('/dashboard')
     else:
         return HttpResponse('Invalid Query')    
@@ -119,10 +122,17 @@ def get_contents(query):
     data=json.loads(data)
     return data['contents'],data['videos']
     
-
-def get_document(request,user,query,temperature):
+@csrf_exempt
+def get_document(request):
+    payload = json.loads(request.body.decode('utf-8'))
+    print(payload)
+    userid=payload.get('userid')
+    query=payload.get('query')
+    temperature=payload.get('temperature')
+    user=User.objects.get(id=userid)
+    print('Article started by: '+user.email)
     contents,videos=get_contents(query)
-    # contents.sort(key=paragraphs_count)
+    contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
@@ -142,9 +152,16 @@ def get_document(request,user,query,temperature):
         messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
 
-def get_keypoints(request,user,query):
+@csrf_exempt
+def get_keypoints(request):
+    payload = json.loads(request.body.decode('utf-8'))
+    print(payload)
+    userid=payload.get('userid')
+    query=payload.get('query')
+    user=User.objects.get(id=userid)
+    print('Keypoints started by: '+user.email)
     contents,videos=get_contents(query)
-    # contents.sort(key=paragraphs_count)
+    contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
