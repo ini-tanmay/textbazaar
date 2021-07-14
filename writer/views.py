@@ -75,7 +75,7 @@ def register(request):
             return redirect("/dashboard")
     else:
         form = NewUserForm()
-    return render(request,'writer/testimonial_component.html',{'form':form})
+    return render(request,'writer/register.html',{'form':form})
 
 def login_user(request):
     if request.method== "POST":
