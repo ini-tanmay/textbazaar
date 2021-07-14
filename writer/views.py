@@ -156,13 +156,13 @@ def get_document(request):
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=translated+'Relevant Videos: \r\r\n'+videos_text,)
+            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=translated+'\r\r\nRelevant Videos: \r\r\n'+videos_text,)
             article.save()
         except Exception as e:
             print(e)
             pass
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, translated+'Relevant Videos: \r\r\n'+videos_text, user.email)    
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, translated+'\r\r\nRelevant Videos: \r\r\n'+videos_text, user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
