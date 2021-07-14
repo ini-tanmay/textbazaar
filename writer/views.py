@@ -62,7 +62,7 @@ def plan_payment(request):
 #     return redirect('/')    
 def para(request,query):
     get_cloud_languages()
-    result=paraphrase(query)
+    result=paraphrase(query,'en')
     return HttpResponse(result)
 
 def create(request):
@@ -102,6 +102,11 @@ def logout_user(request):
 @login_required(login_url='login')
 def query(request):
     title=request.POST.get("query")
+    if "Don't translate" in request.POST.get('translate'):
+        translate='en'
+    else: 
+        translate=request.POST.get('translate').split(' ')[-1]
+    print(translate)    
     if request.method == 'POST' and title!= None and len(title)>2:
         user=User.objects.get(id=request.user.id)
         if user.credits_bought-user.credits_used<=0:
@@ -109,8 +114,6 @@ def query(request):
             return redirect('/dashboard')
         if request.POST.get('keypoints')!=None:
             # get_keypoints(request,user,title)
-            if "Don't translate" in request.POST.get('translate'):
-                translate='en'
             send_task(url='/keypoints/',payload=json.dumps({'userid':user.id,'query':title,'translate':translate}))
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return redirect('/dashboard')
@@ -147,10 +150,14 @@ def get_document(request):
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
+    translated=paraphrase(response.text,payload.get('translate'))
     if response.ok:
-        User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
+        if 'en' not in translated:
+            User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
+        else:
+            User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=response.text)
+            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=translated)
             article.save()
         except Exception as e:
             print(e)
@@ -158,9 +165,9 @@ def get_document(request):
         if videos is not None:
             videos_text='URL: \n\n'.join(videos)
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, response.text+'<br>'+videos_text, user.email)    
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, translated+'\r\r\n'+videos_text, user.email)    
     else: 
-        messages.info(request,"Whoops! An error occured while generating the article titled {}. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support".format(query))  
+        messages.info(request,"Whoops! An error occured while generating the article titled {}. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
 
 @csrf_exempt
@@ -176,15 +183,19 @@ def get_keypoints(request):
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
+    translated=paraphrase(response.text,payload.get('translate'))
     if response.ok:
-        User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
+        if 'en' not in translated:
+            User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
+        else:
+            User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title='KeyPoints: '+query,content=response.text)
+            article=Article(user=user,title='KeyPoints: '+query,content=translated)
             article.save()
         except Exception as e:
             print(e)
             pass
-        send_email('New Keypoints List created: '+query, response.text, user.email)    
+        send_email('New Keypoints List created: '+query, translated, user.email)    
     else:     
-        messages.info(request,"Whoops! Something went wrong on our end. You haven't been charged a Compute Credit. Please Contact us at letstalk@textbazaar.me for support")  
+        messages.info(request,"Whoops! Something went wrong on our end. Please Contact us at letstalk@textbazaar.me for support")  
     return HttpResponse('done')

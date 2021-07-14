@@ -207,13 +207,11 @@ def get_cloud_languages():
 def paraphrase(text,target):
     if target=='en':
         result_spanish = translate_client.translate(text,source_language='en', target_language='es')
-        result_english = translate_client.translate(result_spanish,source_language='es', target_language='en')
-        return result_english
+        result_english = translate_client.translate(result_spanish['translatedText'], source_language='es',target_language='en')
+        return result_english['translatedText']
     else:
         result=translate_client.translate(text,source_language='en',target_language=target)
-        return result
-
-
+        return result['translatedText']
 
 # def get_document(query,email,temperature):
 #     contents=get_contents(query)
