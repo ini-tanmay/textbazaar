@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href=" {% static 'css/testimonial.css' %} ">
+</head>
+{% block testimonial %}
+<body>
+    <section class="testimonials-clean">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Testimonials </h2>
+                <p class="text-center">TextBazaar walks the talk</p>
+            </div>
+            <div class="row people">
+                <div class="col-md-6 col-lg-4 item">
+                    <div class="box">
+                        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est.</p>
+                    </div>
+                    <div class="author"><img class="rounded-circle" src="{% static 'uploads/text_logo.png'%}">
+                        <h5 class="name">Ben Johnson</h5>
+                        <p class="title">CEO of Company Inc.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 item">
+                    <div class="box">
+                        <p class="description">Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, et interdum justo suscipit id.</p>
+                    </div>
+                    <div class="author"><img class="rounded-circle" src="assets/img/3.jpg">
+                        <h5 class="name">Carl Kent</h5>
+                        <p class="title">Founder of Style Co.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 item">
+                    <div class="box">
+                        <p class="description">Aliquam varius finibus est, et interdum justo suscipit. Vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu.</p>
+                  </div>
+                    <div class="author"><img class="rounded-circle" src="assets/img/2.jpg">
+                        <h5 class="name">Emily Clark</h5>
+                        <p class="title">Owner of Creative Ltd.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+{% endblock %}
+</html>

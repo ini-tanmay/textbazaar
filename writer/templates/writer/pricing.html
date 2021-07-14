@@ -6,6 +6,7 @@
     <img src="{% google_analytics %}" width="0" height="0" />
 </div>
 	<head>
+		<script type="text/javascript">(function(w,s){var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src="https://cdn-in.pagesense.io/js/textbazaar/affa58f0023a46b59159ee7419a0ad50.js";var x=document.getElementsByTagName("script")[0];x.parentNode.insertBefore(e,x);})(window,"script");</script>
 		<meta charset="utf-8" >
 		<title>Pricing</title>
 		<link rel="icon" href=" {% static 'uploads/favicon.ico' %} " type="image/x-icon">
@@ -85,21 +86,15 @@
 								Enterprise
 							</div>
 							<div class="mt-10 color-heading subtitle">
-							&#8377;49,999 per week
+							Starting at &#8377;49,999 per week
 							</div>
 							<div class="mx-auto mt-25 bg-gray f-62 lh-130 color-heading w-130 h-130 radius_full">
 								<i class="fas fa-building">
 								</i>
 							</div>
-			                {% if user.is_authenticated %}
-					        <a href="https://buy.stripe.com/28og0C3Qx9aqfks006" class="btn mt-40 border-gray color-main">
-								Get Started
+					        <a href="mailto:letstalk@textbazaar.me" class="btn mt-40 border-gray color-main">
+								Contact Sales
 							</a>
-						    {% else %}
-					        <a href="/payment?plan=enterprise" class="btn mt-40 border-gray color-main">
-								Get Started
-							</a>
-							{% endif %}
 							<div class="mt-45 text-adaptive">
 								<div>
                                 Recommended for businesses that want to increase their brand visibility or create research-extensive articles. Especially recommended for companies operating in the tech/finance/banking/health sector.
@@ -230,9 +225,9 @@
 						<div class="mt-35 f-18 medium color-heading op-7 text-adaptive" data-aos="fade-down" data-aos-delay="250">
 							Coming soon!
 						</div>
-						<div class="text-adaptive bold f-heading color-dribbble">
+						<!-- <div class="text-adaptive bold f-heading color-dribbble">
 							Starting from &#8377;460k per year
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

@@ -60,10 +60,6 @@ def plan_payment(request):
 #         context = {'response':response,'plan':plan}                                                                             
 #         return render(request,"writer/payment.html",context)
 #     return redirect('/')    
-def para(request,query):
-    get_cloud_languages()
-    result=paraphrase(query,'en')
-    return HttpResponse(result)
 
 def create(request):
     results=get_cloud_languages()
@@ -73,12 +69,13 @@ def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
+            send_email('New user joined','check textbazaar', 'tanmay.armal@somaiya.edu')    
             user = form.save()
             login(request, user)
             return redirect("/dashboard")
     else:
         form = NewUserForm()
-    return render(request,'writer/register.html',{'form':form})
+    return render(request,'writer/testimonial_component.html',{'form':form})
 
 def login_user(request):
     if request.method== "POST":
@@ -152,20 +149,20 @@ def get_document(request):
     response= requests.post(url, data = myobj)
     translated=paraphrase(response.text,payload.get('translate'))
     if response.ok:
+        if videos is not None:
+            videos_text='URL: \n\n'.join(videos)
         if 'en' not in translated:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=translated)
+            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=translated+'Relevant Videos: \r\r\n'+videos_text,)
             article.save()
         except Exception as e:
             print(e)
             pass
-        if videos is not None:
-            videos_text='URL: \n\n'.join(videos)
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, translated+'\r\r\n'+videos_text, user.email)    
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, translated+'Relevant Videos: \r\r\n'+videos_text, user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
