@@ -125,7 +125,7 @@ def query(request):
             return redirect('/dashboard')
         else:
             temperature = float(request.POST.get("customRange"))
-            send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
+            # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
             # get_document(request,user,title,temperature)
             if "Don't translate" in request.POST.get('translate'):
                 translate='en'
@@ -186,10 +186,16 @@ def get_keypoints(request):
     print('Keypoints started by: '+user.email)
     contents,videos=get_contents(query)
     contents.sort(key=paragraphs_count)
-    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines=10'
+    lines=10
+    if user.plan=='pro':
+        lines=30
+    if user.plan=='enterprise':
+        lines=50
+    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/keypoints?no_of_lines='+str(lines)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
     translated=paraphrase(response.text,payload.get('translate'))
+    translated.replace('&#39;',"'")
     if response.ok:
         if 'en' not in translated:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
@@ -201,6 +207,7 @@ def get_keypoints(request):
         except Exception as e:
             print(e)
             pass
+        translated.replace('.','\r\r\n')
         send_email('New Keypoints List created: '+query, translated, user.email)    
     else:     
         messages.info(request,"Whoops! Something went wrong on our end. Please Contact us at letstalk@textbazaar.me for support")  
