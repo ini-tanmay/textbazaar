@@ -13,10 +13,19 @@ from django.views.decorators.csrf import csrf_exempt
 from .helpers import *
 import requests 
 import json
+from .testimonials import testimonials
 
 @csrf_exempt
 def index(request):
-    return render(request,'writer/index.html')
+    if request.user.is_authenticated:
+        return redirect('/dashboard')
+    data=[]
+    for i in range(len(testimonials)):
+        img_url="../static/uploads/comment_bg{}.jpg".format(i+2)
+        testimonials[i].img=img_url
+        testimonials[i].div="pt-75 pb-75 testimonial_{}".format(i+1)
+        data.append(testimonials[i])
+    return render(request,'writer/index.html',{'data':data})
 
 def pricing(request):
     return render(request,'writer/pricing.html')
