@@ -18,12 +18,18 @@ from django.urls import path, include,re_path
 from django_cloud_tasks import urls as dct_urls
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('writer.urls')),
     path('blog/', include('blog.urls')),
     re_path('djga/', include('google_analytics.urls')),
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('uploads/favicon.ico')))
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('uploads/favicon.ico'))),
+    path("password-reset", auth_views.PasswordResetView.as_view( template_name="writer/password_reset.html"), name="password_reset"),
+    path("password-reset/done/", auth_views.PasswordResetDoneView.as_view( template_name="writer/password_reset_done.html"), name="password_reset_done"),
+    path("password-reset-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view( template_name="writer/password_reset_confirm.html"), name="password_reset_confirm"),
+    path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view( template_name="writer/password_reset_complete.html"), name="password_reset_complete")
+
     # path('_tasks/', include(dct_urls)),
 ]

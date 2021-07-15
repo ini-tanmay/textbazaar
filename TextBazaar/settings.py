@@ -183,7 +183,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # django_heroku.settings(lo11cals())
 
-
+DEFAULT_FROM_EMAIL='postmaster@mail.textbazaar.me'
 EMAIL_HOST = 'smtp.eu.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'postmaster@mail.textbazaar.me'

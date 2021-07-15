@@ -16,10 +16,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <title>Sign In</title>
   </head>
-  <body class="bg-dark" style="background-image: url('static/uploads/blue_shapes.jpg');   background-repeat: no-repeat; background-size: 100% 100%;">
+  <body class="bg-light">
 				<a href="/" class="logo navbar-brand text-black"><- Back to Home </a>
     <hr>
-
+        <center>
         <div class="container">
       <div class="row justify-content-center">
         <div class="col-8">
@@ -45,6 +45,8 @@
           <input type="password" class="form-control" id="login" name="password" placeholder="Password">
       </div>
     </div>
+                    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+<hr>
     <center>
       Want to create an account? <a href="/signup" class="link">Sign up here</a><br>
       <hr>
@@ -55,5 +57,6 @@
         </div>
       </div>
     </div>
+    </center>
   </body>
 </html>
