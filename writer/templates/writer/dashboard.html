@@ -7,6 +7,21 @@
 </div>
 <html>
 <head>
+  <!-- Global site tag (gtag.js) - Google Ads: 680819585 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-680819585"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-680819585');
+</script>
+
+  <!-- Event snippet for Website sign up conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-680819585/04ToCJzRtrwCEIH30cQC'});
+</script>
+
   <script type="text/javascript">(function(w,s){var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src="https://cdn-in.pagesense.io/js/textbazaar/affa58f0023a46b59159ee7419a0ad50.js";var x=document.getElementsByTagName("script")[0];x.parentNode.insertBefore(e,x);})(window,"script");</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -33,6 +48,7 @@
   <center>
     <p style="color: red; font-size: 20px;">{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p>
     <hr>
+{% if user.is_paid %}
     {% if user.plan == 'startup' %}
        <form action="https://buy.stripe.com/5kA29M3Qx4Uab4c28f">
         <button type="submit" class="btn btn-outline-success">Get Credits</button>
@@ -46,6 +62,7 @@
         <button type="submit" class="btn btn-outline-success">Get Credits</button>
         </form>
        {% endif %}</center>
+{% endif %}
   <!--   <a href="#"class="icon-a"><i class="fa fa-tasks icons"></i> &nbsp;&nbsp;Inventory</a>
   <a href="#"class="icon-a"><i class="fa fa-user icons"></i> &nbsp;&nbsp;Accounts</a>
   <a href="#"class="icon-a"><i class="fa fa-list-alt icons"></i> &nbsp;&nbsp;Tasks</a> -->
