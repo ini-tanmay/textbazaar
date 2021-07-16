@@ -157,6 +157,7 @@ def get_document(request):
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
     translated=paraphrase(response.text,payload.get('translate'))
+    translated=translated.replace('&#39;',"'")
     if response.ok:
         if videos is not None:
             videos_text='URL: \n\n'.join(videos)
@@ -195,7 +196,7 @@ def get_keypoints(request):
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
     translated=paraphrase(response.text,payload.get('translate'))
-    translated.replace('&#39;',"'")
+    translated=translated.replace('&#39;',"'")
     if response.ok:
         if 'en' not in translated:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
@@ -207,7 +208,7 @@ def get_keypoints(request):
         except Exception as e:
             print(e)
             pass
-        translated.replace('.','\r\r\n')
+        translated=translated.replace('.','\r\r\n')
         send_email('New Keypoints List created: '+query, translated, user.email)    
     else:     
         messages.info(request,"Whoops! Something went wrong on our end. Please Contact us at letstalk@textbazaar.me for support")  

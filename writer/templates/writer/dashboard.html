@@ -29,7 +29,11 @@
   <a href="/pricing"class="icon-a"><i class="fa fa-rocket"></i> &nbsp;&nbsp;Upgrade Plan</a>
   <a href="mailto:letstalk@textbazaar.me"class="icon-a"><i class="fa fa-envelope-o"></i> &nbsp;&nbsp;Contact Us</a>
   <a href="/logout"class="icon-a"><i class="fa fa-sign-out"></i> &nbsp;&nbsp;Sign out</a>
-  <center>{% if user.plan == 'startup' %}
+<hr>
+  <center>
+    <p style="color: red; font-size: 20px;">{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p>
+    <hr>
+    {% if user.plan == 'startup' %}
        <form action="https://buy.stripe.com/5kA29M3Qx4Uab4c28f">
         <button type="submit" class="btn btn-outline-success">Get Credits</button>
         </form>
