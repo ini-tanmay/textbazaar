@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .helpers import *
 import requests 
 import json
+import re
 from .testimonials import testimonials
 
 @csrf_exempt
@@ -74,6 +75,14 @@ def create(request):
     results=get_cloud_languages()
     return render(request,'writer/create.html',context={'languages':results})
 
+def mobile(request):
+    MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
+    if MOBILE_AGENT_RE.match(request.META['HTTP_USER_AGENT']):
+        return True
+    else:
+        return False
+
+
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -84,7 +93,10 @@ def register(request):
             return redirect("/dashboard")
     else:
         form = NewUserForm()
-    return render(request,'writer/register.html',{'form':form})
+        if mobile(request):
+            return render(request,'writer/register.html',{'form':form})
+        else:
+            return render(request,'writer/signup.html',{'form':form})    
 
 def login_user(request):
     if request.method== "POST":
@@ -97,8 +109,7 @@ def login_user(request):
         else:
             messages.info(request,'Invalid credentials. Please try again.')
             return redirect('/login')     
-            
-    return render(request,"writer/login.html")
+    return render(request,'writer/login_pc.html')            
 
 def logout_user(request):
     logout(request)
