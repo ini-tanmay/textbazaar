@@ -174,7 +174,7 @@ def get_document(request):
     if response.ok:
         if videos is not None:
             videos_text= '\r\r\nRelevant Videos: \r\r\n'+'URL: \n\n'.join(videos)
-        if 'en' not in translated:
+        if 'en' not in payload.get('translate'):
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
@@ -212,7 +212,7 @@ def get_keypoints(request):
     translated=translated.replace('&#39;',"'")
     translated=translated.replace('&quot;','"')
     if response.ok:
-        if 'en' not in translated:
+        if 'en' not in payload.get('translate'):
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
