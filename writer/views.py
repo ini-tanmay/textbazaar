@@ -1,3 +1,4 @@
+from typing import final
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -87,8 +88,8 @@ def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-            send_email('New user joined','check textbazaar', 'tanmay.armal@somaiya.edu')    
             user = form.save()
+            send_email('New user joined','check textbazaar'+str(user.email), 'tanmay.armal@somaiya.edu')    
             login(request, user)
             return redirect("/dashboard")
     else:
@@ -170,22 +171,28 @@ def get_document(request):
     translated=paraphrase(response.text,payload.get('translate'))
     translated=translated.replace('&#39;',"'")
     translated=translated.replace('&quot;','"')
+    final_text=''
+    for word in translated.split(' '):
+        if word.isupper():
+            final_text += word.lower()
+        else:
+            final_text += word    
     videos_text=''
     if response.ok:
         if videos is not None:
-            videos_text= '\r\r\nRelevant Videos: \r\r\n'+'URL: \n\n'.join(videos)
+            videos_text= '\r\r\nRelevant Videos: \r\r\n'+'\n\n'.join(videos)
         if 'en' not in payload.get('translate'):
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=translated+videos_text)
+            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=final_text+videos_text)
             article.save()
         except Exception as e:
             print(e)
             pass
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query, translated+videos_text, user.email)    
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query,final_text+videos_text, user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
@@ -211,6 +218,12 @@ def get_keypoints(request):
     translated=paraphrase(response.text,payload.get('translate'))
     translated=translated.replace('&#39;',"'")
     translated=translated.replace('&quot;','"')
+    final_text=''
+    for word in translated.split(' '):
+        if word.isupper():
+            final_text += word.lower()
+        else:
+            final_text += word    
     if response.ok:
         if 'en' not in payload.get('translate'):
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)

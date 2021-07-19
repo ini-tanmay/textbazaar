@@ -28,9 +28,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ky#gv2^g+9_kxe34xa0)6mlccd$ky)^y+q$t8dj(_lc!ku)w!r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['www.textbazaar.me','textbazaar.me','127.0.0.1','textbazaar.herokuapp.com','textbazaar-319010.uc.r.appspot.com','backend-dot-textbazaar-319010.uc.r.appspot.com','production-dot-textbazaar-319010.uc.r.appspot.com','backend.default.textbazaar-319010.uc.r.appspot.com']
+ALLOWED_HOSTS = ['localhost','www.textbazaar.me','textbazaar.me','127.0.0.1','textbazaar.herokuapp.com','textbazaar-319010.uc.r.appspot.com','backend-dot-textbazaar-319010.uc.r.appspot.com','production-dot-textbazaar-319010.uc.r.appspot.com','backend.default.textbazaar-319010.uc.r.appspot.com']
 
 
 # Application definition
