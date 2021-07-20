@@ -124,7 +124,6 @@ def query(request):
         translate='en'
     else: 
         translate=request.POST.get('translate').split(' ')[-1]
-    print(translate)    
     if request.method == 'POST' and title!= None and len(title)>2:
         user=User.objects.get(id=request.user.id)
         if user.credits_bought-user.credits_used<=0:
@@ -136,7 +135,15 @@ def query(request):
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return redirect('/dashboard')
         else:
-            temperature = float(request.POST.get("customRange"))
+            temperature=8
+            if request.POST.get('type') == 'Short':
+                temperature=4
+            elif request.POST.get('type') == 'Medium':
+                temperature=8   
+            elif request.POST.get('type') == 'Long':
+                temperature=12   
+            if request.POST.get('customRange')!=8:    
+                temperature = float(request.POST.get("customRange"))
             # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
             # get_document(request,user,title,temperature)
             if "Don't translate" in request.POST.get('translate'):

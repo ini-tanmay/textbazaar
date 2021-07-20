@@ -63,7 +63,7 @@
           <input type="text" class="form-control" id="query" name="query" placeholder="Enter the title of your blog post">
           <span class="input-group-btn">
         <button name="keypoints" class="btn btn-primary" id="feeling-lucky">Get Keypoints</button>
-                </span>
+        </span>
         </div>
       </div>
     </div>
@@ -77,7 +77,30 @@
               {% endfor %}
         </select>
     </div>
+<hr>
 
+ <h5>Article Length:</h5>
+    <div class="form-group">
+        <select class="form-control" name="type">
+              <option>Medium</option>
+              <option>Short</option>
+              <option>Long</option>
+        </select>
+    </div>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+   Advanced Options
+</button>
+<div class="collapse" id="collapseExample">
+<div class="card card-body">
+<label for="customRange" class="form-label">Temperature i.e. Non-Creativity Score</label>
+<input type="range" class="custom-range" min="1" max="14" step="1" value="8.0" id="customRange" name="customRange">
+    <div id="result">Current Value: <b></b> </div>
+<hr>
+<br>
+<b>Important:</b>
+<p>1. For articles having a large amount of relevant articles available online, choose a higher temperature & vice-versa.<br>2. A lower temperature results in a higher word count with lower accuracy/relevancy to your input title & vice-versa.<br>3. For most articles a temperature around 8 is recommended<br>4. Articles generated with temperatures <=4 or >=12 are extremely different from those generated between 5 and 11.<br>5. In case of topics which usually have 2 completely opposing viewpoints with no correct answer. Eg: 'Does low fat increase weight loss?','Is there hyperinflation in the US in 2021?','Will AI take over most programming jobs in the future?', etc. It's better to stick with one viewpoint in the title itself like so: 'How a low fat diet actually makes you gain weight'</p>
+    </div></div>
 
     <div class="btn-group-wrap">
       <div class="btn-group">
@@ -86,15 +109,7 @@
       <!-- <div class="btn-group">
         <button name="keypoints" class="btn btn-primary" id="feeling-lucky">Get Keypoints</button>
       </div> -->
-    </div>
-
-<label for="customRange" class="form-label">Temperature i.e. Non-Creativity Score</label>
-<input type="range" class="custom-range" min="1" max="14" step="1" value="8.0" id="customRange" name="customRange">
-    <div id="result">Current Value: <b></b> </div>
-<hr>
-<br>
-<b>Important:</b>
-<p>1. For articles having a large amount of relevant articles available online, choose a higher temperature & vice-versa.<br>2. A lower temperature results in a higher word count with lower accuracy/relevancy to your input title & vice-versa.<br>3. For most articles a temperature around 8 is recommended<br>4. Articles generated with temperatures <=4 or >=12 are extremely different from those generated between 5 and 11.<br>5. In case of topics which usually have 2 completely opposing viewpoints with no correct answer. Eg: 'Does low fat increase weight loss?','Is there hyperinflation in the US in 2021?','Will AI take over most programming jobs in the future?', etc. It's better to stick with one viewpoint in the title itself like so: 'How a low fat diet actually makes you gain weight'</p>
+    </div>    
     </form>
     <br>
     <br>
@@ -102,7 +117,6 @@
     <div id="footer">
       <div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
         <div class="container">
-
         </div>
       </div>
     </div>
