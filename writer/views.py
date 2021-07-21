@@ -167,22 +167,15 @@ def get_contents(query,isLong=False):
     data=response.text
     data=json.loads(data)
     return data['contents'],data['videos']
-    
-@csrf_exempt
-def get_document(request):
-    payload = json.loads(request.body.decode('utf-8'))
-    print(payload)
-    userid=payload.get('userid')
-    query=payload.get('query')
-    temperature=payload.get('temperature')
-    user=User.objects.get(id=userid)
-    print('Article started by: '+user.email)
-    contents,videos=get_contents(query,temperature<=4.0)
-    contents.sort(key=paragraphs_count)
+
+def get_article(contents,temperature):
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
-    translated=paraphrase(response.text,payload.get('translate'))
+    return response
+
+def process_text(text,translate):
+    translated=paraphrase(text,translate)
     translated=translated.replace('&#39;',"'")
     translated=translated.replace('&quot;','"')
     final_text=''
@@ -190,23 +183,44 @@ def get_document(request):
         if word.isupper():
             final_text += ' '+word.lower()
         else:
-            final_text += ' '+word    
-    videos_text=''
+            final_text += ' '+word 
+    return final_text           
+    
+    
+@csrf_exempt
+def get_document(request):
+    payload = json.loads(request.body.decode('utf-8'))
+    print(payload)
+    userid=payload.get('userid')
+    query=payload.get('query')
+    temperature=float(payload.get('temperature'))
+    type=float(payload.get('type'))
+    user=User.objects.get(id=userid)
+    print('Article started by: '+user.email)
+    contents,videos=get_contents(query,temperature<=4.0)
+    contents.sort(key=paragraphs_count)
+    response=get_article(contents,temperature)
+    if temperature==8.0:
+        title=query+' (Temperature: '+str(temperature)+')'
+    else:
+        title=query+"({})".format    
     if response.ok:
+        videos_text=''
         if videos is not None:
             videos_text= '\r\r\nRelevant Videos: \r\r\n'+'\n\n'.join(videos)
+        final_text=process_text(response.text,payload.get('translate'))+videos_text   
         if 'en' not in payload.get('translate'):
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' (Temperature: '+str(temperature)+')',content=final_text+videos_text)
+            article=Article(user=user,title='',content=final_text)
             article.save()
         except Exception as e:
             print(e)
             pass
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query,final_text+videos_text, user.email)    
+        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query,final_text, user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
