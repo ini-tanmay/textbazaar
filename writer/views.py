@@ -141,11 +141,11 @@ def query(request):
         else:
             temperature=8.0
             if 'Short' in request.POST.get('type'):
-                temperature=4.0
+                temperature=12.0
             elif 'Medium' in request.POST.get('type'):
                 temperature=8.0   
             elif 'Long' in request.POST.get('type'):
-                temperature=12.0   
+                temperature=4.0   
             if float(request.POST.get('customRange'))!=8.0:    
                 temperature = float(request.POST.get("customRange"))
             # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
@@ -158,8 +158,11 @@ def query(request):
     else:
         return HttpResponse('Invalid Query')    
 
-def get_contents(query):
-    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_contents?query={}'.format(query)
+def get_contents(query,isLong=False):
+    if isLong:
+        url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_contents_long?query={}'.format(query)
+    else:
+        url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_contents?query={}'.format(query)
     response= requests.post(url)
     data=response.text
     data=json.loads(data)
@@ -174,7 +177,7 @@ def get_document(request):
     temperature=payload.get('temperature')
     user=User.objects.get(id=userid)
     print('Article started by: '+user.email)
-    contents,videos=get_contents(query)
+    contents,videos=get_contents(query,temperature<=4.0)
     contents.sort(key=paragraphs_count)
     url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
     myobj = json.dumps(contents)
@@ -197,7 +200,7 @@ def get_document(request):
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' |created at Temperature: '+str(temperature),content=final_text+videos_text)
+            article=Article(user=user,title=query+' (Temperature: '+str(temperature)+')',content=final_text+videos_text)
             article.save()
         except Exception as e:
             print(e)
