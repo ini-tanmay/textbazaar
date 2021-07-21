@@ -32,6 +32,10 @@ def index(request):
 def pricing(request):
     return render(request,'writer/pricing.html')
 
+def referral(request,code):
+    send_email('new refferal','referred by:'+str(code), 'tanmay.armal@somaiya.edu')    
+    return redirect('/')
+
 def affiliate(request):
     return render(request,'writer/affiliate.html')
 
@@ -135,14 +139,14 @@ def query(request):
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return redirect('/dashboard')
         else:
-            temperature=8
-            if request.POST.get('type') == 'Short':
-                temperature=4
-            elif request.POST.get('type') == 'Medium':
-                temperature=8   
-            elif request.POST.get('type') == 'Long':
-                temperature=12   
-            if request.POST.get('customRange')!=8:    
+            temperature=8.0
+            if 'Short' in request.POST.get('type'):
+                temperature=4.0
+            elif 'Medium' in request.POST.get('type'):
+                temperature=8.0   
+            elif 'Long' in request.POST.get('type'):
+                temperature=12.0   
+            if float(request.POST.get('customRange'))!=8.0:    
                 temperature = float(request.POST.get("customRange"))
             # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
             # get_document(request,user,title,temperature)
@@ -181,9 +185,9 @@ def get_document(request):
     final_text=''
     for word in translated.split(' '):
         if word.isupper():
-            final_text += word.lower()
+            final_text += ' '+word.lower()
         else:
-            final_text += word    
+            final_text += ' '+word    
     videos_text=''
     if response.ok:
         if videos is not None:
@@ -193,7 +197,7 @@ def get_document(request):
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title=query+' at Temperature: '+str(temperature),content=final_text+videos_text)
+            article=Article(user=user,title=query+' |created at Temperature: '+str(temperature),content=final_text+videos_text)
             article.save()
         except Exception as e:
             print(e)
@@ -228,9 +232,9 @@ def get_keypoints(request):
     final_text=''
     for word in translated.split(' '):
         if word.isupper():
-            final_text += word.lower()
+            final_text +=' ' + word.lower()
         else:
-            final_text += word    
+            final_text +=' ' + word    
     if response.ok:
         if 'en' not in payload.get('translate'):
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 2)

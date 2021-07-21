@@ -6,6 +6,7 @@ urlpatterns = [
     # path('credits_payment',credits_payment),
     # path('success',payment_success,name='success'),
     path('',index),
+    path('ref/<str:code>',referral),
     path('pricing',pricing),
     path('dashboard',panel),
     path('create',create),
