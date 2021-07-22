@@ -124,6 +124,7 @@ def logout_user(request):
 @login_required(login_url='login')
 def query(request):
     title=request.POST.get("query")
+    print(request.POST.get('optimize'))
     if "Don't translate" in request.POST.get('translate'):
         translate='en'
     else: 
@@ -139,20 +140,9 @@ def query(request):
             messages.info(request, "Main keypoints for the article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
             return redirect('/dashboard')
         else:
-            temperature=8.0
-            if 'Short' in request.POST.get('type'):
-                temperature=12.0
-            elif 'Medium' in request.POST.get('type'):
-                temperature=8.0   
-            elif 'Long' in request.POST.get('type'):
-                temperature=4.0   
-            if float(request.POST.get('customRange'))!=8.0:    
-                temperature = float(request.POST.get("customRange"))
             # send_email(title+' is being generated at a Temperature of '+str(temperature),"Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title),user.email)
             # get_document(request,user,title,temperature)
-            if "Don't translate" in request.POST.get('translate'):
-                translate='en'
-            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':temperature,'query':title,'translate':translate}))
+            send_task(url='/article/',payload=json.dumps({'userid':user.id,'temperature':float(request.POST.get("customRange")),'query':title,'translate':translate,'optimize':request.POST.get('optimize')}))
             messages.info(request, "Article titled: '{}' is currently being generated. Check your email & dashboard after a few minutes 😃".format(title))  
         return redirect('/dashboard')
     else:
@@ -168,8 +158,8 @@ def get_contents(query,isLong=False):
     data=json.loads(data)
     return data['contents'],data['videos']
 
-def get_article(contents,temperature):
-    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}'.format(temperature)
+def get_article(contents,temperature,optimize):
+    url = 'https://us-central1-textbazaar-319010.cloudfunctions.net/get_article?temperature={}&optimize={}'.format(temperature,optimize)
     myobj = json.dumps(contents)
     response= requests.post(url, data = myobj)
     return response
@@ -194,16 +184,16 @@ def get_document(request):
     userid=payload.get('userid')
     query=payload.get('query')
     temperature=float(payload.get('temperature'))
-    type=float(payload.get('type'))
+    optimize=(payload.get('optimize'))
     user=User.objects.get(id=userid)
     print('Article started by: '+user.email)
-    contents,videos=get_contents(query,temperature<=4.0)
+    contents,videos=get_contents(query)
+    #  temporarily removed isLong check
     contents.sort(key=paragraphs_count)
-    response=get_article(contents,temperature)
-    if temperature==8.0:
-        title=query+' (Temperature: '+str(temperature)+')'
-    else:
-        title=query+"({})".format    
+    response=get_article(contents,temperature,optimize)
+    title=query+" ({})".format(optimize) 
+    if temperature!=0.0:
+        title=query+' | Temperature: '+str(temperature)
     if response.ok:
         videos_text=''
         if videos is not None:
@@ -214,13 +204,16 @@ def get_document(request):
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            article=Article(user=user,title='',content=final_text)
+            send_email('New Article created at a Temperature of '+str(temperature)+' - '+query,final_text, user.email)    
+        except:
+            pass
+        try:
+            article=Article(user=user,title=title,content=final_text)
             article.save()
         except Exception as e:
             print(e)
             pass
         # images=get_suggested_images(keywords)
-        send_email('New Article created at a Temperature of '+str(temperature)+' - '+query,final_text, user.email)    
     else: 
         messages.info(request,"Whoops! An error occured while generating the article titled {}. Please Contact us at letstalk@textbazaar.me for support".format(query))  
     return HttpResponse('done')
