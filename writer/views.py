@@ -204,7 +204,7 @@ def get_document(request):
         else:
             User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 1)
         try:
-            send_email('New Article created at a Temperature of '+str(temperature)+' - '+query,final_text, user.email)    
+            send_email('New Article created: '+title,final_text, user.email)    
         except:
             pass
         try:
@@ -257,7 +257,7 @@ def get_keypoints(request):
             print(e)
             pass
         translated=translated.replace('.','\r\r\n')
-        send_email('New Keypoints List created: '+query, translated, user.email)    
+        send_email('KeyPoints for '+query, translated, user.email)    
     else:     
         messages.info(request,"Whoops! Something went wrong on our end. Please Contact us at letstalk@textbazaar.me for support")  
     return HttpResponse('done')
