@@ -1,4 +1,5 @@
 from typing import final
+from writer.shopify_helpers import shop_login
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -16,6 +17,11 @@ import requests
 import json
 import re
 from .testimonials import testimonials
+from .shopify_helpers import *
+
+def shopify(request):
+    return shop_login()
+
 
 @csrf_exempt
 def index(request):
