@@ -3,23 +3,21 @@ import os
 import binascii
 from django.shortcuts import redirect
 
-
 shopify.Session.setup(api_key='d9d3a4134fbb7592a9846f07df45a071', secret='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')
 api_version = '2021-04'
 
 def shop_login(request):
-    print(request.args)
+    shop_url=request.GET.get('shop')
     state = binascii.b2a_hex(os.urandom(15)).decode("utf-8")
     redirect_uri = "https://textbazaar.me/shopify/login/finalize"
     scopes = ['read_products', 'read_orders']
-    shop_url=request.args.get('shop')
     newSession = shopify.Session(shop_url, api_version)
     auth_url = newSession.create_permission_url(scopes, redirect_uri, state)
     return redirect(auth_url)
 
 def get_token(request):
-    print(request.args)
-    shop_url=request.args.get('shop')
+    print(request.GET)
+    shop_url=request.GET.get('shop')
     session = shopify.Session(shop_url, api_version)
     access_token = session.request_token(request.GET) # request_token will validate hmac and timing attacks
     session = shopify.Session(shop_url, api_version, access_token)
@@ -36,9 +34,10 @@ def buy_plan(request,plan_type):
     'name': plan_type.upper(),
     'price': price,
     'test': True,
-    'return_url': 'https://textbazaar.me/shopify/buy/purchase'
+    'return_url': 'https://textbazaar.me/shopify/buy/confirm'
     })
     return redirect(application_charge.confirmation_url)
 
 def confirm_purchase(request):
+    print(request.GET)
     pass

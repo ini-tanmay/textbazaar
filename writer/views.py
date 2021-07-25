@@ -18,7 +18,6 @@ import json
 import re
 from .testimonials import testimonials
 
-
 @csrf_exempt
 def index(request):
     if request.user.is_authenticated:
@@ -95,9 +94,9 @@ def register(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            send_email('New user joined','check textbazaar'+str(user.email), 'tanmay.armal@somaiya.edu')    
+            send_email('New user joined','check textbazaar '+str(user.email), 'tanmay.armal@somaiya.edu')    
             login(request, user)
-            return redirect("/shopify/login")
+            return redirect("/dashboard")
     else:
         form = NewUserForm()
         if mobile(request):
