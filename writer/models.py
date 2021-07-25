@@ -12,6 +12,8 @@ class User(auth.models.User):
     )
     plan = models.CharField(max_length = 12,choices=PLAN_CHOICES,default='startup')
     is_paid=models.BooleanField(default=False)
+    access_token=models.CharField(max_length=100,default='stripe')
+    shop_url=models.CharField(max_length=100,default='regular')
     credits_bought=models.IntegerField(default=5)
     credits_used=models.IntegerField(default=0)
     plan_order_id=models.CharField(max_length=50)    

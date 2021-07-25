@@ -17,10 +17,6 @@ import requests
 import json
 import re
 from .testimonials import testimonials
-from .shopify_helpers import *
-
-def shopify(request):
-    return shop_login()
 
 
 @csrf_exempt
@@ -101,7 +97,7 @@ def register(request):
             user = form.save()
             send_email('New user joined','check textbazaar'+str(user.email), 'tanmay.armal@somaiya.edu')    
             login(request, user)
-            return redirect("/dashboard")
+            return redirect("/shopify/login")
     else:
         form = NewUserForm()
         if mobile(request):

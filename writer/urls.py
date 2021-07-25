@@ -1,6 +1,6 @@
 from django.urls import include,path
 from .views import *
-from .shopify_helpers import shop_login,get_token, buy
+from .shopify_helpers import shop_login,get_token, buy_plan,confirm_purchase
 urlpatterns = [
     # path('django_plotly_dash/', include('django_plotly_dash.urls')),
     # path('credits_payment',credits_payment),
@@ -8,7 +8,8 @@ urlpatterns = [
     path('',index),
     path('shopify/login',shop_login),
     path('shopify/login/finalize',get_token),
-    path('shopify/buy',buy),
+    path('shopify/buy/<str:plan_type>',buy_plan),
+    path('shopify/buy/confirm',confirm_purchase),
     path('ref/<str:code>',referral),
     path('pricing',pricing),
     path('dashboard',panel),
