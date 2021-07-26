@@ -34,8 +34,9 @@ urlpatterns = [
     path('shopify/login',shop_login),
     path('shopify/login/finalize',get_token),
     path('shopify/buy/<str:plan_type>',buy_plan),
+    path('shopify/buy/credits/<str:plan_type>',buy_credits),
     path('shopify/buy/confirm/plan/<str:plan_type>',confirm_purchase_plan),
-    path('shopify/buy/confirm/credits/<str:plan_type>',confirm_purchase_credits),
+    path('shopify/buy/confirm/credits',confirm_purchase_credits),
 
     # path('_tasks/', include(dct_urls)),
 ]

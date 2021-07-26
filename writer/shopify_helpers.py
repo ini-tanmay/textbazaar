@@ -43,7 +43,7 @@ def buy_plan(request,plan_type):
     'name': plan_type.upper(),
     'price': price,
     'test': True,
-    'return_url': 'https://textbazaar.me/shopify/buy/confirm'
+    'return_url': 'https://textbazaar.me/shopify/buy/confirm/plan/'+plan_type
     })
     return redirect(subscription.confirmation_url)
 
@@ -55,22 +55,26 @@ def buy_credits(request,plan_type):
     'name': plan_type.upper() +': 20 credits',
     'price': 249.00,
     'test': True,
-    'return_url': 'https://textbazaar.me/shopify/buy/confirm'
+    'return_url': 'https://textbazaar.me/shopify/buy/confirm/credits'
     })
     return redirect(application_charge.confirmation_url)
 
-def confirm_plan_purchase(request):
+def confirm_purchase_plan(request,plan_type):
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
 
     charge_id=request.GET.get('charge_id')
-    shopify.ApplicationCharge.activate(charge_id)
-    activated_charge = shopify.ApplicationCharge.find(charge_id)
-    user.is_paid = activated_charge.status == 'active'
+    shopify.RecurringApplicationCharge.activate(charge_id)
+    activated_charge = shopify.RecurringApplicationCharge.find(charge_id)
+    is_paid = activated_charge.status == 'active'
+    if is_paid:
+        user.plan=plan_type
+        user.is_paid=True
+        user.save()
     return redirect('/dashboard')
 
-def confirm_plan_credits(request):
+def confirm_purchase_credits(request):
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
@@ -81,6 +85,5 @@ def confirm_plan_credits(request):
     is_paid = activated_charge.status == 'active'
     if is_paid:
         User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 20)
-        user.is_paid=True
         user.save()
     return redirect('/dashboard')

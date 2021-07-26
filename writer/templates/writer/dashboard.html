@@ -50,11 +50,11 @@
     <hr>
 {% if user.is_paid %}
     {% if user.plan == 'startup' %}
-       <form action="/shopify/buy/startup">
+       <form action="/shopify/buy/credits/startup">
         <button type="submit" class="btn btn-outline-success">Get Credits</button>
         </form>
        {% elif user.plan == 'pro' %}
-       <form action="/shopify/buy/pro">
+       <form action="/shopify/buy/credits/pro">
         <button type="submit" class="btn btn-outline-success">Get Credits</button>
         </form>
        {% endif %}</center>
