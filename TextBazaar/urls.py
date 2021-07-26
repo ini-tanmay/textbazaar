@@ -19,6 +19,7 @@ from django_cloud_tasks import urls as dct_urls
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
+from writer.shopify_helpers import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +30,12 @@ urlpatterns = [
     path("password-reset", auth_views.PasswordResetView.as_view( template_name="writer/password_reset.html"), name="password_reset"),
     path("password-reset/done/", auth_views.PasswordResetDoneView.as_view( template_name="writer/password_reset_done.html"), name="password_reset_done"),
     path("password-reset-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view( template_name="writer/password_reset_confirm.html"), name="password_reset_confirm"),
-    path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view( template_name="writer/password_reset_complete.html"), name="password_reset_complete")
+    path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view( template_name="writer/password_reset_complete.html"), name="password_reset_complete"),
+    path('shopify/login',shop_login),
+    path('shopify/login/finalize',get_token),
+    path('shopify/buy/<str:plan_type>',buy_plan),
+    path('shopify/buy/confirm/plan/<str:plan_type>',confirm_purchase_plan),
+    path('shopify/buy/confirm/credits/<str:plan_type>',confirm_purchase_credits),
 
     # path('_tasks/', include(dct_urls)),
 ]

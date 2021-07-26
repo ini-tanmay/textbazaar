@@ -68,6 +68,20 @@ GOOGLE_ANALYTICS = {
     'google_analytics_id': 'UA-201161327-1',
 }
 
+# SHOPIFY_APP_NAME = 'TextBazaar AI Content Writer'
+# SHOPIFY_APP_API_KEY = 'd9d3a4134fbb7592a9846f07df45a071'
+# SHOPIFY_APP_API_SECRET = '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'
+# SHOPIFY_APP_API_SCOPE = ['read_products', 'read_orders']
+# SHOPIFY_APP_API_VERSION = "2021-04"
+# SHOPIFY_APP_IS_EMBEDDED = False
+# SHOPIFY_APP_DEV_MODE = True
+# AUTH_USER_MODEL = 'auth_app.AuthAppShopUser'
+# LOGIN_REDIRECT_URL = '/dashboard'
+
+# AUTHENTICATION_BACKENDS = (
+#     'shopify_auth.backends.ShopUserBackend',
+# )
+
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

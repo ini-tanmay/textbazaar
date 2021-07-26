@@ -20,8 +20,8 @@ from .testimonials import testimonials
 
 @csrf_exempt
 def index(request):
-    if request.user.is_authenticated:
-        return redirect('/dashboard')
+    # if request.user.is_authenticated:
+    #     return redirect('/dashboard')
     data=[]
     for i in range(len(testimonials)):
         img_url="../static/uploads/comment_bg{}.jpg".format(i+2)
