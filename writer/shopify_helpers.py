@@ -60,17 +60,29 @@ def buy_credits(request,plan_type):
     return redirect(application_charge.confirmation_url)
 
 def confirm_purchase_plan(request,plan_type):
+    print(request.GET)
+    print(request.user.id)
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
-
+    print(user.shop_url)
+    print(user.access_token)
     charge_id=request.GET.get('charge_id')
-    shopify.RecurringApplicationCharge.activate(charge_id)
     activated_charge = shopify.RecurringApplicationCharge.find(charge_id)
-    is_paid = activated_charge.status == 'active'
+    print(activated_charge.status)
+    print(user.is_paid)
+    is_paid ='active' in activated_charge.status 
     if is_paid:
+        if user.is_paid:
+            user.credits_bought=0
+        initial_credits=user.credits_bought    
+        if 'pro' in plan_type:
+            user.credits_bought=initial_credits+45
+        elif 'startup' in plan_type:
+            user.credits_bought=initial_credits+25
         user.plan=plan_type
         user.is_paid=True
+        user.plan_order_id=charge_id
         user.save()
     return redirect('/dashboard')
 
@@ -78,12 +90,15 @@ def confirm_purchase_credits(request):
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
-
+    print(user.shop_url)
+    print(user.access_token)
     charge_id=request.GET.get('charge_id')
-    shopify.ApplicationCharge.activate(charge_id)
     activated_charge = shopify.ApplicationCharge.find(charge_id)
-    is_paid = activated_charge.status == 'active'
+    print(activated_charge)
+    is_paid ='active' in activated_charge.status 
     if is_paid:
-        User.objects.filter(id = user.id).update(credits_used=F('credits_used') + 20)
+        initial_credits=user.credits_bought    
+        user.credits_bought=initial_credits+20
+        user.credit_order_id=charge_id
         user.save()
     return redirect('/dashboard')
