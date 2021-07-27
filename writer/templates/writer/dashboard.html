@@ -43,10 +43,10 @@
   <!-- <a href="#"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;All Articles</a> -->
   <a href="/pricing"class="icon-a"><i class="fa fa-rocket"></i> &nbsp;&nbsp;Upgrade Plan</a>
   <a href="mailto:letstalk@textbazaar.me"class="icon-a"><i class="fa fa-envelope-o"></i> &nbsp;&nbsp;Contact Us</a>
-  <a href="/logout"class="icon-a"><i class="fa fa-sign-out"></i> &nbsp;&nbsp;Sign out</a>
+  <!-- <a href="/logout"class="icon-a"><i class="fa fa-sign-out"></i> &nbsp;&nbsp;Sign out</a> -->
 <hr>
   <center>
-    <p style="color: red; font-size: 20px;">{{ user.credits_bought|sub:user.credits_used }} Compute Credits Left </p>
+    <p style="color: red; font-size: 20px;">Your Compute Credits: {{ user.credits_bought|sub:user.credits_used }}</p>
     <hr>
 {% if user.is_paid %}
     {% if user.plan == 'startup' %}
@@ -73,7 +73,7 @@
 	<div class="col-div-6">
 	<div class="profile">
 		<img src="{% static 'uploads/textbazaar.png' %}" class="pro-img" />
-		<p>{{ user.first_name }} <span>Current Plan: {{ user.plan|title }}
+		<p>{{ user.first_name|title }} <span>Current Plan: {{ user.plan|title }}
 
  {% if not user.is_paid %}
    Free
@@ -152,6 +152,10 @@
         <button class="btn btn-link" data-toggle="collapse" data-target="#{{ post.title }}" aria-expanded="true" aria-controls="{{ post.title }}">
           {{ post.title }}
         </button>
+        <a href="article/preview/{{ post.title }}">
+        <button class="btn btn-link">
+          Preview
+          </button></a>
       </h5>
     </div>
     <div id="{{ post.title }}" class="collapse show" aria-labelledby="{{ post.title }}" data-parent="#accordion">

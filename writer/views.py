@@ -121,6 +121,11 @@ def logout_user(request):
     logout(request)
     return redirect("/")
 
+def article_preview(request,title):
+    print(title)
+    article=Article.objects.get(user=request.user,title=title)
+    print(article.content)
+    return render(request,'writer/article_template.html',{'article':article})
 
 @login_required(login_url='login')
 def query(request):

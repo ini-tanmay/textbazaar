@@ -19,5 +19,6 @@ urlpatterns = [
     path('query',query),
     path('keypoints/',get_keypoints),
     path('article/',get_document),
+    path('article/preview/<str:title>',article_preview),
     path('affiliate',affiliate),
 ]

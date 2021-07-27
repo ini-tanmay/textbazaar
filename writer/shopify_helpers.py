@@ -19,10 +19,11 @@ def shop_login(request):
     return redirect(auth_url)
 
 def get_token(request):
-    print(request.GET)
     shop_url=request.GET.get('shop')
     session = shopify.Session(shop_url, api_version)
     access_token = session.request_token(request.GET) # request_token will validate hmac and timing attacks
+    r=shopify.GraphQL().execute("{ shop { name email id } }")
+    print(r)
     user=User(username=shop_url.split('.')[0],first_name=shop_url.split('.')[0],shop_url=shop_url,access_token=access_token)
     user.save()
     login(request, user)
@@ -30,7 +31,6 @@ def get_token(request):
     return redirect('/') 
 
 def buy_plan(request,plan_type):
-    print(type(plan_type))
     price=100.00
     if 'pro' in plan_type:
         price=175.00
@@ -48,29 +48,26 @@ def buy_plan(request,plan_type):
     return redirect(subscription.confirmation_url)
 
 def buy_credits(request,plan_type):
+    price=245
+    if 'pro' in plan_type:
+        price=250
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
     application_charge = shopify.ApplicationCharge.create({
-    'name': plan_type.upper() +': 20 credits',
-    'price': 249.00,
+    'name': plan_type.upper() +': 20 Compute Credits',
+    'price': price,
     'test': True,
     'return_url': 'https://textbazaar.me/shopify/buy/confirm/credits'
     })
     return redirect(application_charge.confirmation_url)
 
 def confirm_purchase_plan(request,plan_type):
-    print(request.GET)
-    print(request.user.id)
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
-    print(user.shop_url)
-    print(user.access_token)
     charge_id=request.GET.get('charge_id')
     activated_charge = shopify.RecurringApplicationCharge.find(charge_id)
-    print(activated_charge.status)
-    print(user.is_paid)
     is_paid ='active' in activated_charge.status 
     if is_paid:
         if user.is_paid:
@@ -90,11 +87,8 @@ def confirm_purchase_credits(request):
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
-    print(user.shop_url)
-    print(user.access_token)
     charge_id=request.GET.get('charge_id')
     activated_charge = shopify.ApplicationCharge.find(charge_id)
-    print(activated_charge)
     is_paid ='active' in activated_charge.status 
     if is_paid:
         initial_credits=user.credits_bought    
