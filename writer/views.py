@@ -171,15 +171,19 @@ def get_article(contents,temperature,optimize):
     return response
 
 def process_text(text,translate):
-    translated=paraphrase(text,translate)
-    translated=translated.replace('&#39;',"'")
-    translated=translated.replace('&quot;','"')
     final_text=''
-    for word in translated.split(' '):
-        if word.isupper():
-            final_text += ' '+word.lower()
-        else:
-            final_text += ' '+word 
+    paras=text.split('\n\n')
+    for para in paras:
+        translated=paraphrase(para,translate)
+        translated=translated.replace('&#39;',"'")
+        translated=translated.replace('&quot;','"')
+        para_text=''
+        for word in translated.split(' '):
+            if word.isupper():
+                para_text += ' '+word.lower()
+            else:
+                para_text += ' '+word 
+        final_text+=para_text +'\n\n'       
     return final_text           
     
     
@@ -263,7 +267,10 @@ def get_keypoints(request):
             print(e)
             pass
         translated=translated.replace('.','\r\r\n')
-        send_email('KeyPoints for '+query, translated, user.email)    
+        try:
+            send_email('KeyPoints for '+query, translated, user.email)    
+        except:
+            pass    
     else:     
         messages.info(request,"Whoops! Something went wrong on our end. Please Contact us at letstalk@textbazaar.me for support")  
     return HttpResponse('done')

@@ -22,8 +22,6 @@ def get_token(request):
     shop_url=request.GET.get('shop')
     session = shopify.Session(shop_url, api_version)
     access_token = session.request_token(request.GET) # request_token will validate hmac and timing attacks
-    r=shopify.GraphQL().execute("{ shop { name email id } }")
-    print(r)
     user=User(username=shop_url.split('.')[0],first_name=shop_url.split('.')[0],shop_url=shop_url,access_token=access_token)
     user.save()
     login(request, user)
@@ -96,3 +94,12 @@ def confirm_purchase_credits(request):
         user.credit_order_id=charge_id
         user.save()
     return redirect('/dashboard')
+
+# def test(request):
+#     user=User.objects.get(id=request.user.id)    
+#     session = shopify.Session(user.shop_url, api_version, user.access_token)
+#     shopify.ShopifyResource.activate_session(session)
+#     shop=shopify.User()
+#     print(shop.name)
+#     print(shop.email)
+    
