@@ -173,6 +173,7 @@ def get_article(contents,temperature,optimize):
 def process_text(text,translate):
     final_text=''
     paras=text.split('\n\n')
+    print(len(paras))
     for para in paras:
         translated=paraphrase(para,translate)
         translated=translated.replace('&#39;',"'")
@@ -183,7 +184,7 @@ def process_text(text,translate):
                 para_text += ' '+word.lower()
             else:
                 para_text += ' '+word 
-        final_text+=para_text +'\n\n'       
+        final_text+=para_text +'<br><br>'       
     return final_text           
     
     

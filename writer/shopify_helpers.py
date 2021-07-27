@@ -22,7 +22,7 @@ def get_token(request):
     shop_url=request.GET.get('shop')
     session = shopify.Session(shop_url, api_version)
     access_token = session.request_token(request.GET) # request_token will validate hmac and timing attacks
-    user=User(username=shop_url.split('.')[0],first_name=shop_url.split('.')[0],shop_url=shop_url,access_token=access_token)
+    user=User(username=shop_url.split('.')[0],first_name=shop_url.split('.')[0],shop_url=shop_url,access_token=access_token,password=shop_url)
     user.save()
     login(request, user)
     shopify.ShopifyResource.activate_session(session)
@@ -33,7 +33,7 @@ def buy_plan(request,plan_type):
     if 'pro' in plan_type:
         price=175.00
     elif 'enterprise' in plan_type:
-        price=13,430.00    
+        price=13430.00    
     user=User.objects.get(id=request.user.id)    
     session = shopify.Session(user.shop_url, api_version, user.access_token)
     shopify.ShopifyResource.activate_session(session)
