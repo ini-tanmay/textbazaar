@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 import shopify
 import os
 import binascii
@@ -5,7 +6,7 @@ from django.shortcuts import redirect
 from .models import User
 from django.contrib.auth import login
 from django.db.models import F
-
+from .email import send_email
 shopify.Session.setup(api_key='d9d3a4134fbb7592a9846f07df45a071', secret='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')
 api_version = '2021-04'
 
@@ -13,7 +14,7 @@ def shop_login(request):
     shop_url=request.GET.get('shop')
     state = binascii.b2a_hex(os.urandom(15)).decode("utf-8")
     redirect_uri = "https://textbazaar.me/shopify/login/finalize"
-    scopes = ['read_products', 'read_orders']
+    scopes = ['read_products']
     newSession = shopify.Session(shop_url, api_version)
     auth_url = newSession.create_permission_url(scopes, redirect_uri, state)
     return redirect(auth_url)
@@ -40,7 +41,7 @@ def buy_plan(request,plan_type):
     subscription = shopify.RecurringApplicationCharge.create({
     'name': plan_type.upper(),
     'price': price,
-    'test': True,
+    'test': False,
     'return_url': 'https://textbazaar.me/shopify/buy/confirm/plan/'+plan_type
     })
     return redirect(subscription.confirmation_url)
@@ -55,7 +56,7 @@ def buy_credits(request,plan_type):
     application_charge = shopify.ApplicationCharge.create({
     'name': plan_type.upper() +': 20 Compute Credits',
     'price': price,
-    'test': True,
+    'test': False,
     'return_url': 'https://textbazaar.me/shopify/buy/confirm/credits'
     })
     return redirect(application_charge.confirmation_url)
@@ -75,6 +76,8 @@ def confirm_purchase_plan(request,plan_type):
             user.credits_bought=initial_credits+45
         elif 'startup' in plan_type:
             user.credits_bought=initial_credits+25
+        elif 'enterprise' in plan_type:
+            user.credits_bought=initial_credits+1000
         user.plan=plan_type
         user.is_paid=True
         user.plan_order_id=charge_id
@@ -94,6 +97,19 @@ def confirm_purchase_credits(request):
         user.credit_order_id=charge_id
         user.save()
     return redirect('/dashboard')
+
+def customers_data_request(request):
+    return HttpResponse('No Data')
+
+def customers_redact(request):
+    return HttpResponse('No Data')
+
+def shop_redact(request):
+    shop_id=request.POST.get('shop_id')
+    shop_domain=request.POST.get('shop_domain')
+    send_email('Deletion request',shop_id+shop_domain,'tanmay.armal@somaiya.edu')
+    return HttpResponse('The data will be deleted within 48hours.')
+
 
 # def test(request):
 #     user=User.objects.get(id=request.user.id)    

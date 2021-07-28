@@ -37,6 +37,9 @@ urlpatterns = [
     path('shopify/buy/credits/<str:plan_type>',buy_credits),
     path('shopify/buy/confirm/plan/<str:plan_type>',confirm_purchase_plan),
     path('shopify/buy/confirm/credits',confirm_purchase_credits),
+    path('customers/data_request',customers_data_request),
+    path('customers/redact',customers_redact),
+    path('shop/redact', shop_redact),
     # path('shopify/test',test),
 
     # path('_tasks/', include(dct_urls)),
