@@ -27,6 +27,10 @@ def get_token(request):
     user.save()
     login(request, user)
     shopify.ShopifyResource.activate_session(session)
+    try:
+        send_email('New user joined','check textbazaar '+str(shop_url), 'tanmay.armal@somaiya.edu')    
+    except:
+        pass    
     return redirect('/') 
 
 def buy_plan(request,plan_type):
@@ -107,7 +111,10 @@ def customers_redact(request):
 def shop_redact(request):
     shop_id=request.POST.get('shop_id')
     shop_domain=request.POST.get('shop_domain')
-    send_email('Deletion request',shop_id+shop_domain,'tanmay.armal@somaiya.edu')
+    try:
+        send_email('Deletion request',shop_id+shop_domain,'tanmay.armal@somaiya.edu')
+    except:
+        pass    
     return HttpResponse('The data will be deleted within 48hours.')
 
 

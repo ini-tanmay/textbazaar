@@ -20,7 +20,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
 from writer.shopify_helpers import *
-
+from writer.mytts import tts
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('writer.urls')),
@@ -40,7 +40,8 @@ urlpatterns = [
     path('customers/data_request',customers_data_request),
     path('customers/redact',customers_redact),
     path('shop/redact', shop_redact),
+    path('tts', tts),
     # path('shopify/test',test),
-
+    
     # path('_tasks/', include(dct_urls)),
 ]

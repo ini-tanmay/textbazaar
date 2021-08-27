@@ -198,7 +198,7 @@ def get_document(request):
     optimize=(payload.get('optimize'))
     user=User.objects.get(id=userid)
     print('Article started by: '+user.email)
-    contents,videos=get_contents(query)
+    contents,videos=get_contents(query,'Length' in optimize)
     #  temporarily removed isLong check
     contents.sort(key=paragraphs_count)
     response=get_article(contents,temperature,optimize)
